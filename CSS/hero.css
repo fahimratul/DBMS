@@ -43,19 +43,7 @@
   margin-bottom: 2rem;
 }
 
-.graph{
-    text-align: left;
-    padding: 4rem 2rem;
-    background-color:#00B191;
-    color: white;
-    display: flex;
-    min-height: 570px;
-    margin: 20px 20px 20px 20px;
-}
-.graph-content {
-  margin: auto;
-  max-width: 400px;
-}
+
 :root{
   --background-dark: #2d3548;
   --text-light: rgba(255,255,255,0.6);

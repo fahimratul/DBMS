@@ -9,6 +9,8 @@
   <link rel="stylesheet" href="CSS/slider.css" />
   <link rel="stylesheet" href="CSS/donate.css" />
   <link rel="stylesheet" href="CSS/hero.css" />
+  <link rel="stylesheet" href="CSS/graphs.css" />
+  <link rel="stylesheet" href="CSS/event.css" />
   <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet">
 </head>
 <body>
@@ -174,16 +176,115 @@
 
   <section class ="graph">
     <div class="graph-content">
-      <h2>Our Impact</h2>
-      <p>We have made a significant impact in the community through our various initiatives and programs. Here are some of our key achievements:</p>
-      <ul>
-        <li>Over 10,000 meals distributed to those in need.</li>
-        <li>500 families supported with essential supplies.</li>
-        <li>1000 volunteers mobilized for community service.</li>
-      </ul>
+      <div class="graph-card"><h2>Our Impact</h2>
+        <p>We have made a significant impact in the community through our various initiatives and programs. Here are some of our key achievements:</p>
+        <ul>
+          <li>Over 10,000 meals distributed to those in need.</li>
+          <li>500 families supported with essential supplies.</li>
+          <li>1000 volunteers mobilized for community service.</li>
+        </ul>
+      </div>  
+      <div class="graph-card">
+        <h2>Donation Trends</h2>
+        <p>Track our donation trends over the past year to see how your contributions are making a difference.</p>
+      </div>
       <button class="learn-more-button">Learn More</button>
     </div>
+    <!-- Graph Section -->
+    <div class="card-container">
+      <div class="card-header">
+        <div>
+          <h5 class="amount">$12,423</h5>
+          <p class="subtitle">Donations of this week</p>
+        </div>
+        <div class="percentage-change">
+          23%
+          <svg class="arrow-up" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 14">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13V1m0 0L1 5m4-4 4 4"/>
+          </svg>
+        </div>
+      </div>
+      <div id="data-series-chart"></div>
+      <div class="card-footer">
+        <div class="footer-controls">
+          <button id="dropdownDefaultButton" class="dropdown-btn" type="button">
+            Last 7 days
+            <svg class="dropdown-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+            </svg>
+          </button>
+          <div id="lastDaysdropdown" class="dropdown-menu">
+            <ul>
+              <li><a href="#">Yesterday</a></li>
+              <li><a href="#">Today</a></li>
+              <li><a href="#">Last 7 days</a></li>
+              <li><a href="#">Last 30 days</a></li>
+              <li><a href="#">Last 90 days</a></li>
+            </ul>
+          </div>
+          <a href="#" class="sales-report-link">
+          Donation Report
+          <svg class="link-arrow" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
+          </svg>
+        </a>
+      </div>
+    </div>
   </section>
+
+
+<!-- Events Section -->
+
+<section class="event-section">
+  <h1>Upcoming Events</h1>
+  <p>Join us in our upcoming events to make a difference in the community.</p>
+  <div class="event-buttons">
+    <div class="container-btn">
+      <div class="btn"><a href="#">Upcoming</a></div>
+      <div class="btn"><a href="#" >Ongoning</a></div>
+      <div class="btn"><a href="#" >Previous</a></div>
+    </div>
+  </div>	
+  <div class="scroll-container">
+        <div class="event-card">
+            <img src="https://images.unsplash.com/photo-1557177324-56c542165309?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80" alt="Easter Bunnies">
+            <h2>Easter Bunnies</h2>
+            <p>Easter bunnies are a popular symbol of spring and renewal of life, often seen delivering colorful eggs to children.</p>
+            <button class="gradient-button">
+              <span class="gradient-button-inner">learn More</span>
+            </button>
+        </div>
+        <div class="event-card">
+            <img src="https://images.unsplash.com/photo-1557177324-56c542165309?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80" alt="Easter Chick">
+            <h2>Easter Chick</h2>
+            <p>Easter chicks are a cheerful symbol of new life and beginnings, often seen alongside eggs in spring decorations.</p>
+            <button class="gradient-button">
+              <span class="gradient-button-inner">learn More</span>
+            </button>
+        </div>
+        <div class="event-card">
+            <img src="https://images.unsplash.com/photo-1557177324-56c542165309?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80" alt="Hot Cross Buns">
+            <h2>Hot Cross Buns</h2>
+            <p>Hot cross buns are sweet, spiced buns marked with a cross on top, traditionally eaten on Good Friday.</p>
+            <button class="gradient-button">
+              <span class="gradient-button-inner">learn More</span>
+            </button>
+        </div>
+        <div class="event-card">
+            <img src="https://images.unsplash.com/photo-1557177324-56c542165309?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80" alt="Easter Eggs">
+            <h2>Easter Eggs</h2>
+            <p>Easter eggs are a colorful symbol of new life and rebirth, often decorated and hidden for festive hunts.</p>
+            <button class="gradient-button">
+              <span class="gradient-button-inner">learn More</span>
+            </button>
+        </div>
+    </div>
+  </section> 
+  <section class ="event-section">
+    
+  </section>   
+
+
   <!-- Stats Section -->
   <section class="stats">
     <div class="card">
@@ -220,5 +321,7 @@
     </div>
   </footer>
   <script src="slider.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+  <script src="graphs.js"></script>
 </body>
 </html>
