@@ -1,0 +1,123 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  background: #f6f6f8;
+  color: #222;
+}
+
+header {
+  display: flex;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background: #f6f6f8;
+}
+
+.logo {
+  font-size: 2.5rem;
+  font-weight: bold;
+
+  display: flex;
+  padding: auto;
+}
+.logo span {  
+  color: teal;
+  padding-right: 10%;
+}
+
+nav a {
+  margin: 0 1rem;
+  text-decoration: none;
+  color: #333;
+}
+
+.donate-section {
+  background: #f6f6f8;
+  display: flex;
+  padding: 2rem;
+  margin: 2rem;
+  text-align: center;
+  gap: 2rem;
+}
+.donate-content {
+  flex: 1;
+  padding: 2rem;
+  background-color: #ffffff;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+  border-radius: 8px;
+  max-width: 400px;
+  margin: auto;
+}
+
+.amount-options button {
+  margin: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: #eee;
+  border: 1px solid #ccc;
+}
+
+.donate-submit {
+  margin-top: 1rem;
+  padding: 0.75rem 2rem;
+  background: teal;
+  color: white;
+  border: none;
+}
+
+.hero {
+  text-align: center;
+  padding: 4rem 2rem;
+  background: #0d1b3d;
+  color: white;
+}
+
+.hero span {
+  color: #00ffff;
+}
+
+.hero button {
+  margin-top: 1rem;
+  padding: 0.75rem 2rem;
+  background: #00aaff;
+  color: white;
+  border: none;
+}
+
+.stats {
+  display: flex;
+  justify-content: space-around;
+  padding: 2rem;
+  background: #ffffff;
+}
+
+.card {
+  text-align: center;
+  background: #f0f0f0;
+  padding: 1rem;
+  border-radius: 6px;
+  width: 25%;
+}
+
+footer {
+  display: flex;
+  justify-content: space-around;
+  background: #111;
+  color: #ccc;
+  padding: 2rem;
+}
+
+footer h4 {
+  margin-bottom: 0.5rem;
+}
+
+footer ul {
+  list-style: none;
+  padding: 0;
+}
+
+footer li {
+  margin-bottom: 0.3rem;
+}

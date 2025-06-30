@@ -1,0 +1,48 @@
+
+.navlinks {
+  display: flex;
+  font-size: 20px;
+  font-weight: 500;
+  transform: translateY(20%);
+  gap: 1rem;
+}
+.navlinks a:hover {
+  color: #65a4c9;
+
+}
+
+
+.auth-buttons button {
+  margin-left: 0.5rem;
+  padding: 0.5rem 1rem;
+  width: 180px;
+}
+
+.donate-btn {
+  background: #23325B;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  height: 40px;
+  width: 80px;
+  padding: 0 1.5rem;
+  cursor: pointer;
+}
+.donate-btn:hover {
+  background: #65a4c9;
+}
+
+.login-btn {
+  background: #f6f6f8;
+  color: rgb(0, 0, 0);
+  border: none;
+  border-radius: 8px;
+  height: 40px;
+  width: 80px;
+  padding: 0 1.5rem;
+  cursor: pointer;
+}
+.login-btn:hover {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(0, 162, 255, 0.5);
+}
