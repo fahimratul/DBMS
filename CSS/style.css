@@ -9,7 +9,7 @@ header {
   display: flex;
   position: sticky;
   top: 0;
-  z-index: 100;
+  z-index: 1000;
   justify-content: space-between;
   align-items: center;
   padding: 1rem 2rem;
@@ -55,8 +55,8 @@ nav a {
 footer {
   display: flex;
   justify-content: space-around;
-  background: #111;
-  color: #ccc;
+  background: #ffffff;
+  color: #1b1919;
   padding: 2rem;
 }
 

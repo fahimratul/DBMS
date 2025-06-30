@@ -38,16 +38,16 @@
             height: max-content;
             max-height: 100%;       
             background-color: #ffffff;
+            color: #3a3a3a;
             margin: 20px;
             border-radius: 10px;
-            color: #2C2C2C;
             text-align: center;
             padding: 20px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
         .event-card:hover {
             transform: scale(1.15);
-            background-color: #2C2C2C;
+            background-color: #333131;
             color: #ffffff;
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
             cursor: pointer;
@@ -59,11 +59,11 @@
             border-radius: 5px;
         }
         .event-card p {
+            color: #3a3a3a;
             margin: 10px 0;
         }
-        .event-card a {
-            color: #00aaff;
-            text-decoration: none;
+        .event-card p:hover {
+            color: #ffffff;
         }
         @keyframes scroll {
             33% { transform: translateX(10%); }

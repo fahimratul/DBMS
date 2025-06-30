@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="CSS/hero.css" />
   <link rel="stylesheet" href="CSS/graphs.css" />
   <link rel="stylesheet" href="CSS/event.css" />
+  <link rel="stylesheet" href="CSS/leaderboard.css" />
   <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet">
 </head>
 <body>
@@ -297,7 +298,7 @@
   </section>   
 
 
-  <!-- Stats Section -->
+  <!-- Achievement section -->
    <section class="hero">
     <div class="hero-content">
       <h1>RAPID</h1>
@@ -322,19 +323,43 @@
       </div>
     </div>
   </section>
-  <section class="stats">
-    <div class="card">
-      <h3>2K</h3>
-      <p>VOLUNTEER</p>
-    </div>
-    <div class="card">
-      <h3>5M</h3>
-      <p>RECEIVER</p>
-    </div>
-    <div class="card">
-      <h3>200K</h3>
-      <p>DONATION</p>
-    </div>
+
+  <!--Map Section-->
+
+  <section class="hero">
+    <article class="leaderboard">
+      <header>
+        <img src="https://cdn-icons-png.flaticon.com/512/684/684908.png" alt="Map Marker" style="width:40px;height:40px; transform: translateX(50%);">
+        <h1 class="leaderboard__title"><span class="leaderboard__title--top">Request</span><span class="leaderboard__title--bottom">Leaderboard</span></h1>
+      </header>
+      
+      <main class="leaderboard__profiles">
+        <article class="leaderboard__profile">
+          <span class="leaderboard__name">Rangpur</span>
+          <span class="leaderboard__value">35</span>
+        </article>
+        
+        <article class="leaderboard__profile">
+          <span class="leaderboard__name">Dhaka</span>
+          <span class="leaderboard__value">19</span>
+        </article>
+        
+        <article class="leaderboard__profile">
+          <span class="leaderboard__name">Barishal</span>
+          <span class="leaderboard__value">4</span>
+        </article>
+        <article class="leaderboard__profile">
+          <span class="leaderboard__name">Barishal</span>
+          <span class="leaderboard__value">4</span>
+        </article>
+        <article class="leaderboard__profile">
+          <span class="leaderboard__name">Barishal</span>
+          <span class="leaderboard__value">4</span>
+        </article>
+        
+      </main>
+    </article>
+        <div id="map"></div>
   </section>
 
   <!-- Footer Menu -->
@@ -358,6 +383,8 @@
   </footer>
   <script src="slider.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAOVYRIgupAurZup5y1PRh8Ismb1A3lLao&libraries=places&callback=initMap"></script>
+  <script src="map.js"></script>
   <script src="graphs.js"></script>
 </body>
 </html>
