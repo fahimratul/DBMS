@@ -12,6 +12,7 @@
   <link rel="stylesheet" href="CSS/graphs.css" />
   <link rel="stylesheet" href="CSS/event.css" />
   <link rel="stylesheet" href="CSS/leaderboard.css" />
+  <link rel="stylesheet" href="CSS/feedback.css" />
   <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet">
 </head>
 <body>
@@ -170,7 +171,7 @@
     <div class="hero-content">
       <h1>Together, we can make a bigger impact</h1>
       <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsu</p>
-      <button class="hero-button">Get Involved</button>
+      <button class="donate-submit">Get Involved</button>
     </div>
   </section>
 
@@ -189,7 +190,7 @@
         <h2>Donation Trends</h2>
         <p>Track our donation trends over the past year to see how your contributions are making a difference.</p>
       </div>
-      <button class="learn-more-button">Learn More</button>
+      <button class="donate-submit">Learn More</button>
     </div>
     <!-- Graph Section -->
     <div class="card-container">
@@ -361,6 +362,132 @@
     </article>
         <div id="map"></div>
   </section>
+
+  <!--feedback Section-->
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Feedback</h1>
+      <p>We value your feedback and suggestions.<br> Please let us know how we can improve our services.</p>
+      <button class="super-button">
+        <span>Send Feedback</span>
+        <svg fill="none" viewBox="0 0 24 24" class="arrow">
+          <path
+            stroke-linejoin="round"
+            stroke-linecap="round"
+            stroke-width="2"
+            stroke="currentColor"
+            d="M5 12h14M13 6l6 6-6 6"
+          ></path>
+        </svg>
+      </button>
+    </div>
+    <div class="formbold-main-wrapper">
+  <!-- Author: FormBold Team -->
+  <!-- Learn More: https://formbold.com -->
+  <div class="formbold-form-wrapper">
+    <form action="https://formbold.com/s/FORM_ID" method="POST">
+        <div class="formbold-input-flex">
+          <div>
+              <label for="firstname" class="formbold-form-label"> First name </label>
+              <input
+              type="text"
+              name="firstname"
+              id="firstname"
+              placeholder="Jane"
+              class="formbold-form-input"
+              />
+          </div>
+          <div>
+              <label for="lastname" class="formbold-form-label"> Last name </label>
+              <input
+              type="text"
+              name="lastname"
+              id="lastname"
+              placeholder="Cooper"
+              class="formbold-form-input"
+              />
+          </div>
+        </div>
+
+        <div class="formbold-input-flex">
+          <div>
+              <label for="email" class="formbold-form-label"> Mail </label>
+              <input
+              type="email"
+              name="email"
+              id="email"
+              placeholder="jhon@mail.com"
+              class="formbold-form-input"
+              />
+          </div>
+          <div>
+              <label for="phone" class="formbold-form-label"> Phone </label>
+              <input
+              type="text"
+              name="phone"
+              id="phone"
+              placeholder="(319) 555-0115"
+              class="formbold-form-input"
+              />
+          </div>
+        </div>
+
+        <div class="formbold-input-radio-wrapper">
+            <label for="jobtitle" class="formbold-form-label"> Giving feedback as ? </label>
+
+            <div class="formbold-radio-flex">
+              <div class="formbold-radio-group">
+                <label class="formbold-radio-label">
+                  <input class="formbold-input-radio" type="radio" name="jobtitle" id="jobtitle">
+                  Volunteer
+                  <span class="formbold-radio-checkmark"></span>
+                </label>
+              </div>
+
+              <div class="formbold-radio-group">
+                <label class="formbold-radio-label">
+                  <input class="formbold-input-radio" type="radio" name="jobtitle" id="jobtitle">
+                  Donor
+                  <span class="formbold-radio-checkmark"></span>
+                </label>
+              </div>
+
+              <div class="formbold-radio-group">
+                <label class="formbold-radio-label">
+                  <input class="formbold-input-radio" type="radio" name="jobtitle" id="jobtitle">
+                  Recipient
+                  <span class="formbold-radio-checkmark"></span>
+                </label>
+              </div>
+
+              <div class="formbold-radio-group">
+                <label class="formbold-radio-label">
+                  <input class="formbold-input-radio" type="radio" name="jobtitle" id="jobtitle">
+                  Others
+                  <span class="formbold-radio-checkmark"></span>
+                </label>
+              </div>
+            </div>
+        </div>
+
+        <div>
+            <label for="message" class="formbold-form-label"> Message </label>
+            <textarea
+                rows="6"
+                name="message"
+                id="message"
+                placeholder="Type your message"
+                class="formbold-form-input-textarea"
+            ></textarea>
+        </div>
+
+        <button class="donate-submit">
+            Send Message
+        </button>
+    </form>
+  </div>
+</div>
+</section>
 
   <!-- Footer Menu -->
   <footer>

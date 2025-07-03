@@ -2,6 +2,8 @@
             background-color: #E55649;
             padding: 40px 20px;
             text-align: center;
+            width: 100%;
+            overflow: hidden;
 
         }
         .event-buttons{
@@ -59,7 +61,7 @@
             border-radius: 5px;
         }
         .event-card p {
-            color: #3a3a3a;
+            color: #20dfd5;
             margin: 10px 0;
         }
         .event-card p:hover {
@@ -121,3 +123,6 @@
             50% { transform: translate(-50%, -50%) translateY(-30px); }
             100% { transform: translate(-50%, -50%) translateY(0); }
         }
+
+
+        

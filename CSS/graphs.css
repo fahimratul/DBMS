@@ -186,3 +186,8 @@ body.dark .sales-report-link:hover {
   height: 0.625rem;
   margin-left: 0.375rem;
 }
+
+
+.graph {
+  overflow: hidden;
+}
