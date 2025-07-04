@@ -28,9 +28,36 @@
     </div>
     <div class="auth-buttons">
       <button class="login-btn">LOG IN</button>
-      <button class="donate-btn">REQUEST DONATION</button>
+      <button class="donate-btn" id="requestdonation">REQUEST DONATION</button>
     </div>
   </header>
+
+  <div class="popup">
+    <div class="request-donation-close-btn">
+      <button class="close-btn" id="popup-close-btn">X</button>
+    </div>
+    <!-- Request Donation Content -->
+    <div class="popup-content">
+      <div class="popup-content-div">
+        <img src="https://c0.wallpaperflare.com/preview/357/982/474/egypt-cairo-tower-cairo-sunset.jpg" alt="">
+      </div>
+      <div class="popup-content-div color">
+        <h2>Request Donation</h2>
+        <p>We are here to help you with your needs. Please fill out the form below to request a donation.</p>
+        <form action="#" method="POST">
+          <label for="name">Name:</label>
+          <input type="text" id="name" name="name" required>
+          
+          <label for="email">Email:</label>
+          <input type="email" id="email" name="email" required>
+          
+          <label for="amount">Amount Needed:</label>
+          <input type="number" id="amount" name="amount" required>
+        </form>
+          <button type="submit" class="donate-submit">Submit Request</button>
+      </div>
+    </div>
+  </div>
 
   <!-- Donate Section -->
   <section class="donate-section">
@@ -508,10 +535,13 @@
       </ul>
     </div>
   </footer>
-  <script src="slider.js"></script>
+
+  <!-- Scripts -->
+  <script src="script/slider.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
   <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAOVYRIgupAurZup5y1PRh8Ismb1A3lLao&libraries=places&callback=initMap"></script>
-  <script src="map.js"></script>
-  <script src="graphs.js"></script>
+  <script src="script/map.js"></script>
+  <script src="script/graphs.js"></script>
+  <script src="script/donation/request-donation.js"></script>
 </body>
 </html>
