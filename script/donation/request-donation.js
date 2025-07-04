@@ -18,25 +18,50 @@ popupDivs.forEach((div, idx) => {
 });
 
 // Add next button functionality
-const nextButtons = document.querySelectorAll('.popup-content-div.color .donate-submit');
-nextButtons.forEach((btn, idx) => {
+const nextButtons = document.querySelectorAll('.popup-content-div.color .donate-submit:not(.prev)');
+nextButtons.forEach((btn) => {
     btn.addEventListener('click', function(e) {
         e.preventDefault();
-        if (idx < popupDivs.length - 1) {
-            popupDivs[idx].style.display = 'none';
-            popupDivs[idx + 1].style.display = 'flex';
+        if (currentDiv < popupDivs.length - 1) {
+            popupDivs[currentDiv].style.display = 'none';
+            currentDiv++;
+            popupDivs[currentDiv].style.display = 'flex';
         }
     });
 });
 
 // Add previous button functionality
 const prevButtons = document.querySelectorAll('.popup-content-div.color .donate-submit.prev');
-prevButtons.forEach((btn, idx) => {
+prevButtons.forEach((btn) => {
     btn.addEventListener('click', function(e) {
         e.preventDefault();
-        if (idx > 0) {
-            popupDivs[idx].style.display = 'none';
-            popupDivs[idx - 1].style.display = 'flex';
+        if (currentDiv > 0) {
+            popupDivs[currentDiv].style.display = 'none';
+            currentDiv--;
+            popupDivs[currentDiv].style.display = 'flex';
         }
     });
+});
+
+
+// Add form submission functionality
+document.getElementById("request-submit").addEventListener("click", function(e) {
+    document.querySelector(".popup").style.display = "none";
+    e.preventDefault();
+    const doneDiv = document.querySelector(".subimitondone");
+    doneDiv.style.display = "flex";
+    doneDiv.style.opacity = "1";
+    doneDiv.style.transition = "opacity 0.5s";
+
+    setTimeout(() => {
+        doneDiv.style.opacity = "0";
+        setTimeout(() => {
+            doneDiv.style.display = "none";
+            doneDiv.style.opacity = "1";
+        }, 700);
+    }, 200);
+}); 
+
+document.getElementById("notification-close-btn").addEventListener("click", function() {
+    document.querySelector(".subimitondone").style.display = "none";
 });
