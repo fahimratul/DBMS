@@ -9,6 +9,7 @@ document.getElementById("requestdonation").addEventListener("click", function() 
 });
 document.getElementById("popup-close-btn").addEventListener("click", function() {
     document.querySelector(".popup").style.display = "none";
+    document.body.style.overflow = "auto";
 });
 
 
@@ -47,6 +48,8 @@ prevButtons.forEach((btn) => {
 // Add form submission functionality
 document.getElementById("request-submit").addEventListener("click", function(e) {
     document.querySelector(".popup").style.display = "none";
+    document.body.style.overflow = "auto";
+    // Simulate form submission
     e.preventDefault();
     const doneDiv = document.querySelector(".subimitondone");
     doneDiv.style.display = "flex";
@@ -59,7 +62,7 @@ document.getElementById("request-submit").addEventListener("click", function(e) 
             doneDiv.style.display = "none";
             doneDiv.style.opacity = "1";
         }, 700);
-    }, 200);
+    }, 4000);
 }); 
 
 document.getElementById("notification-close-btn").addEventListener("click", function() {
