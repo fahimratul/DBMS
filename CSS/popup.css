@@ -52,9 +52,12 @@
 }
 
 .popup-close-btn button {
-
-  width: 40px;
-  height: 40px;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 1200;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
   background: transparent;
   border: 2px solid #fff;
