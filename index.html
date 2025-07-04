@@ -180,34 +180,38 @@
       <div class="popup-content-div color">
         <h2 style="margin-bottom: 0; position: absolute; top: 0;  padding: 50px;">All for one</h2>
         <form class="popup-form items" action="#" method="POST">
+
+
           <div>
             <div style="display: flex; justify-content: space-between; gap: 10px;">
-              <label for="name">Water Bottle</label>
-              <input type="numeber" id="water-bottle" name="water-bottle" required>
-            </div>
-            <div style="display: flex; justify-content: space-between; gap: 10px;">
-              <label for="email">Food Packet</label>
-              <input type="number" id="food-packet" name="food-packet" required>
-            </div>
-          </div>
-          <div>
-            <div style="display: flex; justify-content: space-between; gap: 10px;">
-              <label for="name">Water Bottle(500ml)</label>
+              <label for="water-bottle">Water bottle (500mL)</label>
               <input type="number" id="water-bottle" name="water-bottle" required>
             </div>
-            <div>
-              <label for="email">Food Packet</label>
-              <input type="number" id="food-packet" name="food-packet" required>
+            <div style="display: flex; justify-content: space-between; gap: 10px;">
+              <label for="rice">Rice (2 kg)</label>
+              <input type="number" id="rice" name="rice" required>
             </div>
           </div>
+
           <div>
             <div style="display: flex; justify-content: space-between; gap: 10px;">
-              <label for="name">Water Bottle(500ml)</label>
-              <input type="number" id="water-bottle" name="water-bottle" required>
+              <label for="daal">Daal (2 kg)</label>
+              <input type="number" id="daal" name="daal" required>
             </div>
-            <div>
-              <label for="email">Food Packet</label>
-              <input type="number" id="food-packet" name="food-packet" required>
+            <div style="display: flex; justify-content: space-between; gap: 10px;">
+              <label for="orsaline">ORSaline (25 pack box)</label>
+              <input type="number" id="orsaline" name="orsaline" required>
+            </div>
+          </div>
+
+          <div>
+            <div style="display: flex; justify-content: space-between; gap: 10px;">
+              <label for="muri-chira">Muri and Chira (2 kg)</label>
+              <input type="number" id="muri-chira" name="muri-chira" required>
+            </div>
+            <div style="display: flex; justify-content: space-between; gap: 10px;">
+              <label for="biscuit">Biscuit (1 kg)</label>
+              <input type="number" id="biscuit" name="biscuit" required>
             </div>
           </div>
 
@@ -237,14 +241,87 @@
       <!-- Request Donation Form 4-->
       <div class="popup-content-div color">
         <h2 style="margin-bottom: 0; position: absolute; top: 0;  padding: 50px;">All for one</h2>
+        <form class="popup-form items" action="#" method="POST">
+
+
+          <div>
+            <div style="display: flex; justify-content: space-between; gap: 10px;">
+              <label for="khejur">Khejur (20 pcs)</label>
+              <input type="number" id="khejur" name="khejur" required>
+            </div>
+            <div style="display: flex; justify-content: space-between; gap: 10px;">
+              <label for="sugar">Sugar (250 gm)</label>
+              <input type="number" id="sugar" name="sugar" required>
+            </div>
+          </div>
+
+          <div>
+            <div style="display: flex; justify-content: space-between; gap: 10px;">
+              <label for="toothpowder">Toothpowder (1 box)</label>
+              <input type="number" id="toothpowder" name="toothpowder" required>
+            </div>
+            <div style="display: flex; justify-content: space-between; gap: 10px;">
+              <label for="blanket-mat">Blanket and Mat (1 pc each)</label>
+              <input type="number" id="blanket-mat" name="blanket-mat" required>
+            </div>
+          </div>
+
+          <div>
+            <div style="display: flex; justify-content: space-between; gap: 10px;">
+              <label for="torch">Torch with batteries (1 set)</label>
+              <input type="number" id="torch" name="torch" required>
+            </div>
+            <div style="display: flex; justify-content: space-between; gap: 10px;">
+              <label for="soap">Soap (1 pc)</label>
+              <input type="number" id="soap" name="soap" required>
+            </div>
+
+          </div>
+
+
+          <!--button group-->
+          <div style="display: flex; justify-content: space-between; margin-top: 20px; gap: 10px;">
+            <button class="donate-submit prev" style="width: 50%;">
+              <svg fill="none" viewBox="0 0 24 24" class="arrow"
+                style="width: 1em; height: 1em; vertical-align: middle; margin-left: 0.5em;">
+                <path stroke-linejoin="round" stroke-linecap="round" stroke-width="2" stroke="currentColor"
+                  d="M19 12H5M11 6l-6 6 6 6"></path>
+              </svg>
+              Previous
+            </button>
+            <button class="donate-submit" style="width: 50%;">
+              Next
+              <svg fill="none" viewBox="0 0 24 24" class="arrow"
+                style="width: 1em; height: 1em; vertical-align: middle; margin-left: 0.5em;">
+                <path stroke-linejoin="round" stroke-linecap="round" stroke-width="2" stroke="currentColor"
+                  d="M5 12h14M13 6l6 6-6 6"></path>
+              </svg>
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Request Donation Form 5-->
+      <div class="popup-content-div color">
+        <h2 style="margin-bottom: 0; position: absolute; top: 0;  padding: 50px;">All for one</h2>
         <form class="popup-form" action="#" method="POST">
-          <label for="text">Priority Message:</label>
-          <textarea rows="8" name="message" id="message" placeholder="Type your message"
+          <label for="text">Additional Requirements:</label>
+          <textarea rows="8" name="message" id="message" placeholder="Additional Requirements"
             class="formbold-form-input-textarea"></textarea>
 
           <!--button group-->
           <div style="display: flex; justify-content: space-between; margin-top: 20px; gap: 10px;">
-            <button class="donate-submit" id="request-submit" style="width: 100%;">Submit ❤️</button>
+            <button class="donate-submit prev" style="width: 50%;">
+              <svg fill="none" viewBox="0 0 24 24" class="arrow"
+                style="width: 1em; height: 1em; vertical-align: middle; margin-left: 0.5em;">
+                <path stroke-linejoin="round" stroke-linecap="round" stroke-width="2" stroke="currentColor"
+                  d="M19 12H5M11 6l-6 6 6 6"></path>
+              </svg>
+              Previous
+            </button>
+            <button class="donate-submit" id="request-submit" style="width: 50%;">
+              Submit ❤️
+            </button>
           </div>
         </form>
       </div>
