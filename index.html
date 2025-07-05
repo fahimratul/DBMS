@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>RAPID</title>
   <link rel="stylesheet" href="CSS/style.css" />
   <link rel="stylesheet" href="CSS/button.css" />
@@ -16,16 +17,17 @@
   <link rel="stylesheet" href="CSS/popup.css" />
   <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet">
 </head>
+
 <body>
   <!-- Navigation -->
   <header>
-    <div class="logo"><span>RAPID</span> 
-    <nav class="navlinks">
-      <a href="#">TAB1</a>
-      <a href="#">TAB1</a>
-      <a href="#">TAB1</a>
-      <a href="#">TAB1</a>
-    </nav>
+    <div class="logo"><span>RAPID</span>
+      <nav class="navlinks">
+        <a href="#">TAB1</a>
+        <a href="#">TAB1</a>
+        <a href="#">TAB1</a>
+        <a href="#">TAB1</a>
+      </nav>
     </div>
     <div class="auth-buttons">
       <button class="login-btn">LOG IN</button>
@@ -40,93 +42,135 @@
     <!-- Request Donation Content -->
     <div class="popup-content">
       <div class="popup-content-div">
-          <img src="https://c0.wallpaperflare.com/preview/357/982/474/egypt-cairo-tower-cairo-sunset.jpg" alt="">
+        <img src="images/10886301.png" alt="">
       </div>
       <!-- Request Donation Form 1-->
       <div class="popup-content-div color">
-        <h2 style="margin-bottom: 0;">Request Donation</h2>
+        <h2 style="margin-bottom: 0; position: absolute; top: 0;  padding: 50px;">All for one</h2>
         <form class="popup-form" action="#" method="POST">
-          
+
           <label for="name">Name:</label>
-          <input type="text" id="name" name="name" required>
+          <input type="text" id="name" name="name" required placeholder="Enter your name">
           <br>
           <label for="email">Phone Number:</label>
-          <input type="number" id="number" name="number" required>
+          <input type="text" id="number" name="number" required inputmode="numeric" pattern="[0-9]*"
+            placeholder="Enter your number">
           <br>
           <label for="emergency phone number">Emergency Phone Number:</label>
-          <input type="number" id="emergency-number" name="emergency-number">
+          <input type="text" id="emergency-number" name="emergency-number" required inputmode="numeric" pattern="[0-9]*"
+            placeholder="Enter emergency number">
           <br>
-          <label for ="District">District:</label>
-          <select id="district" name="district" required>
-            <option value="" disabled selected>Select your district</option>
-            <option value="Dhaka">Dhaka</option>
-            <option value="Chittagong">Chittagong</option>
-            <option value="Khulna">Khulna</option>
-            <option value="Rajshahi">Rajshahi</option>
-            <option value="Sylhet">Sylhet</option>
-            <option value="Barishal">Barishal</option>
-            <option value="Rangpur">Rangpur</option>
-            <option value="Mymensingh">Mymensingh</option>
-          </select>
+          <label for=" district_autocomplete">District:</label>
+          <input list="districts_list" id="district_autocomplete" name="district" required
+            placeholder="Type or select your district">
+
+          <datalist id="districts_list">
+            <option value="Bagerhat">
+            <option value="Bandarban">
+            <option value="Barguna">
+            <option value="Barishal">
+            <option value="Bhola">
+            <option value="Bogura">
+            <option value="Brahmanbaria">
+            <option value="Chandpur">
+            <option value="Chapai Nawabganj">
+            <option value="Chattogram">
+            <option value="Chuadanga">
+            <option value="Cumilla">
+            <option value="Cox's Bazar">
+            <option value="Dhaka">
+            <option value="Dinajpur">
+            <option value="Faridpur">
+            <option value="Feni">
+            <option value="Gaibandha">
+            <option value="Gazipur">
+            <option value="Gopalganj">
+            <option value="Habiganj">
+            <option value="Jamalpur">
+            <option value="Jashore">
+            <option value="Jhalokati">
+            <option value="Jhenaidah">
+            <option value="Joypurhat">
+            <option value="Khagrachhari">
+            <option value="Khulna">
+            <option value="Kishoreganj">
+            <option value="Kurigram">
+            <option value="Kushtia">
+            <option value="Lakshmipur">
+            <option value="Lalmonirhat">
+            <option value="Madaripur">
+            <option value="Magura">
+            <option value="Manikganj">
+            <option value="Meherpur">
+            <option value="Moulvibazar">
+            <option value="Munshiganj">
+            <option value="Mymensingh">
+            <option value="Naogaon">
+            <option value="Narail">
+            <option value="Narayanganj">
+            <option value="Narsingdi">
+            <option value="Natore">
+            <option value="Netrokona">
+            <option value="Nilphamari">
+            <option value="Noakhali">
+            <option value="Pabna">
+            <option value="Patuakhali">
+            <option value="Pirojpur">
+            <option value="Rajbari">
+            <option value="Rajshahi">
+            <option value="Rangamati">
+            <option value="Rangpur">
+            <option value="Satkhira">
+            <option value="Shariatpur">
+            <option value="Sherpur">
+            <option value="Sirajganj">
+            <option value="Sunamganj">
+            <option value="Sylhet">
+            <option value="Tangail">
+            <option value="Thakurgaon">
+          </datalist>
           <br>
-          <label for ="Postal Code">Postal Code:</label>
-          <input type="text" id="postal-code" name="postal-code" required>
+          <label for="Postal Code">Postal Code:</label>
+          <input type="text" id="postal-code" name="postal-code" required placeholder="Enter postal code">
           <div style="display: flex; justify-content:center;">
-          <button class="donate-submit">
-            Next
-            <svg fill="none" viewBox="0 0 24 24" class="arrow" style="width: 1em; height: 1em; vertical-align: middle; margin-left: 0.5em;">
-              <path
-                stroke-linejoin="round"
-                stroke-linecap="round"
-                stroke-width="2"
-                stroke="currentColor"
-                d="M5 12h14M13 6l6 6-6 6"
-              ></path>
-            </svg>
-          </button>
+            <button class="donate-submit">
+              Next
+              <svg fill="none" viewBox="0 0 24 24" class="arrow"
+                style="width: 1em; height: 1em; vertical-align: middle; margin-left: 0.5em;">
+                <path stroke-linejoin="round" stroke-linecap="round" stroke-width="2" stroke="currentColor"
+                  d="M5 12h14M13 6l6 6-6 6"></path>
+              </svg>
+            </button>
           </div>
         </form>
       </div>
-      
+
       <!-- Request Donation Form 2-->
       <div class="popup-content-div color">
-        <h2 style="margin-bottom: 0;">Request Donation</h2>
+        <h2 style="margin-bottom: 0; position: absolute; top: 0;  padding: 50px;">All for one</h2>
         <form class="popup-form" action="#" method="POST">
           <label for="name">Address:</label>
-          <input type="text" id="address" name="address" required>
+          <input type="text" id="address" name="address" required placeholder="Enter full address">
           <br>
-          <label for="email" >Priority Message:</label><textarea
-                rows="6"
-                name="message"
-                id="message"
-                placeholder="Type your message"
-                class="formbold-form-input-textarea"
-            ></textarea>
-            
-            <!--button group-->
-            <div style="display: flex; justify-content: space-between; margin-top: 20px; gap: 10px;"> 
+          <label for="email">Priority Message:</label><textarea rows="6" name="message" id="message"
+            placeholder="Type your message" class="formbold-form-input-textarea"></textarea>
+
+          <!--button group-->
+          <div style="display: flex; justify-content: space-between; margin-top: 20px; gap: 10px;">
             <button class="donate-submit prev" style="width: 50%;">
-              <svg fill="none" viewBox="0 0 24 24" class="arrow" style="width: 1em; height: 1em; vertical-align: middle; margin-left: 0.5em;">
-                <path
-                  stroke-linejoin="round"
-                  stroke-linecap="round"
-                  stroke-width="2"
-                  stroke="currentColor"
-                  d="M19 12H5M11 6l-6 6 6 6"
-                ></path>
+              <svg fill="none" viewBox="0 0 24 24" class="arrow"
+                style="width: 1em; height: 1em; vertical-align: middle; margin-left: 0.5em;">
+                <path stroke-linejoin="round" stroke-linecap="round" stroke-width="2" stroke="currentColor"
+                  d="M19 12H5M11 6l-6 6 6 6"></path>
               </svg>
-                Previous 
+              Previous
             </button>
             <button class="donate-submit" style="width: 50%;">
               Next
-              <svg fill="none" viewBox="0 0 24 24" class="arrow" style="width: 1em; height: 1em; vertical-align: middle; margin-left: 0.5em;">
-                <path
-                  stroke-linejoin="round"
-                  stroke-linecap="round"
-                  stroke-width="2"
-                  stroke="currentColor"
-                  d="M5 12h14M13 6l6 6-6 6"
-                ></path>
+              <svg fill="none" viewBox="0 0 24 24" class="arrow"
+                style="width: 1em; height: 1em; vertical-align: middle; margin-left: 0.5em;">
+                <path stroke-linejoin="round" stroke-linecap="round" stroke-width="2" stroke="currentColor"
+                  d="M5 12h14M13 6l6 6-6 6"></path>
               </svg>
             </button>
           </div>
@@ -134,64 +178,60 @@
       </div>
       <!--Request Donation From 3-->
       <div class="popup-content-div color">
-        <h2 style="margin-bottom: 0;">Request Donation</h2>
+        <h2 style="margin-bottom: 0; position: absolute; top: 0;  padding: 50px;">All for one</h2>
         <form class="popup-form items" action="#" method="POST">
+
+
           <div>
             <div style="display: flex; justify-content: space-between; gap: 10px;">
-              <label for="name">Water Bottle</label>
+              <label for="water-bottle">Water bottle (500mL)</label>
               <input type="number" id="water-bottle" name="water-bottle" required>
             </div>
             <div style="display: flex; justify-content: space-between; gap: 10px;">
-              <label for="email">Food Packet</label>
-              <input type="number" id="food-packet" name="food-packet" required>
+              <label for="rice">Rice (2 kg)</label>
+              <input type="number" id="rice" name="rice" required>
             </div>
           </div>
+
           <div>
             <div style="display: flex; justify-content: space-between; gap: 10px;">
-              <label for="name">Water Bottle(500ml)</label>
-              <input type="number" id="water-bottle" name="water-bottle" required>
+              <label for="daal">Daal (2 kg)</label>
+              <input type="number" id="daal" name="daal" required>
             </div>
-            <div>
-              <label for="email">Food Packet</label>
-              <input type="number" id="food-packet" name="food-packet" required>
+            <div style="display: flex; justify-content: space-between; gap: 10px;">
+              <label for="orsaline">ORSaline (25 pack box)</label>
+              <input type="number" id="orsaline" name="orsaline" required>
             </div>
           </div>
+
           <div>
             <div style="display: flex; justify-content: space-between; gap: 10px;">
-              <label for="name">Water Bottle(500ml)</label>
-              <input type="number" id="water-bottle" name="water-bottle" required>
+              <label for="muri-chira">Muri and Chira (2 kg)</label>
+              <input type="number" id="muri-chira" name="muri-chira" required>
             </div>
-            <div>
-              <label for="email">Food Packet</label>
-              <input type="number" id="food-packet" name="food-packet" required>
+            <div style="display: flex; justify-content: space-between; gap: 10px;">
+              <label for="biscuit">Biscuit (1 kg)</label>
+              <input type="number" id="biscuit" name="biscuit" required>
             </div>
           </div>
 
 
-            <!--button group-->
-            <div style="display: flex; justify-content: space-between; margin-top: 20px; gap: 10px;"> 
+          <!--button group-->
+          <div style="display: flex; justify-content: space-between; margin-top: 20px; gap: 10px;">
             <button class="donate-submit prev" style="width: 50%;">
-              <svg fill="none" viewBox="0 0 24 24" class="arrow" style="width: 1em; height: 1em; vertical-align: middle; margin-left: 0.5em;">
-                <path
-                  stroke-linejoin="round"
-                  stroke-linecap="round"
-                  stroke-width="2"
-                  stroke="currentColor"
-                  d="M19 12H5M11 6l-6 6 6 6"
-                ></path>
+              <svg fill="none" viewBox="0 0 24 24" class="arrow"
+                style="width: 1em; height: 1em; vertical-align: middle; margin-left: 0.5em;">
+                <path stroke-linejoin="round" stroke-linecap="round" stroke-width="2" stroke="currentColor"
+                  d="M19 12H5M11 6l-6 6 6 6"></path>
               </svg>
-                Previous 
+              Previous
             </button>
             <button class="donate-submit" style="width: 50%;">
               Next
-              <svg fill="none" viewBox="0 0 24 24" class="arrow" style="width: 1em; height: 1em; vertical-align: middle; margin-left: 0.5em;">
-                <path
-                  stroke-linejoin="round"
-                  stroke-linecap="round"
-                  stroke-width="2"
-                  stroke="currentColor"
-                  d="M5 12h14M13 6l6 6-6 6"
-                ></path>
+              <svg fill="none" viewBox="0 0 24 24" class="arrow"
+                style="width: 1em; height: 1em; vertical-align: middle; margin-left: 0.5em;">
+                <path stroke-linejoin="round" stroke-linecap="round" stroke-width="2" stroke="currentColor"
+                  d="M5 12h14M13 6l6 6-6 6"></path>
               </svg>
             </button>
           </div>
@@ -200,23 +240,91 @@
 
       <!-- Request Donation Form 4-->
       <div class="popup-content-div color">
-        <h2 style="margin-bottom: 0;">Request Donation</h2>
-        <form class="popup-form" action="#" method="POST">
-          <label for="text" >Priority Message:</label>
-            <textarea
-                rows="8"
-                name="message"
-                id="message"
-                placeholder="Type your message"
-                class="formbold-form-input-textarea"
-            ></textarea>
-            
-            <!--button group-->
-          <div style="display: flex; justify-content: space-between; margin-top: 20px; gap: 10px;"> 
-            <button class="donate-submit" id="request-submit" style="width: 100%;">Submit  ❤️</button>
+        <h2 style="margin-bottom: 0; position: absolute; top: 0;  padding: 50px;">All for one</h2>
+        <form class="popup-form items" action="#" method="POST">
+
+
+          <div>
+            <div style="display: flex; justify-content: space-between; gap: 10px;">
+              <label for="khejur">Khejur (20 pcs)</label>
+              <input type="number" id="khejur" name="khejur" required>
+            </div>
+            <div style="display: flex; justify-content: space-between; gap: 10px;">
+              <label for="sugar">Sugar (250 gm)</label>
+              <input type="number" id="sugar" name="sugar" required>
+            </div>
+          </div>
+
+          <div>
+            <div style="display: flex; justify-content: space-between; gap: 10px;">
+              <label for="toothpowder">Toothpowder (1 box)</label>
+              <input type="number" id="toothpowder" name="toothpowder" required>
+            </div>
+            <div style="display: flex; justify-content: space-between; gap: 10px;">
+              <label for="blanket-mat">Blanket and Mat (1 pc each)</label>
+              <input type="number" id="blanket-mat" name="blanket-mat" required>
+            </div>
+          </div>
+
+          <div>
+            <div style="display: flex; justify-content: space-between; gap: 10px;">
+              <label for="torch">Torch with batteries (1 set)</label>
+              <input type="number" id="torch" name="torch" required>
+            </div>
+            <div style="display: flex; justify-content: space-between; gap: 10px;">
+              <label for="soap">Soap (1 pc)</label>
+              <input type="number" id="soap" name="soap" required>
+            </div>
+
+          </div>
+
+
+          <!--button group-->
+          <div style="display: flex; justify-content: space-between; margin-top: 20px; gap: 10px;">
+            <button class="donate-submit prev" style="width: 50%;">
+              <svg fill="none" viewBox="0 0 24 24" class="arrow"
+                style="width: 1em; height: 1em; vertical-align: middle; margin-left: 0.5em;">
+                <path stroke-linejoin="round" stroke-linecap="round" stroke-width="2" stroke="currentColor"
+                  d="M19 12H5M11 6l-6 6 6 6"></path>
+              </svg>
+              Previous
+            </button>
+            <button class="donate-submit" style="width: 50%;">
+              Next
+              <svg fill="none" viewBox="0 0 24 24" class="arrow"
+                style="width: 1em; height: 1em; vertical-align: middle; margin-left: 0.5em;">
+                <path stroke-linejoin="round" stroke-linecap="round" stroke-width="2" stroke="currentColor"
+                  d="M5 12h14M13 6l6 6-6 6"></path>
+              </svg>
+            </button>
           </div>
         </form>
-      </div> 
+      </div>
+
+      <!-- Request Donation Form 5-->
+      <div class="popup-content-div color">
+        <h2 style="margin-bottom: 0; position: absolute; top: 0;  padding: 50px;">All for one</h2>
+        <form class="popup-form" action="#" method="POST">
+          <label for="text">Additional Requirements:</label>
+          <textarea rows="8" name="message" id="message" placeholder="Additional Requirements"
+            class="formbold-form-input-textarea"></textarea>
+
+          <!--button group-->
+          <div style="display: flex; justify-content: space-between; margin-top: 20px; gap: 10px;">
+            <button class="donate-submit prev" style="width: 50%;">
+              <svg fill="none" viewBox="0 0 24 24" class="arrow"
+                style="width: 1em; height: 1em; vertical-align: middle; margin-left: 0.5em;">
+                <path stroke-linejoin="round" stroke-linecap="round" stroke-width="2" stroke="currentColor"
+                  d="M19 12H5M11 6l-6 6 6 6"></path>
+              </svg>
+              Previous
+            </button>
+            <button class="donate-submit" id="request-submit" style="width: 50%;">
+              Submit ❤️
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   </div>
 
@@ -225,9 +333,9 @@
       <button class="close-btn" id="notification-close-btn">X</button>
     </div>
     <h2>Thank you</h2>
-    <p>Your request for donation has been successfully submitted. We will review your request and get back to you shortly.</p>
+    <p>Your request for donation has been successfully submitted. We will review your request and get back to you
+      shortly.</p>
   </div>
-
   <!-- Donate Section -->
   <section class="donate-section">
     <!-- Slider -->
@@ -237,9 +345,19 @@
         <div class="mySlides fade">
           <div class="numbertext">1 / 3</div>
           <img src="https://c0.wallpaperflare.com/preview/357/982/474/egypt-cairo-tower-cairo-sunset.jpg">
-           <div class="text">
+          <div class="text">
             <h1>Abraca Debra</h1>
-            <p>A flood is an overflow of water (or rarely other fluids) that submerges land that is usually dry.[1] In the sense of "flowing water", the word may also be applied to the inflow of the tide. Floods are of significant concern in agriculture, civil engineering and public health. Human changes to the environment often increase the intensity and frequency of flooding. Examples for human changes are land use changes such as deforestation and removal of wetlands, changes in waterway course or flood controls such as with levees. Global environmental issues also influence causes of floods, namely climate change which causes an intensification of the water cycle and sea level rise.[2]: 1517  For example, climate change makes extreme weather events more frequent and stronger.</p>
+            <p>A flood is an overflow of water (or rarely other fluids) that submerges land that is usually dry.[1] In
+              the sense of "flowing water", the word may also be applied to the inflow of the tide. Floods are of
+              significant concern in agriculture, civil engineering and public health. Human changes to the
+              environment
+              often increase the intensity and frequency of flooding. Examples for human changes are land use changes
+              such as deforestation and removal of wetlands, changes in waterway course or flood controls such as with
+              levees. Global environmental issues also influence causes of floods, namely climate change which causes
+              an
+              intensification of the water cycle and sea level rise.[2]: 1517  For example, climate change makes
+              extreme
+              weather events more frequent and stronger.</p>
             <button class="gradient-button">
               <span class="gradient-button-inner">learn More</span>
             </button>
@@ -248,10 +366,21 @@
 
         <div class="mySlides fade">
           <div class="numbertext">2 / 3</div>
-          <img src="https://c4.wallpaperflare.com/wallpaper/125/887/712/historic-mosque-madrassa-of-sultan-hassan-city-mosque-wallpaper-preview.jpg">
-           <div class="text">
+          <img
+            src="https://c4.wallpaperflare.com/wallpaper/125/887/712/historic-mosque-madrassa-of-sultan-hassan-city-mosque-wallpaper-preview.jpg">
+          <div class="text">
             <h1>Flood</h1>
-            <p>A flood is an overflow of water (or rarely other fluids) that submerges land that is usually dry.[1] In the sense of "flowing water", the word may also be applied to the inflow of the tide. Floods are of significant concern in agriculture, civil engineering and public health. Human changes to the environment often increase the intensity and frequency of flooding. Examples for human changes are land use changes such as deforestation and removal of wetlands, changes in waterway course or flood controls such as with levees. Global environmental issues also influence causes of floods, namely climate change which causes an intensification of the water cycle and sea level rise.[2]: 1517  For example, climate change makes extreme weather events more frequent and stronger.</p>
+            <p>A flood is an overflow of water (or rarely other fluids) that submerges land that is usually dry.[1] In
+              the sense of "flowing water", the word may also be applied to the inflow of the tide. Floods are of
+              significant concern in agriculture, civil engineering and public health. Human changes to the
+              environment
+              often increase the intensity and frequency of flooding. Examples for human changes are land use changes
+              such as deforestation and removal of wetlands, changes in waterway course or flood controls such as with
+              levees. Global environmental issues also influence causes of floods, namely climate change which causes
+              an
+              intensification of the water cycle and sea level rise.[2]: 1517  For example, climate change makes
+              extreme
+              weather events more frequent and stronger.</p>
             <button class="gradient-button">
               <span class="gradient-button-inner">learn More</span>
             </button>
@@ -263,7 +392,17 @@
           <img src="https://c1.wallpaperflare.com/preview/1019/166/561/stanley-bridge-alexandria-landmark-egypt.jpg">
           <div class="text">
             <h1>Flood</h1>
-            <p>A flood is an overflow of water (or rarely other fluids) that submerges land that is usually dry.[1] In the sense of "flowing water", the word may also be applied to the inflow of the tide. Floods are of significant concern in agriculture, civil engineering and public health. Human changes to the environment often increase the intensity and frequency of flooding. Examples for human changes are land use changes such as deforestation and removal of wetlands, changes in waterway course or flood controls such as with levees. Global environmental issues also influence causes of floods, namely climate change which causes an intensification of the water cycle and sea level rise.[2]: 1517  For example, climate change makes extreme weather events more frequent and stronger.</p>
+            <p>A flood is an overflow of water (or rarely other fluids) that submerges land that is usually dry.[1] In
+              the sense of "flowing water", the word may also be applied to the inflow of the tide. Floods are of
+              significant concern in agriculture, civil engineering and public health. Human changes to the
+              environment
+              often increase the intensity and frequency of flooding. Examples for human changes are land use changes
+              such as deforestation and removal of wetlands, changes in waterway course or flood controls such as with
+              levees. Global environmental issues also influence causes of floods, namely climate change which causes
+              an
+              intensification of the water cycle and sea level rise.[2]: 1517  For example, climate change makes
+              extreme
+              weather events more frequent and stronger.</p>
             <button class="gradient-button">
               <span class="gradient-button-inner">learn More</span>
             </button>
@@ -273,18 +412,19 @@
       </div>
       <br>
       <div style="text-align:center">
-        <span class="dot"></span> 
-        <span class="dot"></span> 
-        <span class="dot"></span> 
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
       </div>
     </div>
-  
+
     <!-- Donate Content -->
 
     <div class="donate-content">
       <h2>Make a Difference</h2>
       <h2>DONATE NOW</h2>
-      <p>Your contribution helps us support those in need.Your donation supports our mission.<br>Choose an amount to donate:</p>
+      <p>Your contribution helps us support those in need.Your donation supports our mission.<br>Choose an amount to
+        donate:</p>
       <div class="amount-options">
         <button>1000</button>
         <button>2000</button>
@@ -293,11 +433,11 @@
         <button>2000</button>
         <button>5000</button>
       </div>
-      <form class ="form-box">
+      <form class="form-box">
         <input type="text" placeholder="1000" required>
         <button class="donate-submit">Donate and Support</button>
       </form>
-    </div>  
+    </div>
 
   </section>
 
@@ -310,78 +450,92 @@
       <button class="super-button">
         <span>Get Involved</span>
         <svg fill="none" viewBox="0 0 24 24" class="arrow">
-          <path
-            stroke-linejoin="round"
-            stroke-linecap="round"
-            stroke-width="2"
-            stroke="currentColor"
-            d="M5 12h14M13 6l6 6-6 6"
-          ></path>
+          <path stroke-linejoin="round" stroke-linecap="round" stroke-width="2" stroke="currentColor"
+            d="M5 12h14M13 6l6 6-6 6"></path>
         </svg>
       </button>
     </div>
 
 
-<div class ="hero-content">
-<section class="hero-section">
-  <div class="card-grid">
-    <a class="card" href="#">
-      <div class="card__background" style="background-image: url(https://images.unsplash.com/photo-1557177324-56c542165309?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80)"></div>
-      <div class="card__content">
-        <p class="card__category">Category</p>
-        <h3 class="card__heading">Example Card Heading</h3>
-      </div>
-    </a>
-    <a class="card" href="#">
-      <div class="card__background" style="background-image: url(https://images.unsplash.com/photo-1557187666-4fd70cf76254?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60)"></div>
-      <div class="card__content">
-        <p class="card__category">Category</p>
-        <h3 class="card__heading">Example Card Heading</h3>
-      </div>
-    </a>
-    <a class="card" href="#">
-      <div class="card__background" style="background-image: url(https://images.unsplash.com/photo-1556680262-9990363a3e6d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60)"></div>
-      <div class="card__content">
-        <p class="card__category">Category</p>
-        <h3 class="card__heading">Example Card Heading</h3>
-      </div>
-    </li>
-    <a class="card" href="#">
-      <div class="card__background" style="background-image: url(https://images.unsplash.com/photo-1557004396-66e4174d7bf6?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60)"></div>
-      <div class="card__content">
-        <p class="card__category">Category</p>
-        <h3 class="card__heading">Example Card Heading</h3>
-      </div>
-    </a>
-  <div>
-</section>
-</div>
+    <div class="hero-content">
+      <section class="hero-section">
+        <div class="card-grid">
+          <a class="card" href="#">
+            <div class="card__background"
+              style="background-image: url(https://images.unsplash.com/photo-1557177324-56c542165309?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80)">
+            </div>
+            <div class="card__content">
+              <p class="card__category">Category</p>
+              <h3 class="card__heading">Example Card Heading</h3>
+            </div>
+          </a>
+          <a class="card" href="#">
+            <div class="card__background"
+              style="background-image: url(https://images.unsplash.com/photo-1557187666-4fd70cf76254?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60)">
+            </div>
+            <div class="card__content">
+              <p class="card__category">Category</p>
+              <h3 class="card__heading">Example Card Heading</h3>
+            </div>
+          </a>
+          <a class="card" href="#">
+            <div class="card__background"
+              style="background-image: url(https://images.unsplash.com/photo-1556680262-9990363a3e6d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60)">
+            </div>
+            <div class="card__content">
+              <p class="card__category">Category</p>
+              <h3 class="card__heading">Example Card Heading</h3>
+            </div>
+            </li>
+            <a class="card" href="#">
+              <div class="card__background"
+                style="background-image: url(https://images.unsplash.com/photo-1557004396-66e4174d7bf6?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60)">
+              </div>
+              <div class="card__content">
+                <p class="card__category">Category</p>
+                <h3 class="card__heading">Example Card Heading</h3>
+              </div>
+            </a>
+            <div>
+      </section>
+    </div>
 
 
 
   </section>
-  
+
 
   <!-- Hero Section 2-->
-   <section class="hero white">
+  <section class="hero white">
     <div class="hero-content">
       <h1>Together, we can make a bigger impact</h1>
-      <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsu</p>
+      <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
+        industry's
+        standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to
+        make
+        a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting,
+        remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets
+        containing
+        Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including
+        versions
+        of Lorem Ipsu</p>
       <button class="donate-submit">Get Involved</button>
     </div>
   </section>
 
 
-  <section class ="graph">
+  <section class="graph">
     <div class="graph-content">
-      <div class="graph-card"><h2>Our Impact</h2>
-        <p>We have made a significant impact in the community through our various initiatives and programs. Here are some of our key achievements:</p>
+      <div class="graph-card">
+        <h2>Our Impact</h2>
+        <p>We have made a significant impact in the community through our various initiatives and programs. Here are
+          some of our key achievements:</p>
         <ul>
           <li>Over 10,000 meals distributed to those in need.</li>
           <li>500 families supported with essential supplies.</li>
           <li>1000 volunteers mobilized for community service.</li>
         </ul>
-      </div>  
+      </div>
       <div class="graph-card">
         <h2>Donation Trends</h2>
         <p>Track our donation trends over the past year to see how your contributions are making a difference.</p>
@@ -398,7 +552,8 @@
         <div class="percentage-change">
           23%
           <svg class="arrow-up" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 14">
-            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13V1m0 0L1 5m4-4 4 4"/>
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M5 13V1m0 0L1 5m4-4 4 4" />
           </svg>
         </div>
       </div>
@@ -408,7 +563,8 @@
           <button id="dropdownDefaultButton" class="dropdown-btn" type="button">
             Last 7 days
             <svg class="dropdown-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="m1 1 4 4 4-4" />
             </svg>
           </button>
           <div id="lastDaysdropdown" class="dropdown-menu">
@@ -421,101 +577,126 @@
             </ul>
           </div>
           <a href="#" class="sales-report-link">
-          Donation Report
-          <svg class="link-arrow" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
-          </svg>
-        </a>
+            Donation Report
+            <svg class="link-arrow" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="m1 9 4-4-4-4" />
+            </svg>
+          </a>
+        </div>
+      </div>
+  </section>
+
+
+  <!-- Events Section -->
+
+  <section class="event-section">
+    <h1>Upcoming Events</h1>
+    <p>Join us in our upcoming events to make a difference in the community.</p>
+    <div class="event-buttons">
+      <div class="container-btn">
+        <div class="btn"><a href="#">Upcoming</a></div>
+        <div class="btn"><a href="#">Ongoning</a></div>
+        <div class="btn"><a href="#">Previous</a></div>
+      </div>
+    </div>
+    <div class="scroll-container">
+      <div class="event-card">
+        <img
+          src="https://images.unsplash.com/photo-1557177324-56c542165309?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80"
+          alt="Easter Bunnies">
+        <h2>Easter Bunnies</h2>
+        <p>Easter bunnies are a popular symbol of spring and renewal of life, often seen delivering colorful eggs to
+          children.</p>
+        <button class="gradient-button">
+          <span class="gradient-button-inner">learn More</span>
+        </button>
+      </div>
+      <div class="event-card">
+        <img
+          src="https://images.unsplash.com/photo-1557177324-56c542165309?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80"
+          alt="Easter Chick">
+        <h2>Easter Chick</h2>
+        <p>Easter chicks are a cheerful symbol of new life and beginnings, often seen alongside eggs in spring
+          decorations.</p>
+        <button class="gradient-button">
+          <span class="gradient-button-inner">learn More</span>
+        </button>
+      </div>
+      <div class="event-card">
+        <img
+          src="https://images.unsplash.com/photo-1557177324-56c542165309?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80"
+          alt="Hot Cross Buns">
+        <h2>Hot Cross Buns</h2>
+        <p>Hot cross buns are sweet, spiced buns marked with a cross on top, traditionally eaten on Good Friday.</p>
+        <button class="gradient-button">
+          <span class="gradient-button-inner">learn More</span>
+        </button>
+      </div>
+      <div class="event-card">
+        <img
+          src="https://images.unsplash.com/photo-1557177324-56c542165309?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80"
+          alt="Easter Eggs">
+        <h2>Easter Eggs</h2>
+        <p>Easter eggs are a colorful symbol of new life and rebirth, often decorated and hidden for festive hunts.
+        </p>
+        <button class="gradient-button">
+          <span class="gradient-button-inner">learn More</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Event Section imgage -->
+  <section class="event-section">
+    <div class="container-img">
+      <div class="info-box">
+        <p>In India, at least 48 people have died since June 14, after heavy rains battered the northeastern state of
+          Assam, according to its disaster management authority, triggering landslides and causing river banks to
+          swell.
+          More than 3.5 million people have been affected.</p>
+      </div>
+      <div class="image">
+        <img src="https://c0.wallpaperflare.com/preview/357/982/474/egypt-cairo-tower-cairo-sunset.jpg"
+          alt="Flood Image">
+      </div>
+      <div class="info-box right">
+        <p>In India, at least 48 people have died since June 14, after heavy rains battered the northeastern state of
+          Assam, according to its disaster management authority, triggering landslides and causing river banks to
+          swell.
+          More than 3.5 million people have been affected in the state alone, the authority added.</p>
       </div>
     </div>
   </section>
 
 
-<!-- Events Section -->
-
-<section class="event-section">
-  <h1>Upcoming Events</h1>
-  <p>Join us in our upcoming events to make a difference in the community.</p>
-  <div class="event-buttons">
-    <div class="container-btn">
-      <div class="btn"><a href="#">Upcoming</a></div>
-      <div class="btn"><a href="#" >Ongoning</a></div>
-      <div class="btn"><a href="#" >Previous</a></div>
-    </div>
-  </div>	
-  <div class="scroll-container">
-        <div class="event-card">
-            <img src="https://images.unsplash.com/photo-1557177324-56c542165309?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80" alt="Easter Bunnies">
-            <h2>Easter Bunnies</h2>
-            <p>Easter bunnies are a popular symbol of spring and renewal of life, often seen delivering colorful eggs to children.</p>
-            <button class="gradient-button">
-              <span class="gradient-button-inner">learn More</span>
-            </button>
-        </div>
-        <div class="event-card">
-            <img src="https://images.unsplash.com/photo-1557177324-56c542165309?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80" alt="Easter Chick">
-            <h2>Easter Chick</h2>
-            <p>Easter chicks are a cheerful symbol of new life and beginnings, often seen alongside eggs in spring decorations.</p>
-            <button class="gradient-button">
-              <span class="gradient-button-inner">learn More</span>
-            </button>
-        </div>
-        <div class="event-card">
-            <img src="https://images.unsplash.com/photo-1557177324-56c542165309?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80" alt="Hot Cross Buns">
-            <h2>Hot Cross Buns</h2>
-            <p>Hot cross buns are sweet, spiced buns marked with a cross on top, traditionally eaten on Good Friday.</p>
-            <button class="gradient-button">
-              <span class="gradient-button-inner">learn More</span>
-            </button>
-        </div>
-        <div class="event-card">
-            <img src="https://images.unsplash.com/photo-1557177324-56c542165309?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80" alt="Easter Eggs">
-            <h2>Easter Eggs</h2>
-            <p>Easter eggs are a colorful symbol of new life and rebirth, often decorated and hidden for festive hunts.</p>
-            <button class="gradient-button">
-              <span class="gradient-button-inner">learn More</span>
-            </button>
-        </div>
-    </div>
-  </section> 
-
-  <!-- Event Section imgage -->
-  <section class ="event-section">
-    <div class="container-img">
-        <div class="info-box">
-            <p>In India, at least 48 people have died since June 14, after heavy rains battered the northeastern state of Assam, according to its disaster management authority, triggering landslides and causing river banks to swell. More than 3.5 million people have been affected.</p>
-        </div>
-        <div class="image">
-            <img src="https://c0.wallpaperflare.com/preview/357/982/474/egypt-cairo-tower-cairo-sunset.jpg" alt="Flood Image">
-        </div>
-        <div class="info-box right">
-            <p>In India, at least 48 people have died since June 14, after heavy rains battered the northeastern state of Assam, according to its disaster management authority, triggering landslides and causing river banks to swell. More than 3.5 million people have been affected in the state alone, the authority added.</p>
-        </div>
-    </div>
-  </section>   
-
-
   <!-- Achievement section -->
-   <section class="hero">
+  <section class="hero">
     <div class="hero-content">
       <h1>RAPID</h1>
       <h1>Our Achievements</h1>
       <p>We are proud to share our achievements and the impact we have made in the community.</p>
-      <div class ="marker">
+      <div class="marker">
         <div class="marker-item">
           <h1>5000+</h1>
           <h2>Volunteers</h2>
-          <p>n India, at least 48 people have died since June 14, after heavy rains battered the northeastern state of Assam, according to its disaster management authority, triggering landslides and causing river banks to swell. More than 5.5 million people have been affected in the state alone</p>
+          <p>n India, at least 48 people have died since June 14, after heavy rains battered the northeastern state of
+            Assam, according to its disaster management authority, triggering landslides and causing river banks to
+            swell. More than 5.5 million people have been affected in the state alone</p>
         </div>
         <div class="marker-item">
           <h1>10000+</h1>
           <h2>Meals Distributed</h2>
-          <p>n India, at least 48 people have died since June 14, after heavy rains battered the northeastern state of Assam, according to its disaster management authority, triggering landslides and causing river banks to swell. More than 5.5 million people have been affected in the state alone</p>
+          <p>n India, at least 48 people have died since June 14, after heavy rains battered the northeastern state of
+            Assam, according to its disaster management authority, triggering landslides and causing river banks to
+            swell. More than 5.5 million people have been affected in the state alone</p>
         </div>
         <div class="marker-item">
           <h1>2000+</h1>
           <h2>Families Supported</h2>
-          <p>n India, at least 48 people have died since June 14, after heavy rains battered the northeastern state of Assam, according to its disaster management authority, triggering landslides and causing river banks to swell. More than 5.5 million people have been affected in the state alone</p>
+          <p>n India, at least 48 people have died since June 14, after heavy rains battered the northeastern state of
+            Assam, according to its disaster management authority, triggering landslides and causing river banks to
+            swell. More than 5.5 million people have been affected in the state alone</p>
         </div>
       </div>
     </div>
@@ -526,21 +707,23 @@
   <section class="hero">
     <article class="leaderboard">
       <header>
-        <img src="https://cdn-icons-png.flaticon.com/512/684/684908.png" alt="Map Marker" style="width:40px;height:40px; transform: translateX(50%);">
-        <h1 class="leaderboard__title"><span class="leaderboard__title--top">Request</span><span class="leaderboard__title--bottom">Leaderboard</span></h1>
+        <img src="https://cdn-icons-png.flaticon.com/512/684/684908.png" alt="Map Marker"
+          style="width:40px;height:40px; transform: translateX(50%);">
+        <h1 class="leaderboard__title"><span class="leaderboard__title--top">Request</span><span
+            class="leaderboard__title--bottom">Leaderboard</span></h1>
       </header>
-      
+
       <main class="leaderboard__profiles">
         <article class="leaderboard__profile">
           <span class="leaderboard__name">Rangpur</span>
           <span class="leaderboard__value">35</span>
         </article>
-        
+
         <article class="leaderboard__profile">
           <span class="leaderboard__name">Dhaka</span>
           <span class="leaderboard__value">19</span>
         </article>
-        
+
         <article class="leaderboard__profile">
           <span class="leaderboard__name">Barishal</span>
           <span class="leaderboard__value">4</span>
@@ -553,10 +736,10 @@
           <span class="leaderboard__name">Barishal</span>
           <span class="leaderboard__value">4</span>
         </article>
-        
+
       </main>
     </article>
-        <div id="map"></div>
+    <div id="map"></div>
   </section>
 
   <!--feedback Section-->
@@ -567,68 +750,39 @@
       <button class="super-button">
         <span>Send Feedback</span>
         <svg fill="none" viewBox="0 0 24 24" class="arrow">
-          <path
-            stroke-linejoin="round"
-            stroke-linecap="round"
-            stroke-width="2"
-            stroke="currentColor"
-            d="M5 12h14M13 6l6 6-6 6"
-          ></path>
+          <path stroke-linejoin="round" stroke-linecap="round" stroke-width="2" stroke="currentColor"
+            d="M5 12h14M13 6l6 6-6 6"></path>
         </svg>
       </button>
     </div>
     <div class="formbold-main-wrapper">
-  <!-- Author: FormBold Team -->
-  <!-- Learn More: https://formbold.com -->
-  <div class="formbold-form-wrapper">
-    <form action="https://formbold.com/s/FORM_ID" method="POST">
-        <div class="formbold-input-flex">
-          <div>
+      <!-- Author: FormBold Team -->
+      <!-- Learn More: https://formbold.com -->
+      <div class="formbold-form-wrapper">
+        <form action="https://formbold.com/s/FORM_ID" method="POST">
+          <div class="formbold-input-flex">
+            <div>
               <label for="firstname" class="formbold-form-label"> First name </label>
-              <input
-              type="text"
-              name="firstname"
-              id="firstname"
-              placeholder="Jane"
-              class="formbold-form-input"
-              />
-          </div>
-          <div>
+              <input type="text" name="firstname" id="firstname" placeholder="Jane" class="formbold-form-input" />
+            </div>
+            <div>
               <label for="lastname" class="formbold-form-label"> Last name </label>
-              <input
-              type="text"
-              name="lastname"
-              id="lastname"
-              placeholder="Cooper"
-              class="formbold-form-input"
-              />
+              <input type="text" name="lastname" id="lastname" placeholder="Cooper" class="formbold-form-input" />
+            </div>
           </div>
-        </div>
 
-        <div class="formbold-input-flex">
-          <div>
+          <div class="formbold-input-flex">
+            <div>
               <label for="email" class="formbold-form-label"> Mail </label>
-              <input
-              type="email"
-              name="email"
-              id="email"
-              placeholder="jhon@mail.com"
-              class="formbold-form-input"
-              />
-          </div>
-          <div>
+              <input type="email" name="email" id="email" placeholder="jhon@mail.com" class="formbold-form-input" />
+            </div>
+            <div>
               <label for="phone" class="formbold-form-label"> Phone </label>
-              <input
-              type="text"
-              name="phone"
-              id="phone"
-              placeholder="(319) 555-0115"
-              class="formbold-form-input"
-              />
+              <input type="text" name="phone" id="phone" placeholder="(319) 555-0115" class="formbold-form-input" />
+            </div>
           </div>
-        </div>
 
-        <div class="formbold-input-radio-wrapper">
+          <div class="formbold-input-radio-wrapper">
             <label for="jobtitle" class="formbold-form-label"> Giving feedback as ? </label>
 
             <div class="formbold-radio-flex">
@@ -664,26 +818,21 @@
                 </label>
               </div>
             </div>
-        </div>
+          </div>
 
-        <div>
+          <div>
             <label for="message" class="formbold-form-label"> Message </label>
-            <textarea
-                rows="6"
-                name="message"
-                id="message"
-                placeholder="Type your message"
-                class="formbold-form-input-textarea"
-            ></textarea>
-        </div>
+            <textarea rows="6" name="message" id="message" placeholder="Type your message"
+              class="formbold-form-input-textarea"></textarea>
+          </div>
 
-        <button class="donate-submit">
+          <button class="donate-submit">
             Send Message
-        </button>
-    </form>
-  </div>
-</div>
-</section>
+          </button>
+        </form>
+      </div>
+    </div>
+  </section>
 
   <!-- Footer Menu -->
   <footer>
@@ -708,9 +857,11 @@
   <!-- Scripts -->
   <script src="script/slider.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAOVYRIgupAurZup5y1PRh8Ismb1A3lLao&libraries=places&callback=initMap"></script>
+  <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAOVYRIgupAurZup5y1PRh8Ismb1A3lLao&libraries=places&callback=initMap"></script>
   <script src="script/map.js"></script>
   <script src="script/graphs.js"></script>
   <script src="script/donation/request-donation.js"></script>
 </body>
+
 </html>
