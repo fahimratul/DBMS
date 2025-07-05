@@ -34,6 +34,7 @@ document.getElementById("popup-close-btn").addEventListener("click", function ()
             element.value = '';
         }
     });
+    document.body.style.overflow = "auto";
 });
 
 
@@ -72,6 +73,8 @@ prevButtons.forEach((btn) => {
 // Add form submission functionality
 document.getElementById("request-submit").addEventListener("click", function (e) {
     document.querySelector(".popup").style.display = "none";
+    document.body.style.overflow = "auto";
+    // Simulate form submission
     e.preventDefault();
     const doneDiv = document.querySelector(".subimitondone");
     doneDiv.style.display = "flex";
@@ -96,7 +99,7 @@ document.getElementById("request-submit").addEventListener("click", function (e)
                 }
             });
         }, 700);
-    }, 2000);
+    }, 4000);
 });
 
 document.getElementById("notification-close-btn").addEventListener("click", function () {
