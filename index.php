@@ -1,3 +1,25 @@
+<?php
+session_start();
+require_once 'configure.php'; // Ensure this file sets up the $conn variable for database connection
+
+$_message = [
+             'done'=> $_SESSION['donation_request_success'] ?? '',
+              'error'=> $_SESSION['donation_request_error'] ?? ''];
+
+function showMessage($message){
+    return !empty($message) ? "<p class='success-msg'> $message</p>" : '';
+} 
+
+// Clear messages after retrieving them
+unset($_SESSION['donation_request_success']);
+unset($_SESSION['donation_request_error']);
+
+?>
+
+
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -47,17 +69,17 @@
       <!-- Request Donation Form 1-->
       <div class="popup-content-div color">
         <h2 style="margin-bottom: 0; position: absolute; top: 0;  padding: 50px;">All for one</h2>
-        <form class="popup-form" action="#" method="POST">
+        <form class="popup-form" action="php/requestdonation.php" method="POST">
 
           <label for="name">Name:</label>
           <input type="text" id="name" name="name" required placeholder="Enter your name">
           <br>
           <label for="email">Phone Number:</label>
-          <input type="text" id="number" name="number" required inputmode="numeric" pattern="[0-9]*"
+          <input type="text" id="number" name="phone" required inputmode="numeric" pattern="[0-9]*"
             placeholder="Enter your number">
           <br>
           <label for="emergency phone number">Emergency Phone Number:</label>
-          <input type="text" id="emergency-number" name="emergency-number" required inputmode="numeric" pattern="[0-9]*"
+          <input type="text" id="emergency-number" name="emergencynumber" required inputmode="numeric" pattern="[0-9]*"
             placeholder="Enter emergency number">
           <br>
           <label for=" district_autocomplete">District:</label>
@@ -129,11 +151,12 @@
             <option value="Tangail">
             <option value="Thakurgaon">
           </datalist>
+
           <br>
           <label for="Postal Code">Postal Code:</label>
-          <input type="text" id="postal-code" name="postal-code" required placeholder="Enter postal code">
+          <input type="text" id="postal-code" name="postalcode" required placeholder="Enter postal code">
           <div style="display: flex; justify-content:center;">
-            <button class="donate-submit">
+            <button class="donate-submit" name="next1" type="submit">
               Next
               <svg fill="none" viewBox="0 0 24 24" class="arrow"
                 style="width: 1em; height: 1em; vertical-align: middle; margin-left: 0.5em;">
@@ -148,7 +171,7 @@
       <!-- Request Donation Form 2-->
       <div class="popup-content-div color">
         <h2 style="margin-bottom: 0; position: absolute; top: 0;  padding: 50px;">All for one</h2>
-        <form class="popup-form" action="#" method="POST">
+        <div class="popup-form">
           <label for="name">Address:</label>
           <input type="text" id="address" name="address" required placeholder="Enter full address">
           <br>
@@ -165,7 +188,7 @@
               </svg>
               Previous
             </button>
-            <button class="donate-submit" style="width: 50%;">
+            <button class="donate-submit" style="width: 50%;" type="button">
               Next
               <svg fill="none" viewBox="0 0 24 24" class="arrow"
                 style="width: 1em; height: 1em; vertical-align: middle; margin-left: 0.5em;">
@@ -174,47 +197,44 @@
               </svg>
             </button>
           </div>
-        </form>
+        </div>
       </div>
       <!--Request Donation From 3-->
       <div class="popup-content-div color">
         <h2 style="margin-bottom: 0; position: absolute; top: 0;  padding: 50px;">All for one</h2>
-        <form class="popup-form items" action="#" method="POST">
-
-
+        <div class="popup-form items">
           <div>
             <div style="display: flex; justify-content: space-between; gap: 10px;">
               <label for="water-bottle">Water bottle (500mL)</label>
-              <input type="number" id="water-bottle" name="water-bottle" required>
+              <input type="number" id="water-bottle" name="water-bottle" min="0" value="0">
             </div>
             <div style="display: flex; justify-content: space-between; gap: 10px;">
               <label for="rice">Rice (2 kg)</label>
-              <input type="number" id="rice" name="rice" required>
+              <input type="number" id="rice" name="rice" min="0" value="0">
             </div>
           </div>
 
           <div>
             <div style="display: flex; justify-content: space-between; gap: 10px;">
               <label for="daal">Daal (2 kg)</label>
-              <input type="number" id="daal" name="daal" required>
+              <input type="number" id="daal" name="daal" min="0" value="0">
             </div>
             <div style="display: flex; justify-content: space-between; gap: 10px;">
               <label for="orsaline">ORSaline (25 pack box)</label>
-              <input type="number" id="orsaline" name="orsaline" required>
+              <input type="number" id="orsaline" name="orsaline" min="0" value="0">
             </div>
           </div>
 
           <div>
             <div style="display: flex; justify-content: space-between; gap: 10px;">
               <label for="muri-chira">Muri and Chira (2 kg)</label>
-              <input type="number" id="muri-chira" name="muri-chira" required>
+              <input type="number" id="muri-chira" name="muri-chira" min="0" value="0">
             </div>
             <div style="display: flex; justify-content: space-between; gap: 10px;">
               <label for="biscuit">Biscuit (1 kg)</label>
-              <input type="number" id="biscuit" name="biscuit" required>
+              <input type="number" id="biscuit" name="biscuit" min="0" value="0">
             </div>
           </div>
-
 
           <!--button group-->
           <div style="display: flex; justify-content: space-between; margin-top: 20px; gap: 10px;">
@@ -226,7 +246,7 @@
               </svg>
               Previous
             </button>
-            <button class="donate-submit" style="width: 50%;">
+            <button class="donate-submit" style="width: 50%;" type="button">
               Next
               <svg fill="none" viewBox="0 0 24 24" class="arrow"
                 style="width: 1em; height: 1em; vertical-align: middle; margin-left: 0.5em;">
@@ -235,49 +255,45 @@
               </svg>
             </button>
           </div>
-        </form>
+        </div>
       </div>
 
       <!-- Request Donation Form 4-->
       <div class="popup-content-div color">
         <h2 style="margin-bottom: 0; position: absolute; top: 0;  padding: 50px;">All for one</h2>
-        <form class="popup-form items" action="#" method="POST">
-
-
+        <div class="popup-form items">
           <div>
             <div style="display: flex; justify-content: space-between; gap: 10px;">
               <label for="khejur">Khejur (20 pcs)</label>
-              <input type="number" id="khejur" name="khejur" required>
+              <input type="number" id="khejur" name="khejur" min="0" value="0">
             </div>
             <div style="display: flex; justify-content: space-between; gap: 10px;">
               <label for="sugar">Sugar (250 gm)</label>
-              <input type="number" id="sugar" name="sugar" required>
+              <input type="number" id="sugar" name="sugar" min="0" value="0">
             </div>
           </div>
 
           <div>
             <div style="display: flex; justify-content: space-between; gap: 10px;">
               <label for="toothpowder">Toothpowder (1 box)</label>
-              <input type="number" id="toothpowder" name="toothpowder" required>
+              <input type="number" id="toothpowder" name="toothpowder" min="0" value="0">
             </div>
             <div style="display: flex; justify-content: space-between; gap: 10px;">
               <label for="blanket-mat">Blanket and Mat (1 pc each)</label>
-              <input type="number" id="blanket-mat" name="blanket-mat" required>
+              <input type="number" id="blanket-mat" name="blanket-mat" min="0" value="0">
             </div>
           </div>
 
           <div>
             <div style="display: flex; justify-content: space-between; gap: 10px;">
               <label for="torch">Torch with batteries (1 set)</label>
-              <input type="number" id="torch" name="torch" required>
+              <input type="number" id="torch" name="torch" min="0" value="0">
             </div>
             <div style="display: flex; justify-content: space-between; gap: 10px;">
               <label for="soap">Soap (1 pc)</label>
-              <input type="number" id="soap" name="soap" required>
+              <input type="number" id="soap" name="soap" min="0" value="0">
             </div>
-
           </div>
-
 
           <!--button group-->
           <div style="display: flex; justify-content: space-between; margin-top: 20px; gap: 10px;">
@@ -289,7 +305,7 @@
               </svg>
               Previous
             </button>
-            <button class="donate-submit" style="width: 50%;">
+            <button class="donate-submit" style="width: 50%;" type="button">
               Next
               <svg fill="none" viewBox="0 0 24 24" class="arrow"
                 style="width: 1em; height: 1em; vertical-align: middle; margin-left: 0.5em;">
@@ -298,15 +314,15 @@
               </svg>
             </button>
           </div>
-        </form>
+        </div>
       </div>
 
       <!-- Request Donation Form 5-->
       <div class="popup-content-div color">
         <h2 style="margin-bottom: 0; position: absolute; top: 0;  padding: 50px;">All for one</h2>
-        <form class="popup-form" action="#" method="POST">
+        <div class="popup-form">
           <label for="text">Additional Requirements:</label>
-          <textarea rows="8" name="message" id="message" placeholder="Additional Requirements"
+          <textarea rows="8" name="additional-requirements" id="additional-requirements" placeholder="Additional Requirements"
             class="formbold-form-input-textarea"></textarea>
 
           <!--button group-->
@@ -319,11 +335,11 @@
               </svg>
               Previous
             </button>
-            <button class="donate-submit" id="request-submit" style="width: 50%;">
+            <button class="donate-submit" id="request-submit" type="button" style="width: 50%;">
               Submit ❤️
             </button>
           </div>
-        </form>
+        </div>
       </div>
     </div>
   </div>
@@ -332,9 +348,13 @@
     <div class="popup-close-btn">
       <button class="close-btn" id="notification-close-btn">X</button>
     </div>
+    <?php if (!empty($_message['done'])): ?>
     <h2>Thank you</h2>
-    <p>Your request for donation has been successfully submitted. We will review your request and get back to you
-      shortly.</p>
+    <p><?=showMessage($_message['done']) ?></p>
+    <?php elseif (!empty($_message['error'])): ?>
+    <h2>Error</h2>
+    <p style="color: #ff6b6b;"><?=showMessage($_message['error']) ?></p>
+    <?php endif; ?>
   </div>
   <!-- Donate Section -->
   <section class="donate-section">
@@ -821,8 +841,8 @@
           </div>
 
           <div>
-            <label for="message" class="formbold-form-label"> Message </label>
-            <textarea rows="6" name="message" id="message" placeholder="Type your message"
+            <label for="feedback-message" class="formbold-form-label"> Message </label>
+            <textarea rows="6" name="message" id="feedback-message" placeholder="Type your message"
               class="formbold-form-input-textarea"></textarea>
           </div>
 
@@ -862,6 +882,26 @@
   <script src="script/map.js"></script>
   <script src="script/graphs.js"></script>
   <script src="script/donation/request-donation.js"></script>
+  <script>
+    // Auto-show notification if there are messages
+    <?php if (!empty($_message['done']) || !empty($_message['error'])): ?>
+    document.addEventListener('DOMContentLoaded', function() {
+      const doneDiv = document.querySelector(".subimitondone");
+      doneDiv.style.display = "flex";
+      doneDiv.style.opacity = "1";
+      
+      // Auto-hide after 5 seconds for success messages
+      <?php if (!empty($_message['done'])): ?>
+      setTimeout(() => {
+        doneDiv.style.opacity = "0";
+        setTimeout(() => {
+          doneDiv.style.display = "none";
+        }, 700);
+      }, 5000);
+      <?php endif; ?>
+    });
+    <?php endif; ?>
+  </script>
 </body>
 
 </html>
