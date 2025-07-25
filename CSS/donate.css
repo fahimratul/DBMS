@@ -44,23 +44,6 @@
   box-shadow: 0 0 0 2px rgba(0, 162, 255, 0.5);
 }
 
-.donate-submit {
-  margin-top: 1rem;
-  padding: 0.75rem 2rem;
-  background: teal;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  width: 90%;
-}
-
-
-.donate-submit:hover {
-  background: #00bcd4;
-  cursor: pointer;
-  box-shadow: 0 4px 5px rgba(0, 0, 0, 0.2);
-  transform: translateY(-4px);
-}
 .form-box{
     width: 100%;
     max-width: 450px;
@@ -105,37 +88,4 @@ label{
     font-size: 1.2rem;
     color: #0d1b3d;
     margin-bottom: 5px;
-}
-
-
-input, select{
-    width: 90%;
-    padding: 15px;
-    background: #eee;
-    border-radius: 8px;
-    border: none;
-    outline: none;
-    font-size: 16px;
-    margin: 10px;
-
-}
-
-input:focus {
-    background: #d1f0f0;
-    color: #000000;
-    transition: background 1s, color 1s;
-    box-shadow: 0 4px 5px inset rgba(0, 0, 0, .3);
-}
-input:hover{
-    box-shadow: 0 4px 4px inset rgba(0, 0, 0, .3);
-}
-select:hover{
-    box-shadow: 0 4px 4px inset rgba(0, 0, 0, .3);
-}
-
-input:active {
-    background: #b2ebf2;
-    color: #222;
-    transition: background 0.3s, color 0.3s;
-    box-shadow: 0 4px 4px inset rgba(0, 0, 0, .3);
 }
