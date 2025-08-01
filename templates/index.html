@@ -30,7 +30,7 @@
       </nav>
     </div>
     <div class="auth-buttons">
-      <button class="login-btn" onclick="window.location.href='login.html'">LOG IN</button>
+      <button class="login-btn" onclick="window.location.href='{{ url_for('login') }}'">LOG IN</button>
       <button class="donate-btn" id="requestdonation">REQUEST DONATION</button>
     </div>
   </header>
@@ -855,13 +855,14 @@
   </footer>
 
   <!-- Scripts -->
-  <script src="script/slider.js"></script>
+   <script src="{{ url_for('static', filename='script/slider.js') }}"></script>
+   <script src="{{ url_for('static', filename='script/slider.js') }}"></script>
   <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
   <script async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAOVYRIgupAurZup5y1PRh8Ismb1A3lLao&libraries=places&callback=initMap"></script>
-  <script src="script/map.js"></script>
-  <script src="script/graphs.js"></script>
-  <script src="script/donation/request-donation.js"></script>
+  <script src="{{ url_for('static', filename='script/map.js') }}"></script>
+  <script src="{{ url_for('static', filename='script/graphs.js') }}"></script>
+  <script src="{{ url_for('static', filename='script/donation/request-donation.js') }}"></script>
 </body>
 
 </html>
