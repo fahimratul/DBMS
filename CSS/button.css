@@ -24,9 +24,10 @@
   border: none;
   border-radius: 8px;
   height: 40px;
-  width: 80px;
+  width: 100%;
   padding: 0 1.5rem;
   cursor: pointer;
+  transition: all 0.5s ease;
 }
 .donate-btn:hover {
   background: #65a4c9;
@@ -41,12 +42,40 @@
   width: 80px;
   padding: 0 1.5rem;
   cursor: pointer;
+  transition: all 0.3s ease;
 }
 .login-btn:hover {
   outline: none;
   box-shadow: 0 0 0 2px rgba(0, 162, 255, 0.5);
 }
 
+
+
+.donate-submit {
+  margin-top: 1rem;
+  padding: 0.75rem 2rem;
+  background: teal;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  width: 90%;
+  transition: all 0.3s ease-out;
+  cursor: pointer;
+}
+
+
+.donate-submit:hover {
+  background: #00bcd4;
+  cursor: pointer;
+  box-shadow: 0 4px 5px rgba(0, 0, 0, 0.2);
+  transform: translateY(-4px);
+}
+
+
+
+
+
+/* glowing button  */
 
 .super-button {
   position: relative;
