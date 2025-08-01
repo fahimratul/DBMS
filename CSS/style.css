@@ -47,11 +47,16 @@ input, select{
     margin: 10px;
     transition: all 0.3s ease;
 }
+select{
+  width: 100%;
+}
+
+
 
 input:focus {
     background: #d1f0f0;
     color: #000000;
-    transition: background 1s, color 1s;
+    transition: all 1s, color 1s;
     box-shadow: 0 4px 5px inset rgba(0, 0, 0, .3);
 }
 input:hover{
