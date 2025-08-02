@@ -6,9 +6,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>RAPID</title>
-  <link rel="stylesheet" href="CSS/login.css" />
-  <link rel="stylesheet" href="CSS/button.css" />
-  <link rel="stylesheet" href="CSS/style.css"/>
+  <link rel="stylesheet" href="{{ url_for('static', filename='CSS/login.css') }}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='CSS/button.css') }}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='CSS/style.css') }}" />
   <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet">
 </head>
 
@@ -24,30 +24,30 @@
       </nav>
     </div>
     <div class="auth-buttons">
-      <button class="login-btn" onclick="window.location.href='index.html'">Home</button>
+    <a href="{{ url_for('home') }}"><button class="login-btn">Home</button></a>
       <button class="login-btn">CHECK STATUS</button>
       <button class="donate-btn" id="requestdonation">REQUEST DONATION</button>
     </div>
   </header>
-  <div class="login">
 
+
+  <div class="login">
+    <img src="{{ url_for('static', filename='images/login_bg.jpg') }}" alt="A welcoming login page background featuring soft blue and white tones. The design includes abstract shapes and gentle gradients, creating a calm and inviting atmosphere for users. The environment is modern and minimalistic, supporting a positive and approachable emotional tone. No visible text is present in the image." />
 
     <div class="container" id="container">
+      
       <!-- sign up formn -->
       <div class="form-container sign-up-container">
-        <form action="#">
+        <form action="{{ url_for('signup') }}" method="POST">
           <h1>Create Account</h1>
-          <span>or use your email for registration</span>
-          <input type="text" placeholder="Name" />
-          <input type="email" placeholder="Email" />
-          <input type="password" placeholder="Password" />
+          <span>Select your role</span>
           <select class="role-select" name="role" id="role">
             <option value="" disabled selected>Select your role</option>
-            <option value="donor">Donor</option>
-            <option value="recipient">Recipient</option>
-            <option value="volunteer">Volunteer</option>
+            <option value="Donor">Donor</option>
+            <option value="Recipient">Recipient</option>
+            <option value="Volunteer">Volunteer</option>
           </select>
-          <button class = "donate-btn" id="join">Sign Up</button>
+          <button class = "donate-btn" id="join" type="submit" value="Next">Next</button>
         </form>
       </div>
 
@@ -104,7 +104,7 @@
 
   
 
-    <script src="script/login.js"></script>
+    <script src="{{ url_for('static', filename='script/login.js') }}"></script>
 </body>
 
 </html>
