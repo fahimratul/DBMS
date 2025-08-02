@@ -54,6 +54,10 @@ form {
 	transform: translateX(-25%) translateY(-30%);
 }
 
+.welcome-text p {
+	color: #fd9002;
+}
+
 .container {
     box-sizing: border-box;
 	background-color: #ffffffa2;
