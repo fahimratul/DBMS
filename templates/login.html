@@ -24,13 +24,15 @@
       </nav>
     </div>
     <div class="auth-buttons">
-      <button class="login-btn" onclick="window.location.href='index.html'">Home</button>
+    <a href="{{ url_for('home') }}"><button class="login-btn">Home</button></a>
       <button class="login-btn">CHECK STATUS</button>
       <button class="donate-btn" id="requestdonation">REQUEST DONATION</button>
     </div>
   </header>
-  <div class="login">
 
+
+  <div class="login">
+    <img src="{{ url_for('static', filename='images/login_bg.jpg') }}" alt="A welcoming login page background featuring soft blue and white tones. The design includes abstract shapes and gentle gradients, creating a calm and inviting atmosphere for users. The environment is modern and minimalistic, supporting a positive and approachable emotional tone. No visible text is present in the image." />
 
     <div class="container" id="container">
       <!-- sign up formn -->
@@ -104,7 +106,7 @@
 
   
 
-    <script src="script/login.js"></script>
+    <script src="{{ url_for('static', filename='script/login.js') }}"></script>
 </body>
 
 </html>
