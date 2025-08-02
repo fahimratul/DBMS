@@ -15,9 +15,14 @@ def login():
 def signup():
     role = request.form.get('role')
     if role:
-        return render_template('signupform.html', role=role)
-    else:
-        return render_template('login.html', error="Please select a role to continue.")
-
+        if role == 'Donor':
+            return render_template('signup/donor_signup.html')
+        elif role == 'Recipient':
+            return render_template('signup/recipient_signup.html')
+        elif role == 'Volunteer':
+            return render_template('signup/volunteer_signup.html')
+        else:
+            return render_template('login.html', error="Invalid role selected.")
+    return render_template('login.html', error="Role not specified.")
 if __name__ == '__main__':
     app.run(debug=True)
