@@ -111,7 +111,7 @@ body {
     position: relative;
     margin: 1rem;
     border-radius: 1rem;
-    background-image: url('../assets/img/vr-bg.jpg');
+    background-image: url('../images/donor_bg.jpg');
     background-size: cover;
     background-position: center;
     height: 100%;
@@ -283,6 +283,11 @@ main {
   text-align: center;
   margin-left: 3rem;
   z-index: -1;
+  transition: all .3s ease-out;
+}
+.profile-container:hover{
+  transform: scale(1.1) rotateY(2deg);
+
 }
 
 .profile-link {
@@ -321,12 +326,38 @@ main {
   transform: translateX(50%);
 }
 
-.profile-info {
+.weather-info {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   margin-top: 1.5rem;
+}
+
+
+.profile-info{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: -1.5rem;
+  margin-left: 2rem;
+  margin-right: 2rem;
+  transform: translateY(-1.5rem) translateX(9.5rem);
+}
+
+
+.profile-info h1{
+  font-size: 5vm;
+  transition: all .3s ease-in;
+}
+.profile-info h1:hover{
+  transform: scale(1.1) translateY(-2px);
+}
+.profile-info h6{
+  display: block;
+  color: #f3f3f3;
+  font-size: 2rem;
 }
 
 .container {
@@ -519,8 +550,7 @@ flex-wrap: wrap;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  background-image: url('../assets/img/curved-images/svg-wave.png');
-  background-size: auto;
+  background: linear-gradient(to top left, #15c498, #023f38);
   border-radius: 1.5rem;
   padding: 1rem;
   width: 100%;
@@ -539,3 +569,24 @@ flex-wrap: wrap;
   text-align: center;
 }
 
+.raindrop {
+	width: 1px;
+	height: 10px;
+	background: linear-gradient(to top right, #ffffff, #bd0404);
+	border-radius: 50%;
+	position: absolute;
+	animation: fall linear infinite;
+	top: -10px;
+  z-index: 1;
+  box-shadow: 0 10px 15px -3px rgba(54, 182, 233, 0.842), 0 4px 6px -2px rgba(216, 213, 22, 0.644);
+
+}
+
+@keyframes fall {
+	0% {
+		transform: translateY(0);
+	}
+	100% {
+		transform: translateY(110vh);
+	}
+}
