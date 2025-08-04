@@ -1,5 +1,7 @@
 from flask import Flask , render_template , url_for , request
 
+
+
 app = Flask(__name__)
 
 @app.route('/')
@@ -28,5 +30,11 @@ def signup():
 @app.route('/admin')
 def admin():
     return render_template('admin/admin.html')
+
+@app.route('/admin/volunteers')
+def volunteer_list():
+    return render_template('admin/volunteer_list.html')
+
+
 if __name__ == '__main__':
     app.run(debug=True)
