@@ -27,6 +27,6 @@ def signup():
 
 @app.route('/admin')
 def admin():
-    return render_template('admin.html')
+    return render_template('admin/admin.html')
 if __name__ == '__main__':
     app.run(debug=True)

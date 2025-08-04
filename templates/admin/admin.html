@@ -3,7 +3,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>Rapid Tailwind</title>
+    <title>Rapid</title>
     <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
     <link rel="stylesheet" href="{{ url_for('static', filename='CSS/tailwind/soft-ui-dashboard-tailwind.css') }}"/>
@@ -96,82 +96,11 @@
               </div>
 
             <ul class="menu-list">
-              <li><i class="fa fa-user sm:mr-1" aria-hidden="true"></i><span>Sign In</span></li>
+              <li><i class="fa fa-user sm:mr-1" aria-hidden="true"></i><span>{{name}}</span></li>
             </ul>
           </div>
         </div>
       </nav>
-
-      <div class="main-content">
-        <!-- content -->
-
-        <div class="main-content-section">
-          <div class="account-details">
-            
-            <!-- card Section -->
-            <div>
-              <div class="card">
-                      <i class="fas fa-wifi" style="color: azure;"></i>
-                      <h5>
-                        4562&nbsp;&nbsp;&nbsp;1122&nbsp;&nbsp;&nbsp;4594&nbsp;&nbsp;&nbsp;7852
-                      </h5>
-                      <div class="card-holder">
-                        <div class="card-holder-name">
-                          <div>
-                            <p>Card Holder</p>
-                            <h6>Jack Peterson</h6>
-                          </div>
-                          <div>
-                            <p>Expires</p>
-                            <h6>11/22</h6>
-                          </div>
-                        </div>
-                        <div class="card-holder-logo">
-                          <img
-                            src="{{ url_for('static', filename='images/logo/visa.png') }}"
-                            alt="card-logo" />
-                        </div>
-                      </div>
-              </div>
-
-
-              <div class="amount-section">
-                  <div class="amount-card">
-                    <div>
-                      <div class="amount-card-logo">
-                        <div>
-                          <i class="fas fa-landmark"></i>
-                        </div>
-                      </div>
-                    
-                      <div class="amount-card-info">
-                        <h6>Total</h6>
-                        <p>Bkash</p>
-                        <h5>2000</h5>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="amount-card">
-                    <div>
-                      <div class="amount-card-logo">
-                        <div>
-                          <i class="fas fa-landmark"></i>
-                        </div>
-                      </div>
-                    
-                      <div class="amount-card-info">
-                        <h6>Total</h6>
-                        <p>Bkash</p>
-                        <h5>2000</h5>
-                      </div>
-                    </div>
-                  </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-      </div>
     </main>
   </body>
 </html>
