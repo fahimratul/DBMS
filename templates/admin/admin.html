@@ -240,6 +240,50 @@
         </div>
       </div>
 
+      <div class="content-section">
+        <div class="recipient-section">
+
+          <h3>Donors</h3>
+          {% for i in range(5) %}
+          <div class="recipient-item">
+              <h4>John Doe {{ i }}</h4>
+              <p>Donation Amount: {{i*200+50}}</p>
+            </div>
+          {% endfor %}
+          <a href="">See all</a>
+        </div>
+        
+        <div class="stock-section">
+          <h3>Stock</h3>
+          <div>
+          {% set stocks = ['Food Supplies', 'Clothing', 'Medical Supplies', 'Books', 'Toys'] %}
+          {% for stock in stocks %}
+          <div class="card">
+            <div class="card-details">
+              <p class="text-title">{{ stock }}</p>
+              <p class="text-body">Available: {{ stock | length }}</p>
+            </div>
+            <buttonc class="card-button">More Info</button>
+          </div>
+          {% endfor %}
+        </div>
+          <a href="">See all</a>
+        </div>
+
+        <div class="recipient-section">
+          <h3>Request list</h3>
+          {% for i in range(5) %}
+          <div class="recipient-item">
+              <h4>Jane Smith {{ i }}</h4>
+              <p>Received Amount: {{i*100+20}}</p>
+            </div>
+          {% endfor %}
+          <a href="">See all</a>
+        </div>
+
+
+
+      </div>
 
 
     </main>
