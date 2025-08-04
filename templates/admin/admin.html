@@ -8,6 +8,7 @@
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
     <link rel="stylesheet" href="{{ url_for('static', filename='CSS/tailwind/soft-ui-dashboard-tailwind.css') }}"/>
     <link rel="stylesheet" href="{{ url_for('static', filename='CSS/admin/admin.css') }}"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
   </head>
 
   <body>
@@ -116,37 +117,133 @@
 
         <div class="total-amount-card">
           <div class="total-amount-header">
-            <p>Pending Amount</p>
+            <p>Total Volunteers</p>
             <h5> 1213213<!--{{pending_amount}}--></h5>
           </div>
           <div class="total-amount-icon">
-            <i class="fas fa-hourglass-half"></i>
+            <i class="fas fa-user-friends"></i>
           </div>
         </div>
 
         <div class="total-amount-card">
           <div class="total-amount-header">
-            <p>Completed Amount</p>
+            <p>Total Donors</p>
             <h5> 1213213<!--{{completed_amount}}--></h5>
           </div>
           <div class="total-amount-icon">
-            <i class="fas fa-check-circle"></i>
+            <i class="fas fa-heart"></i>
           </div>
         </div>
 
         <div class="total-amount-card">
           <div class="total-amount-header">
-            <p>Cancelled Amount</p>
+            <p>Total Recipients</p>
             <h5> 1213213<!--{{cancelled_amount}}--></h5>
           </div>
           <div class="total-amount-icon">
-            <i class="fas fa-times-circle"></i>
+            <i class="fas fa-user-friends"></i>
           </div>
       </div>
       </div>
+
+
+      <div class="content-section">
+        <div class="chart-section">
+          <h3>Monthly Donations</h3>
+          <p>This chart shows the trend of donations over the past months.</p>
+          <canvas id="myChart" style="width:100%;max-width:600px"></canvas>
+        </div>
+        <div class="event-section">
+          <h3>Events</h3>
+          <ul class="event-list">
+            <li class="event-item">
+              <div>
+                <h4>Flood in barishal</h4>
+                <p>Date: 25th Dec 2023</p>
+              </div>
+              <p>Ongoing</p>
+            </li>
+            <li class="event-item">
+              <div>
+                <h4>Food Distribution</h4>
+                <p>Date: 15th Jan 2024</p>
+              </div>
+              <p>Upcoming</p>
+            </li>
+            <li class="event-item">
+              <div>
+                <h4>Clothing Drive</h4>
+                <p>Date: 5th Feb 2024</p>
+              </div>
+              <p>Upcoming</p>
+            </li>
+            <li class="event-item">
+              <div>
+                <h4>Health Camp</h4>
+                <p>Date: 20th Feb 2024</p>
+              </div>
+              <p>Upcoming</p>
+            </li>
+          </ul>
+          <a href="#" class="btn">View All Events</a>
+        </div>
+          
       
+      </div>
+
+      <div class="content-section">
+        <div class="volunteer-section">
+          <h3>Volunteers</h3>
+          <div>
+            <div class="arrow left">
+              <p>See All</p>
+            </div>
+
+
+            <div class="volunteer-list">
+              <div class="volunteer-item">
+                <img src="{{ url_for('static', filename='images/profile_img/profile1.jpeg') }}" alt="Volunteer 1" />
+                <h2>John Doe</h2>
+                <p>Volunteer Role: Team Leader</p>
+              </div>
+              <div class="volunteer-item">
+                <img src="{{ url_for('static', filename='images/profile_img/profile2.jpeg') }}" alt="Volunteer 2" />
+                <h2>Jane Smith</h2>
+                <p>Volunteer Role: Fundraiser</p>
+              </div>
+              <div class="volunteer-item">
+                <img src="{{ url_for('static', filename='images/profile_img/profile3.jpeg') }}" alt="Volunteer 3" />
+                <h2>Mike Johnson</h2>
+                <p>Volunteer Role: Community Outreach</p>
+              </div>
+              <div class="volunteer-item">
+                <img src="{{ url_for('static', filename='images/profile_img/profile4.jpeg') }}" alt="Volunteer 4" />
+                <h2>Emily Davis</h2>
+                <p>Volunteer Role: Event Coordinator</p>
+              </div>
+              <div class="volunteer-item">
+                <img src="{{ url_for('static', filename='images/profile_img/profile5.jpeg') }}" alt="Volunteer 5" />
+                <h2>Sarah Brown</h2>
+                <p>Volunteer Role: Social Media Manager</p>
+              </div>
+              <div class="volunteer-item">
+                <img src="{{ url_for('static', filename='images/profile_img/profile6.jpeg') }}" alt="Volunteer 6" />
+                <h2>David Wilson</h2>
+                <p>Volunteer Role: Logistics Coordinator</p>
+              </div>
+            </div>
+
+
+            <div class="arrow right">
+              <p>See All</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
 
 
     </main>
+    <script src="{{ url_for('static', filename='script/admin_chart.js') }}"></script>
   </body>
 </html>
