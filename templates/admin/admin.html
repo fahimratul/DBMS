@@ -78,8 +78,7 @@
       </nav> 
     </aside>
 
-    <main
-      class="main-container">
+    <main class="main-container">
       <!-- Navbar -->
      <nav class="navbar" navbar-main navbar-scroll="true">
         <div class="navbar-div">
@@ -101,6 +100,53 @@
           </div>
         </div>
       </nav>
+
+      <!-- Main Content -->
+      <div class="total-amount-section">
+
+        <div class="total-amount-card">
+          <div class="total-amount-header">
+            <p>Total Amount</p>
+            <h5> 1213213<!--{{total_amount}}--></h5>
+          </div>
+          <div class="total-amount-icon">
+            <img src="{{ url_for('static', filename='images/logo/bank-logo.png') }}" alt="Bank Logo" class="bank-logo" />
+          </div>
+        </div>
+
+        <div class="total-amount-card">
+          <div class="total-amount-header">
+            <p>Pending Amount</p>
+            <h5> 1213213<!--{{pending_amount}}--></h5>
+          </div>
+          <div class="total-amount-icon">
+            <i class="fas fa-hourglass-half"></i>
+          </div>
+        </div>
+
+        <div class="total-amount-card">
+          <div class="total-amount-header">
+            <p>Completed Amount</p>
+            <h5> 1213213<!--{{completed_amount}}--></h5>
+          </div>
+          <div class="total-amount-icon">
+            <i class="fas fa-check-circle"></i>
+          </div>
+        </div>
+
+        <div class="total-amount-card">
+          <div class="total-amount-header">
+            <p>Cancelled Amount</p>
+            <h5> 1213213<!--{{cancelled_amount}}--></h5>
+          </div>
+          <div class="total-amount-icon">
+            <i class="fas fa-times-circle"></i>
+          </div>
+      </div>
+      </div>
+      
+
+
     </main>
   </body>
 </html>
