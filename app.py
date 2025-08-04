@@ -28,5 +28,8 @@ def signup():
 @app.route('/admin')
 def admin():
     return render_template('admin/admin.html')
+@app.route('/admin/events')
+def admin_events():
+    return render_template('admin/events.html')
 if __name__ == '__main__':
     app.run(debug=True)
