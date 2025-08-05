@@ -1,12 +1,310 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
-  <title>Events Page</title>
+  <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='CSS/tailwind/soft-ui-dashboard-tailwind.css') }}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='CSS/admin/admin.css') }}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='CSS/admin/eventdetails.css') }}" />
 </head>
+
 <body>
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <img src="{{ url_for('static', filename='images/logo/logo_icon.png') }}" class="sidebar-logo-img"
+        alt="main_logo" />
+      <span class="sidebar-logo-text">Rapid</span>
+    </div>
+    <nav class="sidebar-nav">
+      <ul class="sidebar-list">
+
+        <li>
+          <a class="sidebar-link active" href="#">
+            <span class="sidebar-icon">
+              <!-- Dashboard SVG -->
+              <svg width="60px" height="60px" viewBox="0 0 45 40" xmlns="http://www.w3.org/2000/svg">
+                <g fill="none" fill-rule="evenodd">
+                  <g fill="#FFFFFF" fill-rule="nonzero">
+                    <g>
+                      <g>
+                        <g>
+                          <path class="fill-slate-800 opacity-60"
+                            d="M46.7199583,10.7414583 L40.8449583,0.949791667 C40.4909749,0.360605034 39.8540131,0 39.1666667,0 L7.83333333,0 C7.1459869,0 6.50902508,0.360605034 6.15504167,0.949791667 L0.280041667,10.7414583 C0.0969176761,11.0460037 -1.23209662e-05,11.3946378 -1.23209662e-05,11.75 C-0.00758042603,16.0663731 3.48367543,19.5725301 7.80004167,19.5833333 L7.81570833,19.5833333 C9.75003686,19.5882688 11.6168794,18.8726691 13.0522917,17.5760417 C16.0171492,20.2556967 20.5292675,20.2556967 23.494125,17.5760417 C26.4604562,20.2616016 30.9794188,20.2616016 33.94575,17.5760417 C36.2421905,19.6477597 39.5441143,20.1708521 42.3684437,18.9103691 C45.1927731,17.649886 47.0084685,14.8428276 47.0000295,11.75 C47.0000295,11.3946378 46.9030823,11.0460037 46.7199583,10.7414583 Z">
+                          </path>
+                          <path class="fill-slate-800"
+                            d="M39.198,22.4912623 C37.3776246,22.4928106 35.5817531,22.0149171 33.951625,21.0951667 L33.92225,21.1107282 C31.1430221,22.6838032 27.9255001,22.9318916 24.9844167,21.7998837 C24.4750389,21.605469 23.9777983,21.3722567 23.4960833,21.1018359 L23.4745417,21.1129513 C20.6961809,22.6871153 17.4786145,22.9344611 14.5386667,21.7998837 C14.029926,21.6054643 13.533337,21.3722507 13.0522917,21.1018359 C11.4250962,22.0190609 9.63246555,22.4947009 7.81570833,22.4912623 C7.16510551,22.4842162 6.51607673,22.4173045 5.875,22.2911849 L5.875,44.7220845 C5.875,45.9498589 6.7517757,46.9451667 7.83333333,46.9451667 L19.5833333,46.9451667 L19.5833333,33.6066734 L27.4166667,33.6066734 L27.4166667,46.9451667 L39.1666667,46.9451667 C40.2482243,46.9451667 41.125,45.9498589 41.125,44.7220845 L41.125,22.2822926 C40.4887822,22.4116582 39.8442868,22.4815492 39.198,22.4912623 Z">
+                          </path>
+                        </g>
+                      </g>
+                    </g>
+                  </g>
+                </g>
+              </svg>
+            </span>
+            <span class="sidebar-label">Dashboard</span>
+          </a>
+        </li>
+
+        <li>
+          <a class="sidebar-link" href="#">
+            <span class="sidebar-icon">
+              <!-- Tables SVG -->
+              <svg width="60px" height="60px" viewBox="0 0 42 42" xmlns="http://www.w3.org/2000/svg">
+                <g fill="none" fill-rule="evenodd">
+                  <g fill="#FFFFFF" fill-rule="nonzero">
+                    <g>
+                      <g>
+                        <g>
+                          <path class="fill-slate-800 opacity-60"
+                            d="M12.25,17.5 L8.75,17.5 L8.75,1.75 C8.75,0.78225 9.53225,0 10.5,0 L31.5,0 C32.46775,0 33.25,0.78225 33.25,1.75 L33.25,12.25 L29.75,12.25 L29.75,3.5 L12.25,3.5 L12.25,17.5 Z">
+                          </path>
+                          <path class="fill-slate-800"
+                            d="M40.25,14 L24.5,14 C23.53225,14 22.75,14.78225 22.75,15.75 L22.75,38.5 L19.25,38.5 L19.25,22.75 C19.25,21.78225 18.46775,21 17.5,21 L1.75,21 C0.78225,21 0,21.78225 0,22.75 L0,40.25 C0,41.21775 0.78225,42 1.75,42 L40.25,42 C41.21775,42 42,41.21775 42,40.25 L42,15.75 C42,14.78225 41.21775,14 40.25,14 Z M12.25,36.75 L7,36.75 L7,33.25 L12.25,33.25 L12.25,36.75 Z M12.25,29.75 L7,29.75 L7,26.25 L12.25,26.25 L12.25,29.75 Z M35,36.75 L29.75,36.75 L29.75,33.25 L35,33.25 L35,36.75 Z M35,29.75 L29.75,29.75 L29.75,26.25 L35,26.25 L35,29.75 Z M35,22.75 L29.75,22.75 L29.75,19.25 L35,19.25 L35,22.75 Z">
+                          </path>
+                        </g>
+                      </g>
+                    </g>
+                  </g>
+                </g>
+              </svg>
+            </span>
+            <span class="sidebar-label">Tables</span>
+          </a>
+        </li>
+
+        <li>
+          <a class="sidebar-link" href="#">
+            <span class="sidebar-icon">
+              <!-- Billing SVG -->
+              <svg width="60px" height="60px" viewBox="0 0 43 36" xmlns="http://www.w3.org/2000/svg">
+                <g fill="none" fill-rule="evenodd">
+                  <g fill="#FFFFFF" fill-rule="nonzero">
+                    <g>
+                      <g>
+                        <g>
+                          <path class="fill-slate-800 opacity-60"
+                            d="M43,10.7482083 L43,3.58333333 C43,1.60354167 41.3964583,0 39.4166667,0 L3.58333333,0 C1.60354167,0 0,1.60354167 0,3.58333333 L0,10.7482083 L43,10.7482083 Z">
+                          </path>
+                          <path class="fill-slate-800"
+                            d="M0,16.125 L0,32.25 C0,34.2297917 1.60354167,35.8333333 3.58333333,35.8333333 L39.4166667,35.8333333 C41.3964583,35.8333333 43,34.2297917 43,32.25 L43,16.125 L0,16.125 Z M19.7083333,26.875 L7.16666667,26.875 L7.16666667,23.2916667 L19.7083333,23.2916667 L19.7083333,26.875 Z M35.8333333,26.875 L28.6666667,26.875 L28.6666667,23.2916667 L35.8333333,23.2916667 L35.8333333,26.875 Z">
+                          </path>
+                        </g>
+                      </g>
+                    </g>
+                  </g>
+                </g>
+              </svg>
+            </span>
+            <span class="sidebar-label">Billing</span>
+          </a>
+        </li>
+
+        <li>
+          <h6 class="sidebar-section-title">Account pages</h6>
+        </li>
+
+        <li>
+          <a class="sidebar-link" href="#">
+            <span class="sidebar-icon">
+              <!-- Profile SVG -->
+              <svg width="60px" height="60px" viewBox="0 0 46 42" xmlns="http://www.w3.org/2000/svg">
+                <g fill="none" fill-rule="evenodd">
+                  <g fill="#FFFFFF" fill-rule="nonzero">
+                    <g>
+                      <g>
+                        <g>
+                          <path class="fill-slate-800 opacity-60"
+                            d="M45,0 L26,0 C25.447,0 25,0.447 25,1 L25,20 C25,20.379 25.214,20.725 25.553,20.895 C25.694,20.965 25.848,21 26,21 C26.212,21 26.424,20.933 26.6,20.8 L34.333,15 L45,15 C45.553,15 46,14.553 46,14 L46,1 C46,0.447 45.553,0 45,0 Z">
+                          </path>
+                          <path class="fill-slate-800"
+                            d="M22.883,32.86 C20.761,32.012 17.324,31 13,31 C8.676,31 5.239,32.012 3.116,32.86 C1.224,33.619 0,35.438 0,37.494 L0,41 C0,41.553 0.447,42 1,42 L25,42 C25.553,42 26,41.553 26,41 L26,37.494 C26,35.438 24.776,33.619 22.883,32.86 Z">
+                          </path>
+                          <path class="fill-slate-800"
+                            d="M13,28 C17.432,28 21,22.529 21,18 C21,13.589 17.411,10 13,10 C8.589,10 5,13.589 5,18 C5,22.529 8.568,28 13,28 Z">
+                          </path>
+                        </g>
+                      </g>
+                    </g>
+                  </g>
+                </g>
+              </svg>
+            </span>
+            <span class="sidebar-label">Profile</span>
+          </a>
+        </li>
+
+        <li>
+          <a class="sidebar-link" href="#">
+            <span class="sidebar-icon">
+              <!-- Sign In SVG -->
+              <svg width="60px" height="60px" viewBox="0 0 46 46" xmlns="http://www.w3.org/2000/svg">
+                <g fill="none" fill-rule="evenodd">
+                  <g fill="#FFFFFF" fill-rule="nonzero">
+                    <g>
+                      <g>
+                        <g>
+                          <path class="fill-slate-800 opacity-60"
+                            d="M34.909,31.909c-0.391,0-0.782-0.149-1.081-0.448c-0.597-0.597-0.597-1.566,0-2.163l5.373-5.373H17.273c-0.848,0-1.536-0.688-1.536-1.536s0.688-1.536,1.536-1.536h21.928l-5.373-5.373c-0.597-0.597-0.597-1.566,0-2.163c0.597-0.597,1.566-0.597,2.163,0l7.909,7.909c0.597,0.597,0.597,1.566,0,2.163l-7.909,7.909C35.691,31.76,35.3,31.909,34.909,31.909z">
+                          </path>
+                          <path class="fill-slate-800"
+                            d="M23,46C10.318,46,0,35.682,0,23S10.318,0,23,0c5.273,0,10.273,1.818,14.364,5.127c0.668,0.545,0.764,1.527,0.219,2.195c-0.545,0.668-1.527,0.764-2.195,0.219C31.364,4.364,27.273,2.727,23,2.727C12.227,2.727,3.273,11.682,3.273,23S12.227,43.273,23,43.273c4.273,0,8.364-1.636,11.388-4.545c0.668-0.545,1.65-0.449,2.195,0.219c0.545,0.668,0.449,1.65-0.219,2.195C33.273,44.182,28.273,46,23,46z">
+                          </path>
+                        </g>
+                      </g>
+                    </g>
+                  </g>
+                </g>
+              </svg>
+            </span>
+            <span class="sidebar-label">Log out</span>
+          </a>
+        </li>
+
+      </ul>
+    </nav>
+  </aside>
+
   <main class="main-container">
-    <p>Events page under the Admin section.</p>
+    <!-- Navbar -->
+    <nav class="navbar" navbar-main navbar-scroll="true">
+      <div class="navbar-div">
+        <nav>
+          <h2>RAPID</h2>
+        </nav>
+      </div>
+    </nav>
+
+    <!-- Table -->
+    <main class="table" id="events_table">
+      <section class="table__header">
+        <h1>Events</h1>
+        <div class="input-group">
+          <input type="search" placeholder="Search by Event ID, Date, Type...">
+        </div>
+        <div><button class="create-event-btn">Create event</button></div>
+      </section>
+      <section class="table__body">
+        <table>
+          <thead>
+            <tr>
+              <th>Event Id <span class="icon-arrow">&UpArrow;</span></th>
+              <th>Event Type <span class="icon-arrow">&UpArrow;</span></th>
+              <th>Status <span class="icon-arrow">&UpArrow;</span></th>
+              <th>Request Date <span class="icon-arrow">&UpArrow;</span></th>
+              <th>Completion Date <span class="icon-arrow">&UpArrow;</span></th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>E00023</td>
+              <td>Flood</td>
+              <td>
+                <p class="status completed">Completed</p>
+              </td>
+              <td>17 Dec, 2022</td>
+              <td>20 Dec, 2022</td>
+              <td><button class="details-btn">Details</button></td>
+            </tr>
+            <tr>
+              <td>E00024</td>
+              <td>Earthquake</td>
+              <td>
+                <p class="status ongoing">Ongoing</p>
+              </td>
+              <td>05 Feb, 2023</td>
+              <td>—</td>
+              <td><button class="details-btn">Details</button></td>
+            </tr>
+            <tr>
+              <td>E00025</td>
+              <td>Wildfire</td>
+              <td>
+                <p class="status cancelled">Cancelled</p>
+              </td>
+              <td>12 Mar, 2023</td>
+              <td>—</td>
+              <td><button class="details-btn">Details</button></td>
+            </tr>
+            <tr>
+              <td>E00026</td>
+              <td>Hurricane</td>
+              <td>
+                <p class="status completed">Completed</p>
+              </td>
+              <td>20 Apr, 2023</td>
+              <td>01 May, 2023</td>
+              <td><button class="details-btn">Details</button></td>
+            </tr>
+            <tr>
+              <td>E00027</td>
+              <td>Tornado</td>
+              <td>
+                <p class="status pending">Pending</p>
+              </td>
+              <td>10 May, 2023</td>
+              <td>—</td>
+              <td><button class="details-btn">Details</button></td>
+            </tr>
+            <tr>
+              <td>E00028</td>
+              <td>Flood</td>
+              <td>
+                <p class="status ongoing">Ongoing</p>
+              </td>
+              <td>25 Jun, 2023</td>
+              <td>—</td>
+              <td><button class="details-btn">Details</button></td>
+            </tr>
+            <tr>
+              <td>E00029</td>
+              <td>Earthquake</td>
+              <td>
+                <p class="status completed">Completed</p>
+              </td>
+              <td>15 Jul, 2023</td>
+              <td>30 Jul, 2023</td>
+              <td><button class="details-btn">Details</button></td>
+            </tr>
+            <tr>
+              <td>E00030</td>
+              <td>Wildfire</td>
+              <td>
+                <p class="status cancelled">Cancelled</p>
+              </td>
+              <td>01 Aug, 2023</td>
+              <td>—</td>
+              <td><button class="details-btn">Details</button></td>
+            </tr>
+            <tr>
+              <td>E00031</td>
+              <td>Hurricane</td>
+              <td>
+                <p class="status ongoing">Ongoing</p>
+              </td>
+              <td>20 Sep, 2023</td>
+              <td>—</td>
+              <td><button class="details-btn">Details</button></td>
+            </tr>
+            <tr>
+              <td>E00032</td>
+              <td>Flood</td>
+              <td>
+                <p class="status completed">Completed</p>
+              </td>
+              <td>05 Oct, 2023</td>
+              <td>20 Oct, 2023</td>
+              <td><button class="details-btn">Details</button></td>
+            </tr>
+
+          </tbody>
+        </table>
+      </section>
+    </main>
+
   </main>
 </body>
+
 </html>
