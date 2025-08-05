@@ -1,0 +1,155 @@
+form#createEventForm {
+  max-width: 900px; 
+  width: 800px;      
+  margin: 40px auto;
+  padding: 30px 40px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
+}
+
+textarea {
+  resize: none;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #222;
+  font-size: 1rem;
+}
+
+input[type="text"],
+input[type="date"],
+input[type="number"],
+select,
+textarea {
+  width: 100%;
+  padding: 10px 12px;
+  font-size: 1rem;
+  border: 1.8px solid #ccc;
+  border-radius: 6px;
+  outline-offset: 0;
+  outline-color: transparent;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+  box-sizing: border-box;
+  resize: vertical;
+}
+
+input[type="text"]:focus,
+input[type="date"]:focus,
+input[type="number"]:focus,
+select:focus,
+textarea:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 6px rgba(0, 123, 255, 0.4);
+}
+
+input[readonly],
+textarea[readonly] {
+  background-color: #e9ecef;
+  cursor: not-allowed;
+  color: #6c757d;
+}
+
+select[multiple] {
+  height: 140px;
+}
+
+.btn-submit {
+  display: inline-block;
+  background-color: #007bff;
+  border: none;
+  color: white;
+  padding: 12px 28px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-submit:hover {
+  background-color: #0056b3;
+}
+
+#stockContainer {
+  margin-top: 10px;
+}
+
+.stock-row {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 12px;
+  align-items: center;
+}
+
+.stock-row input {
+  flex: 1;
+  min-width: 0;
+  padding: 8px 10px;
+  font-size: 0.95rem;
+  border: 1.5px solid #ccc;
+  border-radius: 5px;
+  transition: border-color 0.25s ease;
+}
+
+.stock-row input:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.4);
+}
+
+.remove-stock-btn {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  font-size: 0.95rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.25s ease;
+}
+
+.remove-stock-btn:hover {
+  background-color: #b02a37;
+}
+
+#addStockBtn {
+  margin-top: 8px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#addStockBtn:hover {
+  background-color: #1e7e34;
+}
+
+@media (max-width: 600px) {
+  .stock-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .remove-stock-btn {
+    width: 100%;
+    margin-top: 6px;
+  }
+
+  select[multiple] {
+    height: 110px;
+  }
+}

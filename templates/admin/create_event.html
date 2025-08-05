@@ -176,6 +176,84 @@
             </div>
         </nav>
         <!-- Create event form -->
+        <form id="createEventForm">
+
+            <!-- Event ID: auto-generated -->
+            <div class="form-group">
+                <label for="eventId">Event ID</label>
+                <input type="text" id="eventId" name="eventId" readonly value="E00344" />
+            </div>
+
+            <!-- Requester select -->
+            <div class="form-group">
+                <label for="requesterSelect">Requester</label>
+                <select id="requesterSelect" name="requesterId">
+                    <option value="">-- Select Requester (or leave blank for manual) --</option>
+                </select>
+            </div>
+
+            <!-- Requester details, auto-filled or manual -->
+            <div class="form-group">
+                <label for="priority">Priority Message</label>
+                <textarea id="priority" name="priority" placeholder="Priority message or manual input"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="additionalItems">Additional Items</label>
+                <textarea id="additionalItems" name="additionalItems"
+                    placeholder="Additional items or manual input"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="requestDate">Request Date</label>
+                <input type="date" id="requestDate" name="requestDate" />
+            </div>
+
+            <div class="form-group">
+                <label for="location">Location</label>
+                <input type="text" id="location" name="location" placeholder="Location or manual input" />
+            </div>
+
+            <div class="form-group">
+                <label for="emergencyContact">Emergency Contact</label>
+                <input type="text" id="emergencyContact" name="emergencyContact"
+                    placeholder="Emergency contact or manual input" />
+            </div>
+
+            <!-- Volunteers -->
+            <div class="form-group">
+                <label for="volunteersSelect">Select Volunteers</label>
+                <select id="volunteersSelect" name="volunteers" multiple>
+                </select>
+            </div>
+
+            <!-- Leader selection (only among selected volunteers) -->
+            <div class="form-group">
+                <label for="leaderSelect">Select Team Leader</label>
+                <select id="leaderSelect" name="teamLeader">
+                    <option value="">-- Select leader from volunteers --</option>
+                </select>
+            </div>
+
+            <!-- Stock items -->
+            <div class="form-group">
+                <label>Stock Items</label>
+                <div id="stockContainer">
+                </div>
+                <button type="button" id="addStockBtn">Add Stock Item</button>
+            </div>
+
+            <!-- Event Type -->
+            <div class="form-group">
+                <label for="eventType">Event Type</label>
+                <select id="eventType" name="eventType" required>
+                    <option value="">-- Select event type --</option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn-submit">Create Event</button>
+        </form>
+
 
     </main>
 
