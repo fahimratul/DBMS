@@ -1,0 +1,115 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  background: #f6f6f8;
+  color: #222;
+  width: 100%;
+}
+
+header {
+  display: flex;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background: #f6f6f8;
+}
+
+.logo {
+  font-size: 2.5rem;
+  font-weight: bold;
+
+  display: flex;
+  padding: auto;
+}
+.logo span {  
+  color: teal;
+  padding-right: 10%;
+}
+
+.logo nav a {
+  margin: 0 1rem;
+  text-decoration: none;
+  color: #333;
+}
+
+
+input, select{
+    width: 90%;
+    padding: 15px;
+    background: #eee;
+    border-radius: 8px;
+    border: none;
+    outline: none;
+    font-size: 16px;
+    margin: 10px;
+    transition: all 0.3s ease;
+}
+select{
+  width: 100%;
+}
+
+
+
+input:focus {
+    background: #d1f0f0;
+    color: #000000;
+    transition: all 1s, color 1s;
+    box-shadow: 0 4px 5px inset rgba(0, 0, 0, .3);
+}
+input:hover{
+    box-shadow: 0 4px 4px inset rgba(0, 0, 0, .3);
+}
+select:hover{
+    box-shadow: 0 4px 4px inset rgba(0, 0, 0, .3);
+}
+
+input:active {
+    background: #b2ebf2;
+    color: #222;
+    transition: background 0.3s, color 0.3s;
+    box-shadow: 0 4px 4px inset rgba(0, 0, 0, .3);
+}
+
+
+
+.stats {
+  display: flex;
+  justify-content: space-around;
+  padding: 2rem;
+  background: #ffffff;
+}
+
+.card {
+  text-align: center;
+  background: #f0f0f0;
+  padding: 1rem;
+  border-radius: 6px;
+  width: 25%;
+}
+
+footer {
+  display: flex;
+  justify-content: space-around;
+  background: #ffffff;
+  color: #1b1919;
+  padding: 2rem;
+}
+
+footer h4 {
+  margin-bottom: 0.5rem;
+}
+
+footer ul {
+  list-style: none;
+  padding: 0;
+}
+
+footer li {
+  margin-bottom: 0.3rem;
+}
+
+
+       

@@ -1,0 +1,91 @@
+
+.donate-section {
+  background: #f6f6f8;
+  display: flex;
+  padding: 2rem;
+  margin: 2rem;
+  text-align: center;
+  gap: 2rem;
+}
+.donate-content {
+  flex: 1;
+  padding: 2rem;
+  background-color: #ffffff;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+  border-radius: 8px;
+  max-width: 400px;
+  margin: auto;
+}
+.donate-content h2 {
+  margin-bottom: -1rem;
+  font-size: 1.5rem;
+  color: #81CFCF;
+  font-weight: 900;
+}
+.donate-content p {
+  margin: 2rem 0;
+  font-size: 1rem;
+}
+
+.amount-options button {
+  margin: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: #ffffff;
+  border: 2px solid #ccc;
+  border-radius: 6px;
+}
+.amount-options button:hover {
+  background: #e0f7fa;
+  border-color: #00bcd4;
+  cursor: pointer;
+}
+.amount-options button:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(0, 162, 255, 0.5);
+}
+
+.form-box{
+    width: 100%;
+    max-width: 450px;
+    background: #fff;
+    display: block;
+    margin-top: 5%;   
+}
+.from-box.feedback{
+    width: 100%;
+    background: #ffffff;
+    display: flex;
+    margin-top: 5%;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+form-header{
+    text-align: center;
+    margin-bottom: 20px;
+    width: 100%;
+    height: fit-content;
+}
+form-header h1{
+    font-size: 2rem;
+    color: #0d1b3d;
+    margin-bottom: 10px;
+}
+.form-box.act{
+    display: block;
+    background:rgba(255, 255, 255, 0.65);
+}
+
+.from-group{
+    display: flex;
+    gap: 20px;
+    margin-bottom: 15px;
+}
+.form-group> div{
+    width: 50%;
+}
+label{
+    font-size: 1.2rem;
+    color: #0d1b3d;
+    margin-bottom: 5px;
+}
