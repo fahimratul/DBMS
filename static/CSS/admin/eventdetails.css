@@ -271,3 +271,63 @@ thead th.active,tbody td.active {
   border-radius: .3rem;
   cursor: pointer;
 }
+
+/* modal overlay */
+.modal {
+  display: none; 
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw; 
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  overflow-y: auto; 
+}
+.modal-content {
+  background-color: white;
+  max-width: 700px;
+  margin: 5% auto;
+  padding: 20px 30px;
+  border-radius: 8px;
+  position: relative;
+  box-shadow: 0 0 15px rgba(0,0,0,0.3);
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+}
+
+.info-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 8px;
+}
+
+.info-table th, .info-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+.info-table th {
+  background-color: #f4f4f4;
+  text-align: left;
+}
+
+.section {
+  margin-top: 15px;
+}
+
+.dates p {
+  margin-bottom: 5px;
+}

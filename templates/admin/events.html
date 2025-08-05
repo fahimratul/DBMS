@@ -181,12 +181,12 @@
       <section class="table__header">
         <h1>Events</h1>
         <div class="input-group">
-          <input type="search" placeholder="Search by Event ID, Date, Type...">
+          <input id="searchInput" type="search" placeholder="Search events..." />
         </div>
         <div><button class="create-event-btn">Create event</button></div>
       </section>
       <section class="table__body">
-        <table>
+        <table id="eventsTable">
           <thead>
             <tr>
               <th>Event Id <span class="icon-arrow">&UpArrow;</span></th>
@@ -303,8 +303,70 @@
         </table>
       </section>
     </main>
+    <div id="eventModal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+
+        <h2><strong>Event ID:</strong> <span id="modalEventId"></span></h2>
+
+        <div class="section">
+          <p><strong>Event Type:</strong> <span id="modalEventType"></span></p>
+          <p><strong>Status:</strong> <span id="modalStatus" class="status"></span></p>
+          <p><strong>Priority:</strong> <span id="modalPriority"></span></p>
+        </div>
+
+        <div class="section dates">
+          <p><strong>Requested On:</strong> <span id="modalRequestDate"></span></p>
+          <p><strong>Completed On:</strong> <span id="modalCompletionDate"></span></p>
+        </div>
+
+        <div class="section">
+          <p><strong>Location:</strong> <span id="modalLocation"></span></p>
+        </div>
+
+        <div class="section">
+          <h3>Team Members</h3>
+          <p><strong>Team Leader:</strong> <span id="modalLeader"></span></p>
+          <table class="info-table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Volunteer ID</th>
+                <th>Contact</th>
+              </tr>
+            </thead>
+            <tbody id="modalTeamMembers"></tbody>
+          </table>
+        </div>
+
+        <div class="section">
+          <h3>Allocated Items</h3>
+          <table class="info-table">
+            <thead>
+              <tr>
+                <th>Item</th>
+                <th>Quantity</th>
+                <th>Stock ID</th>
+              </tr>
+            </thead>
+            <tbody id="modalAllocatedItems"></tbody>
+          </table>
+        </div>
+
+        <div class="section">
+          <h3>Requested By</h3>
+          <p><strong>Name:</strong> <span id="modalRequester"></span></p>
+          <p><strong>Contact:</strong> <span id="modalRequesterContact"></span></p>
+          <p><strong>Additional Requirements:</strong> <span id="modalAdditional"></span></p>
+        </div>
+      </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='script/admin/detailsModal.js') }}"></script>
+    <script src="{{ url_for('static', filename='script/admin/searchFilter.js') }}"></script>
 
   </main>
+
 </body>
 
 </html>
