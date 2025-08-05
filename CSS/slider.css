@@ -1,0 +1,98 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap');
+* {box-sizing: border-box;}
+
+img {vertical-align: middle;
+width: 900px;
+height: 500px;
+}
+.mySlides {
+  box-shadow: 0 20px 30px rgba(0, 0, 0, 0.5) ;
+}
+.mySlides h1{
+  font-family: 'Poppins', sans-serif;
+  color: #ffffff;
+  text-align: center;
+  font-size: 50px;
+  margin-top: 20px;
+}
+/* Slideshow container */
+.slideshow-container {
+  max-width: 1000px;
+  position: relative;
+  margin: auto;
+}
+
+/* Caption text */
+.text {
+  color: #f2f2f2;
+  font-size: 15px;
+  padding: 8px 12px;
+  position: absolute;
+  bottom: 8px;
+  width: 100%;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.9), rgba(0,0,0,0));
+  transform: translateY(8px);
+  text-align: center;
+}
+
+/* Number text (1/3 etc) */
+.numbertext {
+  color: #f2f2f2;
+  font-size: 12px;
+  padding: 8px 12px;
+  position: absolute;
+  top: 0;
+}
+
+
+
+/* The dots/bullets/indicators */
+.dot {
+  height: 15px;
+  width: 15px;
+  margin: 0 2px;
+  background-color: #82e1f8;
+  border-radius: 50%;
+  display: inline-block;
+  transition: background-color 0.6s ease;
+}
+
+.active {
+  background-color: #054c75;
+}
+
+/* Fading animation */
+.fade {
+  -webkit-animation-name: fade;
+  -webkit-animation-duration: 1.5s;
+  animation-name: fade;
+  animation-duration: 1.5s;
+}
+
+
+/* On smaller screens, decrease text size */
+@media only screen and (max-width: 300px) {
+  .text {font-size: 11px}
+}
+
+
+.gradient-button {
+  background: linear-gradient(45deg, #82e1f8, #054c75);
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 5px;
+  
+}
+.gradient-button:hover {
+  background: linear-gradient(45deg, #054c75, #82e1f8);
+  box-shadow: 0 4px 20px 0 rgba(83, 199, 199, 0.5), 0 2px 10px 0 rgba(160, 4, 90, 0.7);
+  transform: translateY(-5px);
+}
+
