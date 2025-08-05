@@ -183,7 +183,8 @@
         <div class="input-group">
           <input id="searchInput" type="search" placeholder="Search events..." />
         </div>
-        <div><button class="create-event-btn">Create event</button></div>
+        <div><a href="{{ url_for('create_event') }}" class="create-event-btn">Create event</a></div>
+        
       </section>
       <section class="table__body">
         <table id="eventsTable">

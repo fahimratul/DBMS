@@ -31,5 +31,8 @@ def admin():
 @app.route('/admin/events')
 def admin_events():
     return render_template('admin/events.html')
+@app.route('/admin/events/create')
+def create_event():
+    return render_template('admin/create_event.html')
 if __name__ == '__main__':
     app.run(debug=True)
