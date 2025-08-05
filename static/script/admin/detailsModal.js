@@ -20,7 +20,12 @@ const eventsData = {
     ],
     requester: "John Doe",
     requesterContact: "+880123456789",
-    additional: "Baby food, Medicine"
+    additional: "Baby food, Medicine",
+    feedback: [
+      { giver: "Volunteer", text: "Very well organized." },
+      { giver: "Requester", text: "Help arrived quickly, much appreciated." },
+      { giver: "Donor", text: "Glad to contribute to this event." }
+    ]
   },
 
   E00032: {
@@ -44,7 +49,11 @@ const eventsData = {
     ],
     requester: "Md. Nazmul Haque",
     requesterContact: "016xxxxxxxx",
-    additional: "Elderly care kits"
+    additional: "Elderly care kits",
+    feedback: [
+      { giver: "Volunteer", text: "Challenging but rewarding experience." },
+      { giver: "Requester", text: "Support helped my family a lot." }
+    ]
   }
 };
 
@@ -54,6 +63,7 @@ const closeBtn = modal.querySelector(".close");
 function clearTableBody(tbody) {
   while (tbody.firstChild) tbody.removeChild(tbody.firstChild);
 }
+
 function showModal(eventId) {
   const data = eventsData[eventId];
   if (!data) {
@@ -89,6 +99,7 @@ function showModal(eventId) {
     teamTbody.appendChild(tr);
   });
 
+
   const itemsTbody = document.getElementById("modalAllocatedItems");
   clearTableBody(itemsTbody);
   data.allocatedItems.forEach(item => {
@@ -100,6 +111,20 @@ function showModal(eventId) {
     `;
     itemsTbody.appendChild(tr);
   });
+
+  const feedbackList = document.getElementById("modalFeedbackList");
+  feedbackList.innerHTML = ""; // clear previous feedback
+  if (data.feedback && data.feedback.length > 0) {
+    data.feedback.forEach(fb => {
+      const li = document.createElement("li");
+      li.innerHTML = `<strong>${fb.giver}:</strong> ${fb.text}`;
+      feedbackList.appendChild(li);
+    });
+  } else {
+    const li = document.createElement("li");
+    li.innerText = "No feedback available.";
+    feedbackList.appendChild(li);
+  }
 
   modal.style.display = "block";
 }

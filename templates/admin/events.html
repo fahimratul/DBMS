@@ -184,7 +184,7 @@
           <input id="searchInput" type="search" placeholder="Search events..." />
         </div>
         <div><a href="{{ url_for('create_event') }}" class="create-event-btn">Create event</a></div>
-        
+
       </section>
       <section class="table__body">
         <table id="eventsTable">
@@ -360,6 +360,12 @@
           <p><strong>Contact:</strong> <span id="modalRequesterContact"></span></p>
           <p><strong>Additional Requirements:</strong> <span id="modalAdditional"></span></p>
         </div>
+        <div class="section">
+          <h3>Feedback</h3>
+          <ul id="modalFeedbackList" class="feedback-list">
+          </ul>
+        </div>
+
       </div>
     </div>
 

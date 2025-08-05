@@ -331,3 +331,30 @@ thead th.active,tbody td.active {
 .dates p {
   margin-bottom: 5px;
 }
+.feedback-list {
+  list-style: none;
+  padding-left: 0;
+  max-height: 150px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  background-color: #fafafa;
+  margin-top: 8px;
+}
+
+.feedback-list li {
+  padding: 8px 12px;
+  border-bottom: 1px solid #eee;
+  font-size: 0.95rem;
+  color: #444;
+}
+
+.feedback-list li:last-child {
+  border-bottom: none;
+}
+
+.feedback-giver {
+  font-weight: 600;
+  color: #2c3e50;
+  margin-right: 8px;
+}
