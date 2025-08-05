@@ -41,5 +41,9 @@ def create_event():
 def volunteer_list():
     return render_template('admin/volunteer_list.html')
 
+@app.route('/admin/requests')
+def admin_requests():
+    return render_template('admin/requests.html')
+
 if __name__ == '__main__':
     app.run(debug=True)
