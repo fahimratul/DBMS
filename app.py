@@ -24,5 +24,9 @@ def signup():
         else:
             return render_template('login.html', error="Invalid role selected.")
     return render_template('login.html', error="Role not specified.")
+
+@app.route('/admin')
+def admin():
+    return render_template('admin/admin.html')
 if __name__ == '__main__':
     app.run(debug=True)
