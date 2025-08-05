@@ -354,10 +354,14 @@ color: #64748b;
 .content-body{
   width: 100%;
   padding: 1rem;
-  display: flex;
+  display: none;
   flex-direction: column;
   align-items: center;
 }
+.content-body.active{
+  display: flex;
+}
+
 .volunteer-table{
   width: 100%;
   border-collapse: collapse;
@@ -367,6 +371,7 @@ color: #64748b;
   padding: 0.75rem;
   text-align: left;
   border-bottom: 1px solid #e5e7eb;
+  height: max-content;
 }
 .volunteer-table th:nth-child(1) {
   background-color: #0bf7e3de;
@@ -416,56 +421,23 @@ color: #64748b;
 .volunteer-info p {
   margin: 0;
 }
-
-/* From Uiverse.io by joe-watson-sbf */ 
 .button-style {
-  font-size: 17px;
-  background: transparent;
+  background-color: #0bf7e3de;
+  color: #374151;
   border: none;
-  padding: 1em 1.5em;
-  color: #553303;
-  text-transform: uppercase;
-  position: relative;
-  transition: 0.5s ease;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
   cursor: pointer;
+  margin-bottom: 2px;
+  transition: all .5s ease;
 }
-
-.button-style::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  height: 2px;
-  width: 0;
-  background-color: #ffc506;
-  transition: 0.5s ease;
+.button-style.alert {
+  background-color: #f87171;
+  color: #ffffff;
 }
-
 .button-style:hover {
-  color: #404061;
-  transition-delay: 0.5s;
-}
-
-.button-style:hover::before {
-  width: 100%;
-}
-
-.button-style::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  height: 0;
-  width: 100%;
-  background-color: #ff5506;
-  transition: 0.4s ease;
-  z-index: -1;
-}
-
-.button-style:hover::after {
-  height: 100%;
-  transition-delay: 0.4s;
-  color: rgb(95, 255, 20);
-  background-color: #ffc506;
-  box-shadow: 0 0 10px rgba(255, 197, 6, 0.5);
+  background-color: #46aeebe1;
+  color: #ffffff;
+  box-shadow: 0 4px 24px 0 rgba(0,0,0,0.2);
+  transform: translateY(-2px);
 }

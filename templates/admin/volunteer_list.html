@@ -11,8 +11,7 @@
   </head>
 
   <body>
-    <aside
-      class="sidebar">
+    <aside class="sidebar">
         <div class="sidebar-header">
             <img src="{{ url_for('static', filename='images/logo/logo_icon.png') }}" class="sidebar-logo-img" alt="main_logo" />
             <span class="sidebar-logo-text">Rapid</span>
@@ -108,11 +107,11 @@
           <p>Manage your volunteers efficiently.</p>
         </div>
         <div class="nav">
-          <div class="container">
+          <div class="container ">
             <div class="btn" id ="free">Free</div>
             <div class="btn" id="assigned">Assigned</div>
             <div class="btn" id="new">New</div>
-            <div class="btn" id="blocked">Blocked</div>
+            <div class="btn" id="block">Blocked</div>
             <svg class="outline" overflow="visible" width="400" height="60" viewBox="0 0 400 60" xmlns="http://www.w3.org/2000/svg">
               <rect class="rect" pathLength="100" x="0" y="0" width="35vw" height="60" fill="transparent" stroke-width="5" ></rect>
             </svg>
@@ -121,7 +120,7 @@
 
         
 
-        <div class="content-body">
+        <div class="content-body active" id="free_volunteers">
           <table class="volunteer-table">
             <thead>
               <tr>
@@ -158,7 +157,8 @@
                   </div>
                 </td>
                 <td>
-                  <button class="button-style">Hover me</button>
+                    <button class="button-style">Assign</button>
+                    <button class="button-style alert">Block</button>
                 </td>
 
               </tr>
@@ -168,6 +168,155 @@
             </tbody>
           </table>
         </div>
+
+        <div class="content-body" id="asigned_volunteers">
+          <table class="volunteer-table">
+            <thead>
+              <tr>
+                <th>Volunteer id</th>
+                <th>Name</th>
+                <th>Info</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% set volunteers = [
+                {'id': '1002', 'name': 'Abul hasan', 'email': 'john.doe@example.com', 'phone': '123-456-7890', 'status': 'Active', 'dob':'1990-01-01', 'joined_date':'2022-01-01', 'address':'123 Main St, City, Country', 'experience':5},
+                {'id': '1003', 'name': 'kudus Mia', 'email': 'jane.smith@example.com', 'phone': '987-654-3210', 'status': 'Inactive', 'dob':'1992-02-02', 'joined_date':'2022-02-02', 'address':'456 Elm St, City, Country', 'experience':3}
+              ] %}
+              {% if not volunteers %}
+                <tr>
+                  <td colspan="4">No volunteers found.</td>
+                </tr>
+              {% else %}
+              {% for volunteer in volunteers %}
+              <tr>
+                <td>{{ volunteer.id }}</td>
+                <td class="volunteer-name">{{ volunteer.name }}</td>
+                <td class="volunteer-info">
+                  <div>
+                    <p><b>Email:</b> {{ volunteer.email }}</p>
+                    <p><b>Phone:</b> {{ volunteer.phone }}</p>
+                    <p><b>Experience:</b> {{ volunteer.experience }} years</p>
+                  </div>
+                  <div>
+                    <p><b>DOB:</b> {{ volunteer.dob }}</p>
+                    <p><b>Joined Date:</b> {{ volunteer.joined_date }}</p>
+                    <p><b>Address:</b> {{ volunteer.address }}</p>
+                  </div>
+                </td>
+                <td>
+                    <button class="button-style">Send Email</button>
+                </td>
+
+              </tr>
+              {% endfor %}
+              {% endif %}
+
+            </tbody>
+          </table>
+        </div>
+
+        <div class="content-body" id="new_volunteers">
+          <table class="volunteer-table">
+            <thead>
+              <tr>
+                <th>Volunteer id</th>
+                <th>Name</th>
+                <th>Info</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% set volunteers = [
+                {'id': '1002', 'name': 'John Doe', 'email': 'john.doe@example.com', 'phone': '123-456-7890', 'status': 'Active', 'dob':'1990-01-01', 'joined_date':'2022-01-01', 'address':'123 Main St, City, Country', 'experience':5},
+                {'id': '1003', 'name': 'Jane Smith', 'email': 'jane.smith@example.com', 'phone': '987-654-3210', 'status': 'Inactive', 'dob':'1992-02-02', 'joined_date':'2022-02-02', 'address':'456 Elm St, City, Country', 'experience':3}
+              ] %}
+              {% if not volunteers %}
+                <tr>
+                  <td colspan="4">No volunteers found.</td>
+                </tr>
+              {% else %}
+              {% for volunteer in volunteers %}
+              <tr>
+                <td>{{ volunteer.id }}</td>
+                <td class="volunteer-name">{{ volunteer.name }}</td>
+                <td class="volunteer-info">
+                  <div>
+                    <p><b>Email:</b> {{ volunteer.email }}</p>
+                    <p><b>Phone:</b> {{ volunteer.phone }}</p>
+                    <p><b>Experience:</b> {{ volunteer.experience }} years</p>
+                  </div>
+                  <div>
+                    <p><b>DOB:</b> {{ volunteer.dob }}</p>
+                    <p><b>Joined Date:</b> {{ volunteer.joined_date }}</p>
+                    <p><b>Address:</b> {{ volunteer.address }}</p>
+                  </div>
+                </td>
+                <td>
+                    <button class="button-style">Approve</button>
+                    <button class="button-style alert">Decline</button>
+                </td>
+
+              </tr>
+              {% endfor %}
+              {% endif %}
+
+            </tbody>
+          </table>
+        </div>
+
+        <div class="content-body" id="block_volunteers">
+          <table class="volunteer-table">
+            <thead>
+              <tr>
+                <th>Volunteer id</th>
+                <th>Name</th>
+                <th>Info</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% set volunteers = [
+                {'id': '1002', 'name': 'John Doe', 'email': 'john.doe@example.com', 'phone': '123-456-7890', 'status': 'Active', 'dob':'1990-01-01', 'joined_date':'2022-01-01', 'address':'123 Main St, City, Country', 'experience':5},
+                {'id': '1003', 'name': 'Jane Smith', 'email': 'jane.smith@example.com', 'phone': '987-654-3210', 'status': 'Inactive', 'dob':'1992-02-02', 'joined_date':'2022-02-02', 'address':'456 Elm St, City, Country', 'experience':3}
+              ] %}
+              {% if not volunteers %}
+                <tr>
+                  <td colspan="4">No volunteers found.</td>
+                </tr>
+              {% else %}
+              {% for volunteer in volunteers %}
+              <tr>
+                <td>{{ volunteer.id }}</td>
+                <td class="volunteer-name">{{ volunteer.name }}</td>
+                <td class="volunteer-info">
+                  <div>
+                    <p><b>Email:</b> {{ volunteer.email }}</p>
+                    <p><b>Phone:</b> {{ volunteer.phone }}</p>
+                    <p><b>Experience:</b> {{ volunteer.experience }} years</p>
+                  </div>
+                  <div>
+                    <p><b>DOB:</b> {{ volunteer.dob }}</p>
+                    <p><b>Joined Date:</b> {{ volunteer.joined_date }}</p>
+                    <p><b>Address:</b> {{ volunteer.address }}</p>
+                  </div>
+                </td>
+                <td>
+                    <button class="button-style alert">Unblock</button>
+                </td>
+
+              </tr>
+              {% endfor %}
+              {% endif %}
+
+            </tbody>
+          </table>
+          
+        </div>
+
+
     </main>
+    <script src ="{{ url_for('static', filename='script/volunteer_list.js') }}"></script>
   </body>
 </html>
