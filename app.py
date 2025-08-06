@@ -27,13 +27,10 @@ def signup():
             return render_template('login.html', error="Invalid role selected.")
     return render_template('login.html', error="Role not specified.")
 
-@app.route('/donor', methods=['POST'])
+@app.route('/donor')
 def donor():
-    name = request.form.get('name')
-    if name:
-        return render_template('donor-profile.html', name=name)
-    else:
-        return render_template('login.html', error="Role not specified.")
+
+        return render_template('donor.html')
 @app.route('/admin')
 def admin():
     return render_template('admin/admin.html')
