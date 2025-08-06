@@ -1,5 +1,7 @@
 from flask import Flask , render_template , url_for , request
 
+
+
 app = Flask(__name__)
 
 @app.route('/')
@@ -32,6 +34,23 @@ def donor():
         return render_template('donor-profile.html', name=name)
     else:
         return render_template('login.html', error="Role not specified.")
+@app.route('/admin')
+def admin():
+    return render_template('admin/admin.html')
+@app.route('/admin/events')
+def admin_events():
+    return render_template('admin/events.html')
+@app.route('/admin/events/create')
+def create_event():
+    return render_template('admin/create_event.html')
+
+@app.route('/admin/volunteers')
+def volunteer_list():
+    return render_template('admin/volunteer_list.html')
+
+@app.route('/admin/requests')
+def admin_requests():
+    return render_template('admin/requests.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
