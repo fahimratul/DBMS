@@ -56,9 +56,9 @@
       <!-- Login Form -->
 
       <div class="form-container sign-in-container">
-        <form action="#">
+        <form action="{{ url_for('donor') }}" method="POST">
           <h1>Sign in</h1>
-          <input type="email" placeholder="Email" />
+          <input type="text" name="name" id ="name" placeholder="Username" />
           <input type="password" placeholder="Password" />
           <select class="role-select" name="role" id="role">
             <option value="" disabled selected>Select your role</option>
@@ -68,7 +68,7 @@
             <option value="volunteer">Admin</option>
           </select>
           <a href="#">Forgot your password?</a>
-          <button class = "donate-btn" id="login">Sign In</button>
+          <button class = "donate-btn" id="login" type="submit" >Sign In</button>
         </form>
       </div>
 
