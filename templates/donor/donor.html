@@ -18,7 +18,7 @@
       <ul class="sidebar-list">
  <!-- Dashboard SVG -->
         <li>
-          <a href="dashboard.html" class="sidebar-link active">
+          <a href="{{ url_for('donor') }}" class="sidebar-link active">
                         <span class="sidebar-icon">
                             <i data-lucide="bar-chart-3"></i>
                         </span>
@@ -27,7 +27,7 @@
         </li>
         <!-- History SVG -->
         <li>
-          <a href="history.html" class="sidebar-link">
+          <a href="{{ url_for('history') }}" class="sidebar-link">
                         <span class="sidebar-icon">
                             <i data-lucide="history"></i>
             </span>
@@ -36,7 +36,7 @@
         </li>
  <!-- Profile SVG -->
         <li>
-         <a href="profile.html" class="sidebar-link">
+         <a href="{{ url_for('profile') }}" class="sidebar-link">
                         <span class="sidebar-icon">
                             <i data-lucide="user"></i>
                         </span>
@@ -47,7 +47,7 @@
 
             <!-- Donate SVG -->
         <li>
-           <a href="donate.html" class="sidebar-link">
+           <a href="{{ url_for('donate') }}" class="sidebar-link">
                         <span class="sidebar-icon">
                             <i data-lucide="plus"></i>
                         </span>
@@ -56,7 +56,7 @@
         </li>
  <!-- Feedback SVG --> 
         <li>
-         <a href="feedback.html" class="sidebar-link">
+         <a href="#" class="sidebar-link">
                         <span class="sidebar-icon">
                             <i data-lucide="message-square"></i>
             </span>

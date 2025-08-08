@@ -31,6 +31,15 @@ def signup():
 def donor():
 
         return render_template('donor/donor.html')
+@app.route('/donor/profile')
+def profile():
+    return render_template('donor/profile.html') 
+@app.route('/donor/donate')
+def donate():
+    return render_template('donor/donate.html') 
+@app.route('/donor/history')
+def history():
+    return render_template('donor/history.html') 
 @app.route('/admin')
 def admin():
     return render_template('admin/admin.html')
