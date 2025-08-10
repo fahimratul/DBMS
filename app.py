@@ -57,6 +57,9 @@ def volunteer_list():
 @app.route('/admin/requests')
 def admin_requests():
     return render_template('admin/requests.html')
+@app.route('/admin/donors')
+def admin_donors():
+    return render_template('admin/donor_list.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
