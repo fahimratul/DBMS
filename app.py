@@ -1,4 +1,4 @@
-from flask import Flask , render_template , url_for , request
+from flask import Flask, render_template, request
 
 
 
@@ -63,6 +63,35 @@ def admin_donors():
 @app.route('/admin/stock')
 def admin_stock():
     return render_template('admin/stock.html')
+
+@app.route('/volunteer_signup', methods=['GET', 'POST'])
+def volunteer_signup():
+    if request.method == 'POST':
+        name = request.form.get('name')
+        email = request.form.get('email')
+        phone = request.form.get('phone')
+        dob = request.form.get('dob')
+        address = request.form.get('address')
+        address_2 = request.form.get('address_2')
+        profile_img = request.files.get('profile_img')
+        nid_img = request.files.get('nid_img')
+        username = request.form.get('username')
+        password = request.form.get('password')
+
+        volunteer_info = [
+            name,
+            email,
+            phone,
+            dob,
+            address,
+            address_2,
+            profile_img,
+            nid_img,
+            username,
+            password
+        ]
+        return render_template('signup/success.html', volunteer_info=volunteer_info)
+    return render_template('signup/volunteer_signup.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
