@@ -60,6 +60,9 @@ def admin_requests():
 @app.route('/admin/donors')
 def admin_donors():
     return render_template('admin/donor_list.html')
+@app.route('/admin/stock')
+def admin_stock():
+    return render_template('admin/stock.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
