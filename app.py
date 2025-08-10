@@ -29,8 +29,7 @@ def signup():
 
 @app.route('/donor')
 def donor():
-
-        return render_template('donor/donor.html')
+     return render_template('donor/donor.html')
 @app.route('/donor/profile')
 def profile():
     return render_template('donor/profile.html') 
@@ -40,6 +39,8 @@ def donate():
 @app.route('/donor/history')
 def history():
     return render_template('donor/history.html') 
+
+
 @app.route('/admin')
 def admin():
     return render_template('admin/admin.html')
@@ -53,7 +54,6 @@ def create_event():
 @app.route('/admin/volunteers')
 def volunteer_list():
     return render_template('admin/volunteer_list.html')
-
 @app.route('/admin/requests')
 def admin_requests():
     return render_template('admin/requests.html')
