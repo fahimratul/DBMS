@@ -5,7 +5,7 @@ from flask import(
 )
 from mysql.connector import IntegrityError
 
-from flaskr.db import get_bd
+from db import get_db
 
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -17,7 +17,7 @@ def register():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
-        db = get_bd()
+        db = get_db()
         cursor = db.cursor()
         error = None
 
@@ -57,7 +57,7 @@ def login():
     if(request.method == 'POST'):
         username = request.form['username']
         password = request.form['password']
-        db = get_bd()
+        db = get_db()
         cursor = db.cursor(dictionary=True)  # This returns dictionaries instead of tuples
         error = None
 
