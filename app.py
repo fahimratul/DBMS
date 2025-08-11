@@ -93,5 +93,9 @@ def volunteer_signup():
         return render_template('signup/success.html', volunteer_info=volunteer_info)
     return render_template('signup/volunteer_signup.html')
 
+@app.route('/recipient')
+def recipient():
+    return render_template('recipient.html')
+
 if __name__ == '__main__':
     app.run(debug=True)
