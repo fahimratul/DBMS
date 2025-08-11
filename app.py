@@ -1,51 +1,27 @@
-from flask import Flask, render_template, request
-import os
-
-def create_app(test_config=None):
-    #create and configure app
-    app = Flask(__name__, instance_relative_config=True)
-    app.config.from_mapping(
-        SECRET_KEY = 'dev',
-        DATABASE = {
-            'host':'localhost',
-            'user':'root',
-            'password':'LongLive@1',
-            'database':'dbms' #the name of the database, do not get confused with DATABASE map
-        }
-    )
-
-    if test_config is None:
-        #load the instance config, if it exists, when not testing
-        app.config.from_pyfile('config.py', silent=True)
-    else:
-        #otherwise load the test config that has been passed to create_app() function
-        app.config.from_mapping(
-            test_config
-        )
-
-    #make sure the instance folder exists
-    #this is improtant as all configuration 
-    #files are relative to instance folder
-    try:
-        os.makedirs(app.instance_path)
-    except OSError:
-        pass
-
-    # TURN DEBUGING OFF BEFORE LAUNCING
-    app.config['DEBUG'] = True
-
-    #register the databse connection
-    from . import db
-    db.init_app(app)
-
-    from . import auth
-    app.register_blueprint(auth.bp)
-
-
+# Store this code in 'app.py' file
+from flask import Flask, render_template, request, redirect, url_for, session
+from flask_mysqldb import MySQL
+import MySQLdb.cursors
+import re
 
 
 app = Flask(__name__)
 
+
+app.secret_key = 'your secret key'
+
+
+app.config['MYSQL_HOST'] = 'localhost'
+app.config['MYSQL_USER'] = 'root'
+app.config['MYSQL_PASSWORD'] = 'LongLive@1'
+app.config['MYSQL_DB'] = 'dbms'
+
+
+mysql = MySQL(app)
+
+
+
+app = Flask(__name__)
 @app.route('/')
 @app.route('/home')
 def home():
@@ -122,16 +98,19 @@ def volunteer_signup():
 
         volunteer_info = [
             name,
-            email,
             phone,
+            email,
             dob,
             address,
             address_2,
-            profile_img,
-            nid_img,
             username,
-            password
+            password,
+            nid_img,
         ]
+        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        cursor.execute("INSERT INTO volunteer (name, phone, email, dob, address, pref_address, username, password, nid_birthcert) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)", volunteer_info)
+        mysql.connection.commit()
+        cursor.close()
         return render_template('signup/success.html', volunteer_info=volunteer_info)
     return render_template('signup/volunteer_signup.html')
 
