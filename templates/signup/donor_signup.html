@@ -6,9 +6,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>RAPID</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/signup.css') }}" />
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/button.css') }}" />
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='CSS/signup.css') }}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='CSS/button.css') }}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='CSS/style.css') }}" />
   <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet">
 </head>
 
@@ -16,9 +16,17 @@
   <!-- Navigation -->
   <header>
     <div class="logo"><span>RAPID</span>
+      <nav class="navlinks">
+        <a href="#">TAB1</a>
+        <a href="#">TAB1</a>
+        <a href="#">TAB1</a>
+        <a href="#">TAB1</a>
+      </nav>
     </div>
     <div class="auth-buttons">
-    <a href="{{ url_for('index') }}"><button class="login-btn">Home</button></a>
+    <a href="{{ url_for('home') }}"><button class="login-btn">Home</button></a>
+      <button class="login-btn">CHECK STATUS</button>
+      <button class="donate-btn" id="requestdonation">REQUEST DONATION</button>
     </div>
   </header>
 
@@ -27,11 +35,11 @@
     <img src="{{ url_for('static', filename='images/signup_bg.png') }}"/>
     <div class ="welcome-text">
       <h1>WELCOME <br> TO RAPID</h1>
-      <p>Join us in making a difference.</p>
+      <p> Help us make a difference. DONATE NOW!</p>
     </div>
     <div class="container" id="container">
-      <h1>Create Account as Volunteer</h1>
-      <form action="{{ url_for('auth.volunteer_signup') }}" method="POST">
+      <h1>Create Account to <br> Send Donation</h1>
+      <form action="" method="post">
         <div class="sign-section">
           <div class="form-group">
             <label for="name">Name</label>
@@ -50,7 +58,7 @@
             <label for="dob">Date of Birth</label>
             <input type="date" name="dob" placeholder="Date of Birth" required />
           </div>
-          <button class= " donate-submit" type="button" onclick="handleNextButtonClick(event)">Next</button>
+          <button class= " donate-submit" type="next">Next</button>
         </div>
 
         <div class="sign-section">
@@ -64,8 +72,8 @@
           </div>
           <!--button group-->
             <div style="display: flex; width: 100%;justify-content: space-between; margin-top: 20px; gap: 10px;">
-              <button class="donate-submit prev" style="width: 50%;" onclick="handlePrevButtonClick(event)">Previous</button>
-              <button class="donate-submit" style="width: 50%;" onclick="handleNextButtonClick(event)">Next</button>
+              <button class="donate-submit prev" style="width: 50%;">Previous</button>
+              <button class="donate-submit" style="width: 50%;">Next</button>
             </div>   
         </div>
         
@@ -80,8 +88,8 @@
           </div>
           <!--button group-->
             <div style="display: flex; width: 100%; justify-content: space-between; margin-top: 20px; gap: 10px;">
-              <button class="donate-submit prev" style="width: 50%;" onclick="handlePrevButtonClick(event)">Previous</button>
-              <button class="donate-submit" style="width: 50%;" onclick="handleNextButtonClick(event)">Next</button>
+              <button class="donate-submit prev" style="width: 50%;">Previous</button>
+              <button class="donate-submit" style="width: 50%;">Next</button>
             </div>   
         </div>
 
@@ -96,7 +104,7 @@
           </div>
           <!--button group-->
             <div style="display: flex; width: 100%; justify-content: space-between; margin-top: 20px; gap: 10px;">
-              <button class="donate-submit prev" style="width: 50%;" onclick="handlePrevButtonClick(event)">Previous</button>
+              <button class="donate-submit prev" style="width: 50%;">Previous</button>
               <button class="donate-submit" style="width: 50%;" type="submit">Submit</button>
             </div>   
         </div>
@@ -110,33 +118,5 @@
 
 </body>
 <script src="{{ url_for('static', filename='script/rainfall.js') }}"></script>
-<script>
-
-
-const nextsection = document.querySelectorAll('.sign-section');
-let currentDiv = 0;
-
-nextsection.forEach((div, idx) => {
-    div.style.display = idx === 0 ? 'flex' : 'none';
-});
-
-function handleNextButtonClick(e) {
-    e.preventDefault();
-    if (currentDiv < nextsection.length - 1) {
-        nextsection[currentDiv].style.display = 'none';
-        currentDiv++;
-        nextsection[currentDiv].style.display = 'flex';
-    }
-}
-
-function handlePrevButtonClick(e) {
-    e.preventDefault();
-    if (currentDiv > 0) {
-        nextsection[currentDiv].style.display = 'none';
-        currentDiv--;
-        nextsection[currentDiv].style.display = 'flex';
-    }
-}
-
-</script>
+<script src ="{{ url_for('static', filename='script/signup.js') }}"></script>
 </html>
