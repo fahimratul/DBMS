@@ -6,9 +6,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>RAPID</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}" />
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/button.css') }}" />
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='CSS/login.css') }}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='CSS/button.css') }}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='CSS/style.css') }}" />
   <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet">
 </head>
 
@@ -18,7 +18,7 @@
     <div class="logo"><span>RAPID</span>
     </div>
     <div class="auth-buttons">
-    <a href="{{ url_for('index') }}"><button class="login-btn">Home</button></a>
+    <a href="{{ url_for('home') }}"><button class="login-btn">Home</button></a>
     </div>
   </header>
 
@@ -30,7 +30,7 @@
       
       <!-- sign up formn -->
       <div class="form-container sign-up-container">
-        <form action="{{ url_for('auth.register') }}" method="POST">
+        <form action="{{ url_for('signup') }}" method="POST">
           <h1>Create Account</h1>
           <span>Select your role</span>
           <select class="role-select" name="role" id="role">
@@ -48,7 +48,7 @@
       <!-- Login Form -->
 
       <div class="form-container sign-in-container">
-        <form action="{{ url_for('auth.register') }}" method="POST">
+        <form action="{{ url_for('donor') }}" method="POST">
           <h1>Sign in</h1>
           <input type="text" name="name" id ="name" placeholder="Username" />
           <input type="password" placeholder="Password" />

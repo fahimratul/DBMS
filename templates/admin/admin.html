@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Rapid</title>
+  <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='CSS/tailwind/soft-ui-dashboard-tailwind.css') }}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='CSS/admin/admin.css') }}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='CSS/admin/event.css') }}" />
+</head>
+
+<body>
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <img src="{{ url_for('static', filename='images/logo/logo_icon.png') }}" class="sidebar-logo-img"
+        alt="main_logo" />
+      <span class="sidebar-logo-text">Rapid</span>
+    </div>
+    <nav class="sidebar-nav">
+      <ul class="sidebar-list">
+
+        <li>
+          <a class="sidebar-link active" href="{{ url_for('admin') }}">
+            <span class="sidebar-icon">
+              <!-- Dashboard SVG -->
+              <svg width="60px" height="60px" viewBox="0 0 45 40" xmlns="http://www.w3.org/2000/svg">
+                <g fill="none" fill-rule="evenodd">
+                  <g fill="#FFFFFF" fill-rule="nonzero">
+                    <g>
+                      <g>
+                        <g>
+                          <path class="fill-slate-800 opacity-60"
+                            d="M46.7199583,10.7414583 L40.8449583,0.949791667 C40.4909749,0.360605034 39.8540131,0 39.1666667,0 L7.83333333,0 C7.1459869,0 6.50902508,0.360605034 6.15504167,0.949791667 L0.280041667,10.7414583 C0.0969176761,11.0460037 -1.23209662e-05,11.3946378 -1.23209662e-05,11.75 C-0.00758042603,16.0663731 3.48367543,19.5725301 7.80004167,19.5833333 L7.81570833,19.5833333 C9.75003686,19.5882688 11.6168794,18.8726691 13.0522917,17.5760417 C16.0171492,20.2556967 20.5292675,20.2556967 23.494125,17.5760417 C26.4604562,20.2616016 30.9794188,20.2616016 33.94575,17.5760417 C36.2421905,19.6477597 39.5441143,20.1708521 42.3684437,18.9103691 C45.1927731,17.649886 47.0084685,14.8428276 47.0000295,11.75 C47.0000295,11.3946378 46.9030823,11.0460037 46.7199583,10.7414583 Z">
+                          </path>
+                          <path class="fill-slate-800"
+                            d="M39.198,22.4912623 C37.3776246,22.4928106 35.5817531,22.0149171 33.951625,21.0951667 L33.92225,21.1107282 C31.1430221,22.6838032 27.9255001,22.9318916 24.9844167,21.7998837 C24.4750389,21.605469 23.9777983,21.3722567 23.4960833,21.1018359 L23.4745417,21.1129513 C20.6961809,22.6871153 17.4786145,22.9344611 14.5386667,21.7998837 C14.029926,21.6054643 13.533337,21.3722507 13.0522917,21.1018359 C11.4250962,22.0190609 9.63246555,22.4947009 7.81570833,22.4912623 C7.16510551,22.4842162 6.51607673,22.4173045 5.875,22.2911849 L5.875,44.7220845 C5.875,45.9498589 6.7517757,46.9451667 7.83333333,46.9451667 L19.5833333,46.9451667 L19.5833333,33.6066734 L27.4166667,33.6066734 L27.4166667,46.9451667 L39.1666667,46.9451667 C40.2482243,46.9451667 41.125,45.9498589 41.125,44.7220845 L41.125,22.2822926 C40.4887822,22.4116582 39.8442868,22.4815492 39.198,22.4912623 Z">
+                          </path>
+                        </g>
+                      </g>
+                    </g>
+                  </g>
+                </g>
+              </svg>
+            </span>
+            <span class="sidebar-label">Dashboard</span>
+          </a>
+        </li>
+        <li>
+          <a class="sidebar-link" href="{{ url_for('admin_events') }}">
+            <span class="sidebar-icon">
+              <!-- Tables SVG -->
+              <svg width="60px" height="60px" viewBox="0 0 42 42" xmlns="http://www.w3.org/2000/svg">
+                <g fill="none" fill-rule="evenodd">
+                  <g fill="#FFFFFF" fill-rule="nonzero">
+                    <g>
+                      <g>
+                        <g>
+                          <path class="fill-slate-800 opacity-60"
+                            d="M12.25,17.5 L8.75,17.5 L8.75,1.75 C8.75,0.78225 9.53225,0 10.5,0 L31.5,0 C32.46775,0 33.25,0.78225 33.25,1.75 L33.25,12.25 L29.75,12.25 L29.75,3.5 L12.25,3.5 L12.25,17.5 Z">
+                          </path>
+                          <path class="fill-slate-800"
+                            d="M40.25,14 L24.5,14 C23.53225,14 22.75,14.78225 22.75,15.75 L22.75,38.5 L19.25,38.5 L19.25,22.75 C19.25,21.78225 18.46775,21 17.5,21 L1.75,21 C0.78225,21 0,21.78225 0,22.75 L0,40.25 C0,41.21775 0.78225,42 1.75,42 L40.25,42 C41.21775,42 42,41.21775 42,40.25 L42,15.75 C42,14.78225 41.21775,14 40.25,14 Z M12.25,36.75 L7,36.75 L7,33.25 L12.25,33.25 L12.25,36.75 Z M12.25,29.75 L7,29.75 L7,26.25 L12.25,26.25 L12.25,29.75 Z M35,36.75 L29.75,36.75 L29.75,33.25 L35,33.25 L35,36.75 Z M35,29.75 L29.75,29.75 L29.75,26.25 L35,26.25 L35,29.75 Z M35,22.75 L29.75,22.75 L29.75,19.25 L35,19.25 L35,22.75 Z">
+                          </path>
+                        </g>
+                      </g>
+                    </g>
+                  </g>
+                </g>
+              </svg>
+            </span>
+            <span class="sidebar-label">Event List</span>
+          </a>
+        </li>
+
+        <li>
+          <a class="sidebar-link" href="{{ url_for('volunteer_list') }}">
+            <span class="sidebar-icon">
+                <!-- User Friends SVG -->
+                <svg xmlns="http://www.w3.org/2000/svg" width="60px" height="60px" viewBox="0 0 64 64" fill="#000000" style="display: block; margin: 0 auto;">
+                  <g>
+                    <path fill="#394240" d="M32,0C14.328,0,0,14.328,0,32s14.328,32,32,32s32-14.328,32-32S49.672,0,32,0z M20.418,53.016 C21.75,47.844,26.406,44,32,44s10.25,3.844,11.582,9.016C40.145,54.914,36.203,56,32,56S23.855,54.914,20.418,53.016z M32,32 c-2.211,0-4-1.789-4-4s1.789-4,4-4s4,1.789,4,4S34.211,32,32,32z M50.129,47.695c-2.141-4.668-5.992-8.367-10.789-10.266 C42.156,35.234,44,31.848,44,28c0-6.625-5.371-12-12-12s-12,5.375-12,12c0,3.848,1.844,7.234,4.66,9.43 c-4.797,1.898-8.648,5.598-10.789,10.266C10.223,43.484,8,38.008,8,32C8,18.746,18.746,8,32,8s24,10.746,24,24 C56,38.008,53.777,43.484,50.129,47.695z"/>
+                    <path fill="#ffffff" d="M20.418,53.016C21.75,47.844,26.406,44,32,44s10.25,3.844,11.582,9.016C40.145,54.914,36.203,56,32,56 S23.855,54.914,20.418,53.016z"/>
+                    <circle fill="#ffffff" cx="32" cy="28" r="4"/>
+                    <path fill="#afb1af" d="M50.129,47.695c-2.141-4.668-5.992-8.367-10.789-10.266C42.156,35.234,44,31.848,44,28 c0-6.625-5.371-12-12-12s-12,5.375-12,12c0,3.848,1.844,7.234,4.66,9.43c-4.797,1.898-8.648,5.598-10.789,10.266 C10.223,43.484,8,38.008,8,32C8,18.746,18.746,8,32,8s24,10.746,24,24C56,38.008,53.777,43.484,50.129,47.695z"/>
+                  </g>
+                </svg>
+            </span>
+            <span class="sidebar-label">Volunteer List</span>
+          </a>
+        </li>
+
+        <li>
+          <a class="sidebar-link" href="{{ url_for('admin_donors') }}">
+            <span class="sidebar-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#000000" height="64px" width="64px" version="1.2" baseProfile="tiny" id="inventory" viewBox="0 0 256 230" xml:space="preserve">
+
+                <g id="SVGRepo_bgCarrier" stroke-width="0"/>
+
+               <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"/>
+
+                <g id="SVGRepo_iconCarrier"> <path d="M180,26.6c-40.4,0-72.8,32.8-72.8,73.2c0,40.2,32.6,72.8,72.8,72.8c40.2,0,73-32.6,73-73C253,59.2,220.4,26.6,180,26.6z M185.5,139.5v11.4h-10.1v-11.1c-8.7,0-17.5-2.3-21.7-4.7l3.7-14.8c4.7,2.3,12,5,19.8,5c8.4,0,12.5-3.7,12.5-8.7 c0-5-4-7.1-13.6-10.9c-13.4-4.7-21.7-11.4-21.7-23.5c0-11.1,7.3-19.8,20.8-22.5v-12h10.1v11.4c8.4,0,14.4,1.7,18.9,4.1l-4.1,14.4 c-3.3-1.4-8.7-3.7-16.1-3.7s-11.4,3.7-11.4,7.3c0,5,4.7,7,14.8,11.1c13.8,5,20.2,12,20.2,23.5C207.2,127.4,200.2,136.1,185.5,139.5z M205.7,213c0,7-5.7,12.6-12.6,12.6h-85.8C97,225.9,85.9,222,78,214.2l-32.3-32.3c-4.1-4.1-9.4-6.2-14.7-6.2H2v-50h54v-0.1 c10,0,20,3.9,27.8,11.5l46.3,46.3c4.9,4.9,4.9,12.8,0,17.7s-12.8,4.9-17.7,0L75,163.9c-1.5-1.7-4.1-1.7-5.7,0 c-1.7,1.7-1.7,4.3,0,5.9l37.2,37.2c3.9,4.1,9.2,6.2,14.7,6.2s10.9-2.3,14.7-6.2c1.9-1.7,3.4-4.1,4.5-6.4H193 C200,200.6,205.7,206.2,205.7,213z"/> </g>
+
+              </svg>
+            </span>
+            <span class="sidebar-label">Donor list</span>
+          </a>
+        </li>
+
+        <li>
+          <a class="sidebar-link" href="{{ url_for('admin_requests') }}">
+            <span class="sidebar-icon">
+              <!-- Billing SVG -->
+              <svg xmlns="http://www.w3.org/2000/svg" fill="#000000" width="68px" height="68px" viewBox="-1.6 -1.6 19.20 19.20" id="request-refund-16px" transform="rotate(0)">
+
+                <g id="SVGRepo_bgCarrier" stroke-width="0"/>
+
+                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"/>
+
+                <g id="SVGRepo_iconCarrier"> <path id="Path_45" data-name="Path 45" d="M-16,11a2,2,0,0,0,2-2,2,2,0,0,0-2-2,2,2,0,0,0-2,2A2,2,0,0,0-16,11Zm0-3a1,1,0,0,1,1,1,1,1,0,0,1-1,1,1,1,0,0,1-1-1A1,1,0,0,1-16,8Zm2.5,4h-5A2.5,2.5,0,0,0-21,14.5,1.5,1.5,0,0,0-19.5,16h7A1.5,1.5,0,0,0-11,14.5,2.5,2.5,0,0,0-13.5,12Zm1,3h-7a.5.5,0,0,1-.5-.5A1.5,1.5,0,0,1-18.5,13h5A1.5,1.5,0,0,1-12,14.5.5.5,0,0,1-12.5,15Zm5-15h-7A2.5,2.5,0,0,0-17,2.5v3a.5.5,0,0,0,.5.5.5.5,0,0,0,.5-.5v-3A1.5,1.5,0,0,1-14.5,1h3V2A1.5,1.5,0,0,0-13,3.5,1.5,1.5,0,0,0-11.5,5V6h-1a.5.5,0,0,0-.5.5.5.5,0,0,0,.5.5h1v.5A.5.5,0,0,0-11,8a.5.5,0,0,0,.5-.5V7A1.5,1.5,0,0,0-9,5.5,1.5,1.5,0,0,0-10.5,4V3h1A.5.5,0,0,0-9,2.5.5.5,0,0,0-9.5,2h-1V1h3A1.5,1.5,0,0,1-6,2.5v5A1.5,1.5,0,0,1-7.5,9h-3a.5.5,0,0,0-.354.146L-12,10.293V9.5a.5.5,0,0,0-.5-.5.5.5,0,0,0-.5.5v2a.5.5,0,0,0,.309.462A.489.489,0,0,0-12.5,12a.5.5,0,0,0,.354-.146L-10.293,10H-7.5A2.5,2.5,0,0,0-5,7.5v-5A2.5,2.5,0,0,0-7.5,0ZM-10,5.5a.5.5,0,0,1-.5.5V5A.5.5,0,0,1-10,5.5ZM-11.5,4a.5.5,0,0,1-.5-.5.5.5,0,0,1,.5-.5Z" transform="translate(21)"/> </g>
+
+              </svg>
+            </span>
+            <span class="sidebar-label">Request List</span>
+          </a>
+        </li>
+
+        <li>
+          <h6 class="sidebar-section-title">Account pages</h6>
+        </li>
+
+        <li>
+          <a class="sidebar-link" href="#">
+            <span class="sidebar-icon">
+              <!-- Profile SVG -->
+              <svg width="60px" height="60px" viewBox="0 0 46 42" xmlns="http://www.w3.org/2000/svg">
+                <g fill="none" fill-rule="evenodd">
+                  <g fill="#FFFFFF" fill-rule="nonzero">
+                    <g>
+                      <g>
+                        <g>
+                          <path class="fill-slate-800 opacity-60"
+                            d="M45,0 L26,0 C25.447,0 25,0.447 25,1 L25,20 C25,20.379 25.214,20.725 25.553,20.895 C25.694,20.965 25.848,21 26,21 C26.212,21 26.424,20.933 26.6,20.8 L34.333,15 L45,15 C45.553,15 46,14.553 46,14 L46,1 C46,0.447 45.553,0 45,0 Z">
+                          </path>
+                          <path class="fill-slate-800"
+                            d="M22.883,32.86 C20.761,32.012 17.324,31 13,31 C8.676,31 5.239,32.012 3.116,32.86 C1.224,33.619 0,35.438 0,37.494 L0,41 C0,41.553 0.447,42 1,42 L25,42 C25.553,42 26,41.553 26,41 L26,37.494 C26,35.438 24.776,33.619 22.883,32.86 Z">
+                          </path>
+                          <path class="fill-slate-800"
+                            d="M13,28 C17.432,28 21,22.529 21,18 C21,13.589 17.411,10 13,10 C8.589,10 5,13.589 5,18 C5,22.529 8.568,28 13,28 Z">
+                          </path>
+                        </g>
+                      </g>
+                    </g>
+                  </g>
+                </g>
+              </svg>
+            </span>
+            <span class="sidebar-label">Profile</span>
+          </a>
+        </li>
+
+        <li>
+          <a class="sidebar-link" href="{{ url_for('home') }}">
+            <span class="sidebar-icon">
+              <!-- Sign In SVG -->
+              <svg width="60px" height="60px" viewBox="0 0 46 46" xmlns="http://www.w3.org/2000/svg">
+                <g fill="none" fill-rule="evenodd">
+                  <g fill="#FFFFFF" fill-rule="nonzero">
+                    <g>
+                      <g>
+                        <g>
+                          <path class="fill-slate-800 opacity-60"
+                            d="M34.909,31.909c-0.391,0-0.782-0.149-1.081-0.448c-0.597-0.597-0.597-1.566,0-2.163l5.373-5.373H17.273c-0.848,0-1.536-0.688-1.536-1.536s0.688-1.536,1.536-1.536h21.928l-5.373-5.373c-0.597-0.597-0.597-1.566,0-2.163c0.597-0.597,1.566-0.597,2.163,0l7.909,7.909c0.597,0.597,0.597,1.566,0,2.163l-7.909,7.909C35.691,31.76,35.3,31.909,34.909,31.909z">
+                          </path>
+                          <path class="fill-slate-800"
+                            d="M23,46C10.318,46,0,35.682,0,23S10.318,0,23,0c5.273,0,10.273,1.818,14.364,5.127c0.668,0.545,0.764,1.527,0.219,2.195c-0.545,0.668-1.527,0.764-2.195,0.219C31.364,4.364,27.273,2.727,23,2.727C12.227,2.727,3.273,11.682,3.273,23S12.227,43.273,23,43.273c4.273,0,8.364-1.636,11.388-4.545c0.668-0.545,1.65-0.449,2.195,0.219c0.545,0.668,0.449,1.65-0.219,2.195C33.273,44.182,28.273,46,23,46z">
+                          </path>
+                        </g>
+                      </g>
+                    </g>
+                  </g>
+                </g>
+              </svg>
+            </span>
+            <span class="sidebar-label">Log out</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </aside>
+  <main class="main-container">
+    <!-- Navbar -->
+    <nav class="navbar" navbar-main navbar-scroll="true">
+      <div class="navbar-div">
+        <nav>
+          <h2>RAPID</h2>
+        </nav>
+
+        <div class="navbar-div-search">
+          <div class="search-box">
+            <span class="search-box-icon">
+              <i class="fas fa-search" aria-hidden="true"></i>
+            </span>
+            <input type="text" placeholder="Type here..." />
+          </div>
+
+          <ul class="menu-list">
+            <li><i class="fa fa-user sm:mr-1" aria-hidden="true"></i><span>{{name}}</span></li>
+          </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="total-amount-section">
+
+      <div class="total-amount-card">
+        <div class="total-amount-header">
+          <p>Total Amount</p>
+          <h5> 1213213<!--{{total_amount}}--></h5>
+        </div>
+        <div class="total-amount-icon">
+          <img src="{{ url_for('static', filename='images/logo/bank-logo.png') }}" alt="Bank Logo" class="bank-logo" />
+        </div>
+      </div>
+
+      <div class="total-amount-card">
+        <div class="total-amount-header">
+          <p>Total Volunteers</p>
+          <h5> 1213213<!--{{pending_amount}}--></h5>
+        </div>
+        <div class="total-amount-icon">
+          <i class="fas fa-user-friends"></i>
+        </div>
+      </div>
+
+      <div class="total-amount-card">
+        <div class="total-amount-header">
+          <p>Total Donors</p>
+          <h5> 1213213<!--{{completed_amount}}--></h5>
+        </div>
+        <div class="total-amount-icon">
+          <i class="fas fa-heart"></i>
+        </div>
+      </div>
+
+      <div class="total-amount-card">
+        <div class="total-amount-header">
+          <p>Total Recipients</p>
+          <h5> 1213213<!--{{cancelled_amount}}--></h5>
+        </div>
+        <div class="total-amount-icon">
+          <i class="fas fa-user-friends"></i>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="content-section">
+      <div class="chart-section">
+        <h3>Monthly Donations</h3>
+        <p>This chart shows the trend of donations over the past months.</p>
+        <canvas id="myChart" style="width:100%;max-width:600px"></canvas>
+      </div>
+      <div class="event-section">
+        <h3>Events</h3>
+        <ul class="event-list">
+          <li class="event-item">
+            <div>
+              <h4>Flood in barishal</h4>
+              <p>Date: 25th Dec 2023</p>
+            </div>
+            <p>Ongoing</p>
+          </li>
+          <li class="event-item">
+            <div>
+              <h4>Food Distribution</h4>
+              <p>Date: 15th Jan 2024</p>
+            </div>
+            <p>Upcoming</p>
+          </li>
+          <li class="event-item">
+            <div>
+              <h4>Clothing Drive</h4>
+              <p>Date: 5th Feb 2024</p>
+            </div>
+            <p>Upcoming</p>
+          </li>
+          <li class="event-item">
+            <div>
+              <h4>Health Camp</h4>
+              <p>Date: 20th Feb 2024</p>
+            </div>
+            <p>Upcoming</p>
+          </li>
+        </ul>
+        <a href="{{ url_for('admin_events') }}" class="btn">View All Events</a>
+      </div>
+
+
+    </div>
+
+    <div class="content-section">
+      <div class="volunteer-section">
+        <h3>Volunteers</h3>
+        <div>
+          <div class="arrow left">
+            <p>See All</p>
+          </div>
+
+          <div class="volunteer-list">
+            <div class="volunteer-item">
+              <img src="{{ url_for('static', filename='images/profile_img/profile1.jpeg') }}" alt="Volunteer 1" />
+              <h2>John Doe</h2>
+              <p>Volunteer Role: Team Leader</p>
+            </div>
+            <div class="volunteer-item">
+              <img src="{{ url_for('static', filename='images/profile_img/profile2.jpeg') }}" alt="Volunteer 2" />
+              <h2>Jane Smith</h2>
+              <p>Volunteer Role: Fundraiser</p>
+            </div>
+            <div class="volunteer-item">
+              <img src="{{ url_for('static', filename='images/profile_img/profile3.jpeg') }}" alt="Volunteer 3" />
+              <h2>Mike Johnson</h2>
+              <p>Volunteer Role: Community Outreach</p>
+            </div>
+            <div class="volunteer-item">
+              <img src="{{ url_for('static', filename='images/profile_img/profile4.jpeg') }}" alt="Volunteer 4" />
+              <h2>Emily Davis</h2>
+              <p>Volunteer Role: Event Coordinator</p>
+            </div>
+            <div class="volunteer-item">
+              <img src="{{ url_for('static', filename='images/profile_img/profile5.jpeg') }}" alt="Volunteer 5" />
+              <h2>Sarah Brown</h2>
+              <p>Volunteer Role: Social Media Manager</p>
+            </div>
+            <div class="volunteer-item">
+              <img src="{{ url_for('static', filename='images/profile_img/profile6.jpeg') }}" alt="Volunteer 6" />
+              <h2>David Wilson</h2>
+              <p>Volunteer Role: Logistics Coordinator</p>
+            </div>
+          </div>
+
+
+          <div class="arrow right">
+            <p>See All</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="content-section">
+      <div class="recipient-section">
+
+        <h3>Donors</h3>
+        {% for i in range(5) %}
+        <div class="recipient-item">
+          <h4>John Doe {{ i }}</h4>
+          <p>Donation Amount: {{i*200+50}}</p>
+        </div>
+        {% endfor %}
+        <a href="{{ url_for('admin_donors') }}">See all</a>
+      </div>
+
+      <div class="stock-section">
+        <h3>Stock</h3>
+        <div>
+          {% set stocks = ['Food Supplies', 'Clothing', 'Medical Supplies', 'Books', 'Toys'] %}
+          {% for stock in stocks %}
+          <div class="card">
+            <div class="card-details">
+              <p class="text-title">{{ stock }}</p>
+              <p class="text-body">Available: {{ stock | length }}</p>
+            </div>
+            <buttonc class="card-button">More Info</button>
+          </div>
+          {% endfor %}
+        </div>
+        <a href="{{ url_for('admin_stock') }}">See all</a>
+      </div>
+
+      <div class="recipient-section">
+        <h3>Request list</h3>
+        {% for i in range(5) %}
+        <div class="recipient-item">
+          <h4>Jane Smith {{ i }}</h4>
+          <p>Received Amount: {{i*100+20}}</p>
+        </div>
+        {% endfor %}
+        <a href="{{ url_for('admin_requests') }}" class="btn">>See all</a>
+      </div>
+
+
+
+    </div>
+
+
+  </main>
+  <script src="{{ url_for('static', filename='script/admin_chart.js') }}"></script>
+</body>
+
+</html>
