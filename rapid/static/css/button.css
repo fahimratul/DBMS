@@ -1,0 +1,284 @@
+
+.navlinks {
+  display: flex;
+  font-size: 20px;
+  font-weight: 500;
+  transform: translateY(20%);
+  gap: 1rem;
+}
+.navlinks a:hover {
+  color: #65a4c9;
+
+}
+
+
+.auth-buttons button {
+  margin-left: 0.5rem;
+  padding: 0.5rem 1rem;
+  width: 180px;
+}
+
+.donate-btn {
+  background: #23325B;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  height: 40px;
+  width: 100%;
+  padding: 0 1.5rem;
+  cursor: pointer;
+  transition: all 0.5s ease;
+}
+.donate-btn:hover {
+  background: #65a4c9;
+}
+
+.login-btn {
+  background: #f6f6f8;
+  color: rgb(0, 0, 0);
+  border: none;
+  border-radius: 8px;
+  height: 40px;
+  width: 80px;
+  padding: 0 1.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.login-btn:hover {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(0, 162, 255, 0.5);
+}
+
+
+
+.donate-submit {
+  margin-top: 1rem;
+  padding: 0.75rem 2rem;
+  background: teal;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  width: 90%;
+  transition: all 0.3s ease-out;
+  cursor: pointer;
+}
+
+
+.donate-submit:hover {
+  background: #00bcd4;
+  cursor: pointer;
+  box-shadow: 0 4px 5px rgba(0, 0, 0, 0.2);
+  transform: translateY(-4px);
+}
+
+.donate-submit-final {
+  margin-top: 1rem;
+  padding: 0.75rem 2rem;
+  background: teal;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  width: 90%;
+  transition: all 0.3s ease-out;
+  cursor: pointer;
+}
+
+.donate-submit-final:hover {
+  background: #00bcd4;
+  cursor: pointer;
+  box-shadow: 0 4px 5px rgba(0, 0, 0, 0.2);
+  transform: translateY(-4px);
+}
+
+
+
+
+
+/* glowing button  */
+
+.super-button {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 14px 28px;
+  background: linear-gradient(145deg, #0f0f0f, #1c1c1c);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 100px;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  overflow: hidden;
+  transition: all 0.4s ease-in-out;
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.1);
+  backdrop-filter: blur(8px);
+  z-index: 1;
+}
+
+.super-button::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: conic-gradient(from 0deg, #00ffff, #ff00ff, #00ffff);
+  animation: rotate 4s linear infinite;
+  z-index: -2;
+}
+
+.super-button::after {
+  content: "";
+  position: absolute;
+  inset: 2px;
+  background: #0a0a0a;
+  border-radius: inherit;
+  z-index: -1;
+}
+
+.super-button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 40px rgba(0, 255, 255, 0.2);
+}
+
+.super-button:hover .arrow {
+  transform: translateX(6px);
+}
+
+.arrow {
+  width: 22px;
+  height: 22px;
+  transition: transform 0.3s ease-in-out;
+  color: #00ffff;
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+
+
+.container-btn {
+	width: 1000px;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-around;
+}
+.container-btn .btn {
+	position: relative;
+	top: 0;
+	left: 0;
+	width: 250px;
+	height: 50px;
+	margin: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.container-btn .btn a {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background: rgba(255, 255, 255, 0.05);
+	box-shadow: 0 15px 15px rgba(0, 0, 0, 0.3);
+	border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+	border-top: 1px solid rgba(255, 255, 255, 0.1);
+	border-radius: 30px;
+	padding: 10px;
+	letter-spacing: 1px;
+	text-decoration: none;
+	overflow: hidden;
+	color: #fff;
+	font-weight: 400px;
+	z-index: 1;
+	transition: 0.5s;
+	backdrop-filter: blur(15px);
+}
+.container-btn .btn:hover a {
+	letter-spacing: 3px;
+}
+.container-btn .btn a::before {
+	content: "";
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 50%;
+	height: 100%;
+	background: linear-gradient(to left, rgba(255, 255, 255, 0.15), transparent);
+	transform: skewX(45deg) translate(0);
+	transition: 0.5s;
+	filter: blur(0px);
+}
+.container-btn .btn:hover a::before {
+	transform: skewX(45deg) translate(200px);
+}
+.container-btn .btn::before {
+	content: "";
+	position: absolute;
+	left: 50%;
+	transform: translatex(-50%);
+	bottom: -5px;
+	width: 30px;
+	height: 10px;
+	background: rgb(255, 238, 0);
+	border-radius: 10px;
+	transition: 0.5s;
+	transition-delay: 0.5;
+}
+.container-btn .btn:hover::before /*lightup button*/ {
+	bottom: 0;
+	height: 50%;
+	width: 80%;
+	border-radius: 30px;
+}
+
+.container-btn .btn::after {
+	content: "";
+	position: absolute;
+	left: 50%;
+	transform: translatex(-50%);
+	top: -5px;
+	width: 30px;
+	height: 10px;
+	background: #f00;
+	border-radius: 10px;
+	transition: 0.5s;
+	transition-delay: 0.5;
+}
+.container-btn .btn:hover::after /*lightup button*/ {
+	top: 0;
+	height: 50%;
+	width: 80%;
+	border-radius: 30px;
+}
+.container-btn .btn:nth-child(1)::before, /*chnage 1*/
+.container-btn .btn:nth-child(1)::after {
+	background: rgb(255, 238, 0);
+	box-shadow: 0 0 5px rgb(255, 238, 0), 0 0 15px rgb(255, 238, 0), 0 0 30px rgb(255, 238, 0),
+		0 0 60px rgb(255, 238, 0);
+}
+.container-btn .btn:nth-child(2)::before, /* 2*/
+.container-btn .btn:nth-child(2)::after {
+	background: #2db2ff;
+	box-shadow: 0 0 5px #2db2ff, 0 0 15px #2db2ff, 0 0 30px #2db2ff,
+		0 0 60px #2db2ff;
+}
+.container-btn .btn:nth-child(3)::before, /* 3*/
+.container-btn .btn:nth-child(3)::after {
+	background: #1eff45;
+	box-shadow: 0 0 5px #1eff45, 0 0 15px #1eff45, 0 0 30px #1eff45,
+		0 0 60px #1eff45;
+}

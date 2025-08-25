@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RAPID</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/button.css') }}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/slider.css') }}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/donate.css') }}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/hero.css') }}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/graphs.css') }}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/event.css') }}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/leaderboard.css') }}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/feedback.css') }}" />
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet">
+</head>
+
+<body>
+  <!-- Navigation -->
+  <header>
+    <div class="logo"><span>RAPID</span>
+    </div>
+    <div class="auth-buttons">
+    <a href="{{ url_for('auth.login') }}"><button class="login-btn">LOG IN</button></a>
+    </div>
+  </header>
+
+  <!-- Donate Section
+  <section class="donate-section">
+    <div class="slider">
+      <div class="slideshow-container">
+
+        <div class="mySlides fade">
+          <div class="numbertext">1 / 3</div>
+          <img src="https://c0.wallpaperflare.com/preview/357/982/474/egypt-cairo-tower-cairo-sunset.jpg">
+          <div class="text">
+            <h1>Abraca Debra</h1>
+            <p>A flood is an overflow of water (or rarely other fluids) that submerges land that is usually dry.[1] In
+              the sense of "flowing water", the word may also be applied to the inflow of the tide. Floods are of
+              significant concern in agriculture, civil engineering and public health. Human changes to the
+              environment
+              often increase the intensity and frequency of flooding. Examples for human changes are land use changes
+              such as deforestation and removal of wetlands, changes in waterway course or flood controls such as with
+              levees. Global environmental issues also influence causes of floods, namely climate change which causes
+              an
+              intensification of the water cycle and sea level rise.[2]: 1517  For example, climate change makes
+              extreme
+              weather events more frequent and stronger.</p>
+            <button class="gradient-button">
+              <span class="gradient-button-inner">learn More</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="mySlides fade">
+          <div class="numbertext">2 / 3</div>
+          <img
+            src="https://c4.wallpaperflare.com/wallpaper/125/887/712/historic-mosque-madrassa-of-sultan-hassan-city-mosque-wallpaper-preview.jpg">
+          <div class="text">
+            <h1>Flood</h1>
+            <p>A flood is an overflow of water (or rarely other fluids) that submerges land that is usually dry.[1] In
+              the sense of "flowing water", the word may also be applied to the inflow of the tide. Floods are of
+              significant concern in agriculture, civil engineering and public health. Human changes to the
+              environment
+              often increase the intensity and frequency of flooding. Examples for human changes are land use changes
+              such as deforestation and removal of wetlands, changes in waterway course or flood controls such as with
+              levees. Global environmental issues also influence causes of floods, namely climate change which causes
+              an
+              intensification of the water cycle and sea level rise.[2]: 1517  For example, climate change makes
+              extreme
+              weather events more frequent and stronger.</p>
+            <button class="gradient-button">
+              <span class="gradient-button-inner">learn More</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="mySlides fade">
+          <div class="numbertext">3 / 3</div>
+          <img src="https://c1.wallpaperflare.com/preview/1019/166/561/stanley-bridge-alexandria-landmark-egypt.jpg">
+          <div class="text">
+            <h1>Flood</h1>
+            <p>A flood is an overflow of water (or rarely other fluids) that submerges land that is usually dry.[1] In
+              the sense of "flowing water", the word may also be applied to the inflow of the tide. Floods are of
+              significant concern in agriculture, civil engineering and public health. Human changes to the
+              environment
+              often increase the intensity and frequency of flooding. Examples for human changes are land use changes
+              such as deforestation and removal of wetlands, changes in waterway course or flood controls such as with
+              levees. Global environmental issues also influence causes of floods, namely climate change which causes
+              an
+              intensification of the water cycle and sea level rise.[2]: 1517  For example, climate change makes
+              extreme
+              weather events more frequent and stronger.</p>
+            <button class="gradient-button">
+              <span class="gradient-button-inner">learn More</span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+      <br>
+      <div style="text-align:center">
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+      </div>
+    </div>
+
+
+    <div class="donate-content">
+      <h2>Make a Difference</h2>
+      <h2>DONATE NOW</h2>
+      <p>Your contribution helps us support those in need.Your donation supports our mission.<br>Choose an amount to
+        donate:</p>
+      <div class="amount-options">
+        <button>1000</button>
+        <button>2000</button>
+        <button>5000</button>
+        <button>1000</button>
+        <button>2000</button>
+        <button>5000</button>
+      </div>
+      <form class="form-box">
+        <input type="text" placeholder="1000" required>
+        <button class="donate-submit">Donate and Support</button>
+      </form>
+    </div>
+
+  </section> -->
+
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Join Us in Making a Difference</h1>
+      <h1>We are dedicated to helping those in need. Your support can change lives.</h1>
+      <button class="super-button">
+        <span>Get Involved</span>
+        <svg fill="none" viewBox="0 0 24 24" class="arrow">
+          <path stroke-linejoin="round" stroke-linecap="round" stroke-width="2" stroke="currentColor"
+            d="M5 12h14M13 6l6 6-6 6"></path>
+        </svg>
+      </button>
+    </div>
+
+
+    <div class="hero-content">
+      <section class="hero-section">
+        <div class="card-grid">
+          <a class="card" href="#">
+            <div class="card__background"
+              style="background-image: url('{{ url_for('static', filename='images/card/card1.jpg') }}');">
+            </div>
+            <div class="card__content">
+              <p class="card__category">Category</p>
+              <h3 class="card__heading">Example Card Heading</h3>
+            </div>
+          </a>
+          <a class="card" href="#">
+            <div class="card__background"
+              style="background-image: url('{{ url_for('static', filename='images/card/card2.jpg') }}');">
+            </div>
+            <div class="card__content">
+              <p class="card__category">Category</p>
+              <h3 class="card__heading">Example Card Heading</h3>
+            </div>
+          </a>
+          <a class="card" href="#">
+            <div class="card__background"
+              style="background-image: url('{{ url_for('static', filename='images/card/card3.jpg') }}');">
+            </div>
+            <div class="card__content">
+              <p class="card__category">Category</p>
+              <h3 class="card__heading">Example Card Heading</h3>
+            </div>
+            </li>
+            <a class="card" href="#">
+              <div class="card__background"
+                style="background-image: url('{{ url_for('static', filename='images/card/card4.jpg') }}');">
+              </div>
+              <div class="card__content">
+                <p class="card__category">Category</p>
+                <h3 class="card__heading">Example Card Heading</h3>
+              </div>
+            </a>
+            <div>
+      </section>
+    </div>
+
+
+
+  </section>
+
+
+  <!-- Hero Section 2-->
+  <section class="hero white">
+    <div class="hero-content">
+      <h1>Together, we can make a bigger impact</h1>
+      <p>Establish a scalable incident command framework with defined roles, clear comms, and adaptable hierarchy. Build a centralized volunteer system: registration (skills, availability, language), scheduling/dispatch, credentialing, safety briefings, and tracking. Prioritize rapid needs assessment and resource allocation; maintain a live resource ledger for supplies and equipment. Enhance coordination with partners via a shared ops room, regular briefings, and community engagement. Ensure safety and wellbeing: training, on-site rest areas, hydration, mental health support, and rotation planning. Robust communication: multi-channel outreach, real-time situational awareness, and language access. Data resilience: offline access, privacy controls, and drills. Balance immediate relief with early recovery, measure impact, and sustain a diverse volunteer ecosystem with ethical safeguards.</p>
+      <button class="donate-submit">Learn More</button>
+    </div>
+  </section>
+
+
+  <section class="graph">
+    <div class="graph-content">
+      <div class="graph-card">
+        <h2>Our Impact</h2>
+        <p>We have made a significant impact in the community through our various initiatives and programs. Here are
+          some of our key achievements:</p>
+        <ul>
+          <li>Over 10,000 meals distributed to those in need.</li>
+          <li>500 families supported with essential supplies.</li>
+          <li>1000 volunteers mobilized for community service.</li>
+        </ul>
+      </div>
+      <div class="graph-card">
+        <h2>Donation Trends</h2>
+        <p>Track our donation trends over the past year to see how your contributions are making a difference.</p>
+      </div>
+      <button class="donate-submit">Learn More</button>
+    </div>
+    <!-- Graph Section -->
+    <div class="card-container">
+      <div class="card-header">
+        <div>
+          <h5 class="amount">$12,423</h5>
+          <p class="subtitle">Donations of this week</p>
+        </div>
+        <div class="percentage-change">
+          23%
+          <svg class="arrow-up" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 14">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M5 13V1m0 0L1 5m4-4 4 4" />
+          </svg>
+        </div>
+      </div>
+      <div id="data-series-chart"></div>
+      <div class="card-footer">
+        <div class="footer-controls">
+          <button id="dropdownDefaultButton" class="dropdown-btn" type="button">
+            Last 7 days
+            <svg class="dropdown-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="m1 1 4 4 4-4" />
+            </svg>
+          </button>
+          <div id="lastDaysdropdown" class="dropdown-menu">
+            <ul>
+              <li><a href="#">Yesterday</a></li>
+              <li><a href="#">Today</a></li>
+              <li><a href="#">Last 7 days</a></li>
+              <li><a href="#">Last 30 days</a></li>
+              <li><a href="#">Last 90 days</a></li>
+            </ul>
+          </div>
+          <a href="#" class="sales-report-link">
+            Donation Report
+            <svg class="link-arrow" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="m1 9 4-4-4-4" />
+            </svg>
+          </a>
+        </div>
+      </div>
+  </section>
+
+
+  <!-- Events Section -->
+
+  <section class="event-section">
+    <h1>Upcoming Events</h1>
+    <p>Join us in our upcoming events to make a difference in the community.</p>
+    <div class="event-buttons">
+      <div class="container-btn">
+        <div class="btn"><a href="#">Upcoming</a></div>
+        <div class="btn"><a href="#">Ongoning</a></div>
+        <div class="btn"><a href="#">Previous</a></div>
+      </div>
+    </div>
+    <div class="scroll-container">
+      <div class="event-card">
+        <img
+          src="https://images.unsplash.com/photo-1557177324-56c542165309?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80"
+          alt="Easter Bunnies">
+        <h2>Easter Bunnies</h2>
+        <p>Easter bunnies are a popular symbol of spring and renewal of life, often seen delivering colorful eggs to
+          children.</p>
+        <button class="gradient-button">
+          <span class="gradient-button-inner">learn More</span>
+        </button>
+      </div>
+      <div class="event-card">
+        <img
+          src="https://images.unsplash.com/photo-1557177324-56c542165309?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80"
+          alt="Easter Chick">
+        <h2>Easter Chick</h2>
+        <p>Easter chicks are a cheerful symbol of new life and beginnings, often seen alongside eggs in spring
+          decorations.</p>
+        <button class="gradient-button">
+          <span class="gradient-button-inner">learn More</span>
+        </button>
+      </div>
+      <div class="event-card">
+        <img
+          src="https://images.unsplash.com/photo-1557177324-56c542165309?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80"
+          alt="Hot Cross Buns">
+        <h2>Hot Cross Buns</h2>
+        <p>Hot cross buns are sweet, spiced buns marked with a cross on top, traditionally eaten on Good Friday.</p>
+        <button class="gradient-button">
+          <span class="gradient-button-inner">learn More</span>
+        </button>
+      </div>
+      <div class="event-card">
+        <img
+          src="https://images.unsplash.com/photo-1557177324-56c542165309?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80"
+          alt="Easter Eggs">
+        <h2>Easter Eggs</h2>
+        <p>Easter eggs are a colorful symbol of new life and rebirth, often decorated and hidden for festive hunts.
+        </p>
+        <button class="gradient-button">
+          <span class="gradient-button-inner">learn More</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Event Section imgage -->
+  <section class="event-section">
+    <div class="container-img">
+      <div class="info-box">
+        <p>In Bangladesh, at least 48 people have died since June 14, after heavy rains battered the northeastern state of
+          Assam, according to its disaster management authority, triggering landslides and causing river banks to
+          swell.
+          More than 3.5 million people have been affected.</p>
+      </div>
+      <div class="image">
+        <img src="https://c0.wallpaperflare.com/preview/357/982/474/egypt-cairo-tower-cairo-sunset.jpg"
+          alt="Flood Image">
+      </div>
+      <div class="info-box right">
+        <p>In Bangladesh, at least 48 people have died since June 14, after heavy rains battered the northeastern state of
+          Assam, according to its disaster management authority, triggering landslides and causing river banks to
+          swell.
+          More than 3.5 million people have been affected in the state alone, the authority added.</p>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- Achievement section -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1>RAPID</h1>
+      <h1>Our Achievements</h1>
+      <p>We are proud to share our achievements and the impact we have made in the community.</p>
+      <div class="marker">
+        <div class="marker-item">
+          <h1>5000+</h1>
+          <h2>Volunteers</h2>
+          <p>In Bangladesh, at least 48 people have died since June 14, after heavy rains battered the northeastern state of
+            Assam, according to its disaster management authority, triggering landslides and causing river banks to
+            swell. More than 5.5 million people have been affected in the state alone</p>
+        </div>
+        <div class="marker-item">
+          <h1>10000+</h1>
+          <h2>Meals Distributed</h2>
+          <p>In Bangladesh, at least 48 people have died since June 14, after heavy rains battered the northeastern state of
+            Assam, according to its disaster management authority, triggering landslides and causing river banks to
+            swell. More than 5.5 million people have been affected in the state alone</p>
+        </div>
+        <div class="marker-item">
+          <h1>2000+</h1>
+          <h2>Families Supported</h2>
+          <p>In Bangladesh, at least 48 people have died since June 14, after heavy rains battered the northeastern state of
+            Assam, according to its disaster management authority, triggering landslides and causing river banks to
+            swell. More than 5.5 million people have been affected in the state alone</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!--Map Section-->
+
+  <section class="hero">
+    <article class="leaderboard">
+      <header>
+        <img src="https://cdn-icons-png.flaticon.com/512/684/684908.png" alt="Map Marker"
+          style="width:40px;height:40px; transform: translateX(50%);">
+        <h1 class="leaderboard__title"><span class="leaderboard__title--top">Request</span><span
+            class="leaderboard__title--bottom">Leaderboard</span></h1>
+      </header>
+
+      <main class="leaderboard__profiles">
+        <article class="leaderboard__profile">
+          <span class="leaderboard__name">Rangpur</span>
+          <span class="leaderboard__value">35</span>
+        </article>
+
+        <article class="leaderboard__profile">
+          <span class="leaderboard__name">Dhaka</span>
+          <span class="leaderboard__value">19</span>
+        </article>
+
+        <article class="leaderboard__profile">
+          <span class="leaderboard__name">Barishal</span>
+          <span class="leaderboard__value">4</span>
+        </article>
+        <article class="leaderboard__profile">
+          <span class="leaderboard__name">Barishal</span>
+          <span class="leaderboard__value">4</span>
+        </article>
+        <article class="leaderboard__profile">
+          <span class="leaderboard__name">Barishal</span>
+          <span class="leaderboard__value">4</span>
+        </article>
+
+      </main>
+    </article>
+    <div id="map"></div>
+  </section>
+
+  <!--feedback Section-->
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Feedback</h1>
+      <p>We value your feedback and suggestions.<br> Please let us know how we can improve our services.</p>
+      <button class="super-button">
+        <span>Send Feedback</span>
+        <svg fill="none" viewBox="0 0 24 24" class="arrow">
+          <path stroke-linejoin="round" stroke-linecap="round" stroke-width="2" stroke="currentColor"
+            d="M5 12h14M13 6l6 6-6 6"></path>
+        </svg>
+      </button>
+    </div>
+    <div class="formbold-main-wrapper">
+      <!-- Author: FormBold Team -->
+      <!-- Learn More: https://formbold.com -->
+      <div class="formbold-form-wrapper">
+        <form action="https://formbold.com/s/FORM_ID" method="POST">
+          <div class="formbold-input-flex">
+            <div>
+              <label for="firstname" class="formbold-form-label"> First name </label>
+              <input type="text" name="firstname" id="firstname" placeholder="Jane" class="formbold-form-input" />
+            </div>
+            <div>
+              <label for="lastname" class="formbold-form-label"> Last name </label>
+              <input type="text" name="lastname" id="lastname" placeholder="Cooper" class="formbold-form-input" />
+            </div>
+          </div>
+
+          <div class="formbold-input-flex">
+            <div>
+              <label for="email" class="formbold-form-label"> Mail </label>
+              <input type="email" name="email" id="email" placeholder="jhon@mail.com" class="formbold-form-input" />
+            </div>
+            <div>
+              <label for="phone" class="formbold-form-label"> Phone </label>
+              <input type="text" name="phone" id="phone" placeholder="(319) 555-0115" class="formbold-form-input" />
+            </div>
+          </div>
+
+          <div class="formbold-input-radio-wrapper">
+            <label for="jobtitle" class="formbold-form-label"> Giving feedback as ? </label>
+
+            <div class="formbold-radio-flex">
+              <div class="formbold-radio-group">
+                <label class="formbold-radio-label">
+                  <input class="formbold-input-radio" type="radio" name="jobtitle" id="jobtitle">
+                  Volunteer
+                  <span class="formbold-radio-checkmark"></span>
+                </label>
+              </div>
+
+              <div class="formbold-radio-group">
+                <label class="formbold-radio-label">
+                  <input class="formbold-input-radio" type="radio" name="jobtitle" id="jobtitle">
+                  Donor
+                  <span class="formbold-radio-checkmark"></span>
+                </label>
+              </div>
+
+              <div class="formbold-radio-group">
+                <label class="formbold-radio-label">
+                  <input class="formbold-input-radio" type="radio" name="jobtitle" id="jobtitle">
+                  Recipient
+                  <span class="formbold-radio-checkmark"></span>
+                </label>
+              </div>
+
+              <div class="formbold-radio-group">
+                <label class="formbold-radio-label">
+                  <input class="formbold-input-radio" type="radio" name="jobtitle" id="jobtitle">
+                  Others
+                  <span class="formbold-radio-checkmark"></span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <label for="message" class="formbold-form-label"> Message </label>
+            <textarea rows="6" name="message" id="message" placeholder="Type your message"
+              class="formbold-form-input-textarea"></textarea>
+          </div>
+
+          <button class="donate-submit">
+            Send Message
+          </button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer Menu -->
+  <footer>
+    <div class="footer-section">
+      <h4>Use cases</h4>
+      <ul>
+        <li>UI design</li>
+        <li>UX design</li>
+        <li>Wireframing</li>
+      </ul>
+    </div>
+    <div class="footer-section">
+      <h4>Support</h4>
+      <ul>
+        <li>Blog</li>
+        <li>Colors</li>
+        <li>Best practices</li>
+      </ul>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+   <script src="{{ url_for('static', filename='script/slider.js') }}"></script>
+   <script src="{{ url_for('static', filename='script/slider.js') }}"></script>
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+  <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAOVYRIgupAurZup5y1PRh8Ismb1A3lLao&libraries=places&callback=initMap"></script>
+  <script src="{{ url_for('static', filename='script/map.js') }}"></script>
+  <script src="{{ url_for('static', filename='script/graphs.js') }}"></script>
+  <script src="{{ url_for('static', filename='script/donation/request-donation.js') }}"></script>
+</body>
+
+</html>
