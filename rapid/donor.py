@@ -17,4 +17,19 @@ bp = Blueprint('donor', __name__, url_prefix='/donor')
 @bp.route('/donor_dashboard')
 @login_required
 def donor_dashboard():
-    return render_template('donor/donor_dashboard.html')
+    return render_template('donor/donor.html')
+
+@bp.route('/donor_profile')
+@login_required
+def donor_profile():
+    return render_template('donor/profile.html') 
+
+@bp.route('/donor_donate')
+@login_required
+def donor_donate():
+    return render_template('donor/donate.html')
+ 
+@bp.route('/donor_history')
+@login_required
+def donor_history():
+    return render_template('donor/history.html') 

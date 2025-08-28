@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+      <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - RAPID</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/donor/history.css') }}">
+</head>
+<body>
+    <!-- Sidebar -->
+     <aside class="sidebar">
+   <div class="sidebar-header">
+      <img src="{{ url_for('static', filename='images/logo/logo_icon.png') }}" class="sidebar-logo-img"
+        alt="main_logo" />
+      <span class="sidebar-logo-text">Rapid</span>
+    </div>
+    <nav class="sidebar-nav">
+      <ul class="sidebar-list">
+ <!-- Dashboard SVG -->
+        <li>
+          <a href="{{ url_for('donor.donor_dashboard') }}" class="sidebar-link active">
+                        <span class="sidebar-icon">
+                            <i data-lucide="bar-chart-3"></i>
+                        </span>
+            <span class="sidebar-label">Dashboard</span>
+          </a>
+        </li>
+        <!-- History SVG -->
+        <li>
+          <a href="{{ url_for('donor.donor_history') }}" class="sidebar-link">
+                        <span class="sidebar-icon">
+                            <i data-lucide="history"></i>
+            </span>
+            <span class="sidebar-label">History</span>
+          </a>
+        </li>
+ <!-- Profile SVG -->
+        <li>
+         <a href="{{ url_for('donor.donor_profile') }}" class="sidebar-link">
+                        <span class="sidebar-icon">
+                            <i data-lucide="user"></i>
+                        </span>
+           
+            <span class="sidebar-label">Profile</span>
+          </a>
+        </li>
+
+            <!-- Donate SVG -->
+        <li>
+           <a href="{{ url_for('donor.donor_donate') }}" class="sidebar-link">
+                        <span class="sidebar-icon">
+                            <i data-lucide="plus"></i>
+                        </span>
+            <span class="sidebar-label">Donate</span>
+          </a>
+        </li>
+ <!-- Feedback SVG --> 
+        <li>
+         <a href="#" class="sidebar-link">
+                        <span class="sidebar-icon">
+                            <i data-lucide="message-square"></i>
+            </span>
+            <span class="sidebar-label">Feedback</span>
+          </a>
+        </li>
+   <!-- Sign In SVG -->
+        <li style="margin-top: 2rem;">
+            <a href="{{ url_for('auth.logout') }}" class="sidebar-link" style="color: #ef4444;"></a>
+                        <span class="sidebar-icon">
+                            <i data-lucide="log-out"></i>
+                        </span>
+                        <span class="sidebar-label">Log Out</span>
+            </a>
+        </li>
+      </ul>
+    </nav>
+  </aside>
+
+    <!-- Main Content -->
+    <div class="main-container">
+        <!-- Top Navbar -->
+        <nav class="navbar">
+            <div class="navbar-div">
+                <nav>
+                    <h2>DONOR PORTAL</h2>
+                </nav>
+                <div class="navbar-div-search">
+                    <div class="search-box">
+                        <span class="search-box-icon">
+                            <i data-lucide="search" style="width: 16px; height: 16px;"></i>
+                        </span>
+                        <input type="text" placeholder="Type here..." />
+                    </div>
+                    <ul class="menu-list">
+                        <li>
+                            <i data-lucide="user" style="width: 16px; height: 16px; margin-right: 4px;"></i>
+                            <span>John Doe</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <!-- Page Content -->
+        <div class="donations-container">
+            <!-- Header -->
+            <div class="donations-header">
+                <h1>My Donations</h1>
+                <button class="download-all-btn">
+                    <i data-lucide="download"></i>
+                    Download All Receipts
+                </button>
+            </div>
+
+            <!-- Summary Cards -->
+            <div class="summary-cards">
+                <div class="summary-card">
+                    <h3>1,125</h3>
+                    <p>Total Donated</p>
+                </div>
+                <div class="summary-card">
+                    <h3>5</h3>
+                    <p>Donations This Year</p>
+                </div>
+            </div>
+
+            <!-- Donations History -->
+            <div class="donations-history-card">
+                <h2>Donation History</h2>
+                <div class="donations-list">
+                    <div class="donation-item">
+                        <div class="donation-info">
+                            <h4>Hurricane Relief Fund</h4>
+                            <p class="donation-date">
+                                <i data-lucide="calendar"></i>
+                                January 15, 2024
+                            </p>
+                        </div>
+                        <div class="donation-amount">
+                            <div class="amount">250</div>
+                            <span class="status completed">completed</span>
+                        </div>
+                        <div class="donation-actions">
+                            <button class="action-btn" title="View Details">
+                                <i data-lucide="eye"></i>
+                            </button>
+                            <button class="action-btn" title="Download Receipt">
+                                <i data-lucide="download"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="donation-item">
+                        <div class="donation-info">
+                            <h4>Food Bank Support</h4>
+                            <p class="donation-date">
+                                <i data-lucide="calendar"></i>
+                                January 1, 2024
+                            </p>
+                        </div>
+                        <div class="donation-amount">
+                            <div class="amount">100</div>
+                            <span class="status completed">completed</span>
+                        </div>
+                        <div class="donation-actions">
+                            <button class="action-btn" title="View Details">
+                                <i data-lucide="eye"></i>
+                            </button>
+                            <button class="action-btn" title="Download Receipt">
+                                <i data-lucide="download"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="donation-item">
+                        <div class="donation-info">
+                            <h4>Holiday Toy Drive</h4>
+                            <p class="donation-date">
+                                <i data-lucide="calendar"></i>
+                                December 25, 2023
+                            </p>
+                        </div>
+                        <div class="donation-amount">
+                            <div class="amount">500</div>
+                            <span class="status completed">completed</span>
+                        </div>
+                        <div class="donation-actions">
+                            <button class="action-btn" title="View Details">
+                                <i data-lucide="eye"></i>
+                            </button>
+                            <button class="action-btn" title="Download Receipt">
+                                <i data-lucide="download"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="donation-item">
+                        <div class="donation-info">
+                            <h4>Winter Clothing Drive</h4>
+                            <p class="donation-date">
+                                <i data-lucide="calendar"></i>
+                                December 15, 2023
+                            </p>
+                        </div>
+                        <div class="donation-amount">
+                            <div class="amount">75</div>
+                            <span class="status completed">completed</span>
+                        </div>
+                        <div class="donation-actions">
+                            <button class="action-btn" title="View Details">
+                                <i data-lucide="eye"></i>
+                            </button>
+                            <button class="action-btn" title="Download Receipt">
+                                <i data-lucide="download"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="donation-item">
+                        <div class="donation-info">
+                            <h4>Education Support Fund</h4>
+                            <p class="donation-date">
+                                <i data-lucide="calendar"></i>
+                                November 30, 2023
+                            </p>
+                        </div>
+                        <div class="donation-amount">
+                            <div class="amount">200</div>
+                            <span class="status completed">completed</span>
+                        </div>
+                        <div class="donation-actions">
+                            <button class="action-btn" title="View Details">
+                                <i data-lucide="eye"></i>
+                            </button>
+                            <button class="action-btn" title="Download Receipt">
+                                <i data-lucide="download"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="load-more-section">
+                    <button class="load-more-btn">Load More Donations</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+      <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <script>
+        lucide.createIcons();
+    </script>
+    <script src="{{ url_for('static', filename='script/donor/history.js') }}"></script>
+</body>
+</html>
