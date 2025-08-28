@@ -17,5 +17,5 @@ bp = Blueprint('recipient', __name__, url_prefix='/recipient')
 @bp.route('/recipient_dashboard')
 @login_required
 def recipient_dashboard():
-    return render_template('recipient/recipient_dashboard.html')
+    return render_template('recipient/recipient.html')
 

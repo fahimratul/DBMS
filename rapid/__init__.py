@@ -42,8 +42,8 @@ def create_app(test_config=None):
     from . import auth
     app.register_blueprint(auth.bp)
 
-    from . import recipent
-    app.register_blueprint(recipent.bp)
+    from . import recipient
+    app.register_blueprint(recipient.bp)
 
     from . import admin
     app.register_blueprint(admin.bp)
