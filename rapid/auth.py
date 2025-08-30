@@ -3,10 +3,9 @@ import functools
 import re
 from urllib.robotparser import RequestRate
 from flask import(
-    Blueprint, render_template, request, flash, redirect, url_for, session, g
+    Blueprint, get_flashed_messages, render_template, request, flash, redirect, url_for, session, g
 )
 from mysql.connector import IntegrityError
-
 from rapid.db import get_bd
 
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -171,8 +170,14 @@ def volunteer_signup():
     if request.method == 'POST':
         result = registration_handler('volunteer')
         if result:
-            return result
-    return render_template('auth/volunteer_signup.html')
+            return render_template('auth/signup_successful.html')
+        else:
+            errors = get_flashed_messages()
+            error = None
+            for error in errors:
+                break
+            return render_template('auth/volunteer_signup.html', error=error)
+    return render_template('auth/volunteer_signup.html', error=None)
 
 
 @bp.route('/login', methods=('GET', 'POST'))
@@ -265,3 +270,7 @@ def login_required(view):
             return redirect(url_for('auth.login'))
         return view(**kwargs)
     return wrapped_view
+
+@bp.route('/success')
+def signup_success():
+    return render_template('auth/signup_successful.html')
