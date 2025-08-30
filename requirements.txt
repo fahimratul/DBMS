@@ -1,2 +1,11 @@
 flask
 mysql-connector-python
+
+create a newuser in mysql workbrench name flaskuser , and save the password as flask
+
+also grant all privileges to flaskuser and host will localhost
+
+now create a connection in mysql
+
+now create a database named project
+and run the schema
