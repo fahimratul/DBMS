@@ -21,7 +21,12 @@
     <a href="{{ url_for('index') }}"><button class="login-btn">Home</button></a>
     </div>
   </header>
-
+  {% if error %}
+  <div id="error-popup" style="position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background: #f44336; color: #fff; padding: 16px 32px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.2); z-index: 1000; font-size: 1.1rem;">
+    {{ error }}
+    <button onclick="document.getElementById('error-popup').style.display='none'" style="margin-left: 20px; background: transparent; border: none; color: #fff; font-weight: bold; cursor: pointer;">&times;</button>
+  </div>
+  {% endif %}
 
   <div class="login">
     <img src="{{ url_for('static', filename='images/signup_bg.png') }}"/>
