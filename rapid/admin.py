@@ -17,7 +17,11 @@ bp = Blueprint('admin', __name__, url_prefix='/admin')
 @bp.route('/admin_dashboard')
 @login_required
 def admin_dashboard():
-    return render_template('admin/admin_dashboard.html')
+    db  = get_bd()
+    cursor = db.cursor(dictionary=True)
+    cursor.execute('SELECT COUNT(volunteer_id) AS cnt FROM volunteer;')
+    volunteer_cnt = cursor.fetchone() # {cnt:6}
+    return render_template('admin/admin_dashboard.html', volunteer_cnt=volunteer_cnt['cnt'])  # type: ignore
 
 @bp.route('/admin_events')
 @login_required
