@@ -229,9 +229,12 @@
           </div>
         </div>
 
-        
-
+        <!-- FREE VOLUNTEERS -->
         <div class="content-body active" id="free_volunteers">
+          {% set volunteers = freevolunteers %}
+          <script>
+            window.freeVolunteers = {{ volunteers | tojson }};
+          </script>
           <table class="volunteer-table">
             <thead>
               <tr>
@@ -241,41 +244,24 @@
                 <th>Status</th>
               </tr>
             </thead>
-            <tbody>
-              {% if not freevolunteers %}
-                <tr>
-                  <td colspan="4">No volunteers found.</td>
-                </tr>
-              {% else %}
-              {% for volunteer in freevolunteers %}
-              <tr>
-                <td>V-{{ volunteer.volunteer_id }}</td>
-                <td class="volunteer-name">{{ volunteer.name }}</td>
-                <td class="volunteer-info">
-                  <div>
-                    <p><b>Email:</b> {{ volunteer.email }}</p>
-                    <p><b>Phone:</b> {{ volunteer.phone }}</p>
-                    <p><b>DOB:</b> {{ volunteer.dob }}</p>
-                  </div>
-                  <div>
-                    <p><b>Joined Date:</b> {{ volunteer.join_time }}</p>
-                    <p><b>Address:</b> {{ volunteer.address }}</p>
-                    <p><b>Preferable Address:</b> {{ volunteer.pref_address }} years</p>
-                  </div>
-                </td>
-                <td>
-                    <button class="button-style">Assign</button>
-                    <button class="button-style alert">Block</button>
-                </td>
-              </tr>
-              {% endfor %}
-              {% endif %}
-
+            <tbody id="free-volunteer-table-body">
+              <!-- JS will fill this -->
             </tbody>
           </table>
+          <div class="pagination-container">
+            <div class="pagination-info">
+              <span id="free-pagination-info-text">Showing 1-10 of {{ volunteers|length }} volunteers</span>
+            </div>
+            <div class="pagination-buttons" id="free-pagination-buttons"></div>
+          </div>
         </div>
 
+        <!-- ASSIGNED VOLUNTEERS -->
         <div class="content-body" id="asigned_volunteers">
+          {% set volunteers = assignvolunteers %}
+          <script>
+            window.assignedVolunteers = {{ volunteers | tojson }};
+          </script>
           <table class="volunteer-table">
             <thead>
               <tr>
@@ -285,40 +271,24 @@
                 <th>Status</th>
               </tr>
             </thead>
-            <tbody>
-              {% if not assignvolunteers %}
-                <tr>
-                  <td colspan="4">No volunteers found.</td>
-                </tr>
-              {% else %}
-              {% for volunteer in assignvolunteers %}
-              <tr><td>V-{{ volunteer.volunteer_id }}</td>
-                <td class="volunteer-name">{{ volunteer.name }}</td>
-                <td class="volunteer-info">
-                  <div>
-                    <p><b>Email:</b> {{ volunteer.email }}</p>
-                    <p><b>Phone:</b> {{ volunteer.phone }}</p>
-                    <p><b>DOB:</b> {{ volunteer.dob }}</p>
-                  </div>
-                  <div>
-                    <p><b>Joined Date:</b> {{ volunteer.join_time }}</p>
-                    <p><b>Address:</b> {{ volunteer.address }}</p>
-                    <p><b>Preferable Address:</b> {{ volunteer.pref_address }} years</p>
-                  </div>
-                </td>
-                <td>
-                    <button class="button-style">Send Email</button>
-                </td>
-
-              </tr>
-              {% endfor %}
-              {% endif %}
-
+            <tbody id="assigned-volunteer-table-body">
+              <!-- JS will fill this -->
             </tbody>
           </table>
+          <div class="pagination-container">
+            <div class="pagination-info">
+              <span id="assigned-pagination-info-text">Showing 1-10 of {{ volunteers|length }} volunteers</span>
+            </div>
+            <div class="pagination-buttons" id="assigned-pagination-buttons"></div>
+          </div>
         </div>
 
+        <!-- NEW VOLUNTEERS -->
         <div class="content-body" id="new_volunteers">
+          {% set volunteers = newvolunteers %}
+          <script>
+            window.newVolunteers = {{ volunteers | tojson }};
+          </script>
           <table class="volunteer-table">
             <thead>
               <tr>
@@ -328,46 +298,24 @@
                 <th>Status</th>
               </tr>
             </thead>
-            <tbody>
-              {% set volunteers = [
-                {'id': '1002', 'name': 'John Doe', 'email': 'john.doe@example.com', 'phone': '123-456-7890', 'status': 'Active', 'dob':'1990-01-01', 'joined_date':'2022-01-01', 'address':'123 Main St, City, Country', 'experience':5},
-                {'id': '1003', 'name': 'Jane Smith', 'email': 'jane.smith@example.com', 'phone': '987-654-3210', 'status': 'Inactive', 'dob':'1992-02-02', 'joined_date':'2022-02-02', 'address':'456 Elm St, City, Country', 'experience':3}
-              ] %}
-              {% if not newvolunteers %}
-                <tr>
-                  <td colspan="4">No volunteers found.</td>
-                </tr>
-              {% else %}
-              {% for volunteer in newvolunteers %}
-              <tr>
-                <td>V-{{ volunteer.volunteer_id }}</td>
-                <td class="volunteer-name">{{ volunteer.name }}</td>
-                <td class="volunteer-info">
-                  <div>
-                    <p><b>Email:</b> {{ volunteer.email }}</p>
-                    <p><b>Phone:</b> {{ volunteer.phone }}</p>
-                    <p><b>DOB:</b> {{ volunteer.dob }}</p>
-                  </div>
-                  <div>
-                    <p><b>Joined Date:</b> {{ volunteer.join_time }}</p>
-                    <p><b>Address:</b> {{ volunteer.address }}</p>
-                    <p><b>Preferable Address:</b> {{ volunteer.pref_address }} years</p>
-                  </div>
-                </td>
-                <td>
-                    <button class="button-style">Approve</button>
-                    <button class="button-style alert">Decline</button>
-                </td>
-
-              </tr>
-              {% endfor %}
-              {% endif %}
-
+            <tbody id="new-volunteer-table-body">
+              <!-- JS will fill this -->
             </tbody>
           </table>
+          <div class="pagination-container">
+            <div class="pagination-info">
+              <span id="new-pagination-info-text">Showing 1-10 of {{ volunteers|length }} volunteers</span>
+            </div>
+            <div class="pagination-buttons" id="new-pagination-buttons"></div>
+          </div>
         </div>
 
+        <!-- BLOCKED VOLUNTEERS -->
         <div class="content-body" id="block_volunteers">
+          {% set volunteers = blockvolunteers %}
+          <script>
+            window.blockedVolunteers = {{ volunteers | tojson }};
+          </script>
           <table class="volunteer-table">
             <thead>
               <tr>
@@ -377,31 +325,422 @@
                 <th>Status</th>
               </tr>
             </thead>
-            {% set volunteers = blockvolunteers %}
-            <script>
-              // Store volunteers data in JavaScript
-              window.blockedVolunteers = {{ volunteers | tojson }};
-            </script>
-
-            {% if not volunteers %}
-              <tr>
-                <td colspan="4">No volunteers found.</td>
-              </tr>
-            {% endif %}
+            <tbody id="volunteer-table-body">
+              <!-- JS will fill this -->
             </tbody>
           </table>
-          
           <div class="pagination-container">
             <div class="pagination-info">
               <span id="pagination-info-text">Showing 1-10 of {{ volunteers|length }} volunteers</span>
             </div>
-            <div class="pagination-buttons" id="pagination-buttons">
-              <!-- Pagination buttons will be generated by JavaScript -->
-            </div>
+            <div class="pagination-buttons" id="pagination-buttons"></div>
           </div>
         </div>
-
+      </div>
     </main>
+
+    <script>
+    // Tab switching logic
+    document.addEventListener('DOMContentLoaded', function () {
+      const freeBtn = document.getElementById('free');
+      const freeVolunteers = document.getElementById('free_volunteers');
+      const assignedBtn = document.getElementById('assigned');
+      const assignedVolunteers = document.getElementById('asigned_volunteers');
+      const newbtn = document.getElementById('new');
+      const newVolunteers = document.getElementById('new_volunteers');
+      const blockbtn = document.getElementById('block');
+      const blockVolunteers = document.getElementById('block_volunteers');
+      const contentBodies = document.querySelectorAll('.content-body');
+
+      if (freeBtn && freeVolunteers) {
+          freeBtn.addEventListener('click', function () {
+              contentBodies.forEach(body => body.classList.remove('active'));
+              freeVolunteers.classList.add('active');
+          });
+      }
+      if (assignedBtn && assignedVolunteers) {
+          assignedBtn.addEventListener('click', function () {
+              contentBodies.forEach(body => body.classList.remove('active'));
+              assignedVolunteers.classList.add('active');
+          });
+      }
+      if (newbtn && newVolunteers) {
+          newbtn.addEventListener('click', function () {
+              contentBodies.forEach(body => body.classList.remove('active'));
+              newVolunteers.classList.add('active');
+          });
+      }
+      if (blockbtn && blockVolunteers) {
+          blockbtn.addEventListener('click', function () {
+              contentBodies.forEach(body => body.classList.remove('active'));
+              blockVolunteers.classList.add('active');
+          });
+      }
+    });
+
+    // BLOCKED VOLUNTEERS PAGINATION
+    let currentPage = 1;
+    const rowsPerPage = 10;
+    let currentVolunteers = [];
+    document.addEventListener('DOMContentLoaded', function() {
+      if (typeof window.blockedVolunteers !== 'undefined') {
+        currentVolunteers = window.blockedVolunteers;
+        displayVolunteers(currentPage);
+        createPaginationButtons();
+      }
+    });
+    function displayVolunteers(page) {
+      const tableBody = document.getElementById('volunteer-table-body');
+      const startIndex = (page - 1) * rowsPerPage;
+      const endIndex = Math.min(startIndex + rowsPerPage, currentVolunteers.length);
+      tableBody.innerHTML = '';
+      if (currentVolunteers.length === 0) {
+        tableBody.innerHTML = '<tr><td colspan="4">No volunteers found.</td></tr>';
+        return;
+      }
+      for (let i = startIndex; i < endIndex; i++) {
+        const volunteer = currentVolunteers[i];
+        const row = `
+          <tr>
+            <td>V-${volunteer.volunteer_id}</td>
+            <td class="volunteer-name">${volunteer.name}</td>
+            <td class="volunteer-info">
+              <div>
+                <p><b>Email:</b> ${volunteer.email}</p>
+                <p><b>Phone:</b> ${volunteer.phone}</p>
+                <p><b>DOB:</b> ${volunteer.dob}</p>
+              </div>
+              <div>
+                <p><b>Joined Date:</b> ${volunteer.join_time}</p>
+                <p><b>Address:</b> ${volunteer.address}</p>
+                <p><b>Preferable Address:</b> ${volunteer.pref_address}</p>
+              </div>
+            </td>
+            <td> 
+              <button class="button-style" onclick="showVolunteerDetails('${volunteer.volunteer_id}')">Details</button>
+            </td>
+          </tr>
+        `;
+        tableBody.innerHTML += row;
+      }
+      updatePaginationInfo(startIndex + 1, endIndex, currentVolunteers.length);
+    }
+    function createPaginationButtons() {
+      const totalPages = Math.ceil(currentVolunteers.length / rowsPerPage);
+      const paginationContainer = document.getElementById('pagination-buttons');
+      paginationContainer.innerHTML = '';
+      if (currentPage > 1) {
+        const prevButton = createPaginationButton('Previous', currentPage - 1);
+        paginationContainer.appendChild(prevButton);
+      }
+      for (let i = 1; i <= totalPages; i++) {
+        const button = createPaginationButton(i, i);
+        if (i === currentPage) button.classList.add('active');
+        paginationContainer.appendChild(button);
+      }
+      if (currentPage < totalPages) {
+        const nextButton = createPaginationButton('Next', currentPage + 1);
+        paginationContainer.appendChild(nextButton);
+      }
+    }
+    function createPaginationButton(text, page) {
+      const button = document.createElement('button');
+      button.className = 'button-style pagination-btn';
+      button.textContent = text;
+      button.addEventListener('click', function() {
+        goToPage(page);
+      });
+      return button;
+    }
+    function goToPage(page) {
+      const totalPages = Math.ceil(currentVolunteers.length / rowsPerPage);
+      if (page >= 1 && page <= totalPages) {
+        currentPage = page;
+        displayVolunteers(currentPage);
+        createPaginationButtons();
+      }
+    }
+    function updatePaginationInfo(start, end, total) {
+      const infoElement = document.getElementById('pagination-info-text');
+      if (infoElement) {
+        infoElement.textContent = `Showing ${start}-${end} of ${total} volunteers`;
+      }
+    }
+
+    // FREE VOLUNTEERS PAGINATION
+    let freeCurrentPage = 1;
+    const freeRowsPerPage = 10;
+    let freeCurrentVolunteers = [];
+    document.addEventListener('DOMContentLoaded', function() {
+      if (typeof window.freeVolunteers !== 'undefined') {
+        freeCurrentVolunteers = window.freeVolunteers;
+        displayFreeVolunteers(freeCurrentPage);
+        createFreePaginationButtons();
+      }
+    });
+    function displayFreeVolunteers(page) {
+      const tableBody = document.getElementById('free-volunteer-table-body');
+      const startIndex = (page - 1) * freeRowsPerPage;
+      const endIndex = Math.min(startIndex + freeRowsPerPage, freeCurrentVolunteers.length);
+      tableBody.innerHTML = '';
+      if (freeCurrentVolunteers.length === 0) {
+        tableBody.innerHTML = '<tr><td colspan="4">No volunteers found.</td></tr>';
+        return;
+      }
+      for (let i = startIndex; i < endIndex; i++) {
+        const volunteer = freeCurrentVolunteers[i];
+        const row = `
+          <tr>
+            <td>V-${volunteer.volunteer_id}</td>
+            <td class="volunteer-name">${volunteer.name}</td>
+            <td class="volunteer-info">
+              <div>
+                <p><b>Email:</b> ${volunteer.email}</p>
+                <p><b>Phone:</b> ${volunteer.phone}</p>
+                <p><b>DOB:</b> ${volunteer.dob}</p>
+              </div>
+              <div>
+                <p><b>Joined Date:</b> ${volunteer.join_time}</p>
+                <p><b>Address:</b> ${volunteer.address}</p>
+                <p><b>Preferable Address:</b> ${volunteer.pref_address}</p>
+              </div>
+            </td>
+            <td>
+              <button class="button-style" onclick="showVolunteerDetails('${volunteer.volunteer_id}')">Details</button>
+            </td>
+          </tr>
+        `;
+        tableBody.innerHTML += row;
+      }
+      updateFreePaginationInfo(startIndex + 1, endIndex, freeCurrentVolunteers.length);
+    }
+    function createFreePaginationButtons() {
+      const totalPages = Math.ceil(freeCurrentVolunteers.length / freeRowsPerPage);
+      const paginationContainer = document.getElementById('free-pagination-buttons');
+      paginationContainer.innerHTML = '';
+      if (freeCurrentPage > 1) {
+        const prevButton = createFreePaginationButton('Previous', freeCurrentPage - 1);
+        paginationContainer.appendChild(prevButton);
+      }
+      for (let i = 1; i <= totalPages; i++) {
+        const button = createFreePaginationButton(i, i);
+        if (i === freeCurrentPage) button.classList.add('active');
+        paginationContainer.appendChild(button);
+      }
+      if (freeCurrentPage < totalPages) {
+        const nextButton = createFreePaginationButton('Next', freeCurrentPage + 1);
+        paginationContainer.appendChild(nextButton);
+      }
+    }
+    function createFreePaginationButton(text, page) {
+      const button = document.createElement('button');
+      button.className = 'button-style pagination-btn';
+      button.textContent = text;
+      button.addEventListener('click', function() {
+        goToFreePage(page);
+      });
+      return button;
+    }
+    function goToFreePage(page) {
+      const totalPages = Math.ceil(freeCurrentVolunteers.length / freeRowsPerPage);
+      if (page >= 1 && page <= totalPages) {
+        freeCurrentPage = page;
+        displayFreeVolunteers(freeCurrentPage);
+        createFreePaginationButtons();
+      }
+    }
+    function updateFreePaginationInfo(start, end, total) {
+      const infoElement = document.getElementById('free-pagination-info-text');
+      if (infoElement) {
+        infoElement.textContent = `Showing ${start}-${end} of ${total} volunteers`;
+      }
+    }
+
+    // ASSIGNED VOLUNTEERS PAGINATION
+    let assignedCurrentPage = 1;
+    const assignedRowsPerPage = 10;
+    let assignedCurrentVolunteers = [];
+    document.addEventListener('DOMContentLoaded', function() {
+      if (typeof window.assignedVolunteers !== 'undefined') {
+        assignedCurrentVolunteers = window.assignedVolunteers;
+        displayAssignedVolunteers(assignedCurrentPage);
+        createAssignedPaginationButtons();
+      }
+    });
+    function displayAssignedVolunteers(page) {
+      const tableBody = document.getElementById('assigned-volunteer-table-body');
+      const startIndex = (page - 1) * assignedRowsPerPage;
+      const endIndex = Math.min(startIndex + assignedRowsPerPage, assignedCurrentVolunteers.length);
+      tableBody.innerHTML = '';
+      if (assignedCurrentVolunteers.length === 0) {
+        tableBody.innerHTML = '<tr><td colspan="4">No volunteers found.</td></tr>';
+        return;
+      }
+      for (let i = startIndex; i < endIndex; i++) {
+        const volunteer = assignedCurrentVolunteers[i];
+        const row = `
+          <tr>
+            <td>V-${volunteer.volunteer_id}</td>
+            <td class="volunteer-name">${volunteer.name}</td>
+            <td class="volunteer-info">
+              <div>
+                <p><b>Email:</b> ${volunteer.email}</p>
+                <p><b>Phone:</b> ${volunteer.phone}</p>
+                <p><b>DOB:</b> ${volunteer.dob}</p>
+              </div>
+              <div>
+                <p><b>Joined Date:</b> ${volunteer.join_time}</p>
+                <p><b>Address:</b> ${volunteer.address}</p>
+                <p><b>Preferable Address:</b> ${volunteer.pref_address}</p>
+              </div>
+            </td>
+            <td>
+              <button class="button-style" onclick="showVolunteerDetails('${volunteer.volunteer_id}')">Details</button>
+            </td>
+          </tr>
+        `;
+        tableBody.innerHTML += row;
+      }
+      updateAssignedPaginationInfo(startIndex + 1, endIndex, assignedCurrentVolunteers.length);
+    }
+    function createAssignedPaginationButtons() {
+      const totalPages = Math.ceil(assignedCurrentVolunteers.length / assignedRowsPerPage);
+      const paginationContainer = document.getElementById('assigned-pagination-buttons');
+      paginationContainer.innerHTML = '';
+      if (assignedCurrentPage > 1) {
+        const prevButton = createAssignedPaginationButton('Previous', assignedCurrentPage - 1);
+        paginationContainer.appendChild(prevButton);
+      }
+      for (let i = 1; i <= totalPages; i++) {
+        const button = createAssignedPaginationButton(i, i);
+        if (i === assignedCurrentPage) button.classList.add('active');
+        paginationContainer.appendChild(button);
+      }
+      if (assignedCurrentPage < totalPages) {
+        const nextButton = createAssignedPaginationButton('Next', assignedCurrentPage + 1);
+        paginationContainer.appendChild(nextButton);
+      }
+    }
+    function createAssignedPaginationButton(text, page) {
+      const button = document.createElement('button');
+      button.className = 'button-style pagination-btn';
+      button.textContent = text;
+      button.addEventListener('click', function() {
+        goToAssignedPage(page);
+      });
+      return button;
+    }
+    function goToAssignedPage(page) {
+      const totalPages = Math.ceil(assignedCurrentVolunteers.length / assignedRowsPerPage);
+      if (page >= 1 && page <= totalPages) {
+        assignedCurrentPage = page;
+        displayAssignedVolunteers(assignedCurrentPage);
+        createAssignedPaginationButtons();
+      }
+    }
+    function updateAssignedPaginationInfo(start, end, total) {
+      const infoElement = document.getElementById('assigned-pagination-info-text');
+      if (infoElement) {
+        infoElement.textContent = `Showing ${start}-${end} of ${total} volunteers`;
+      }
+    }
+
+    // NEW VOLUNTEERS PAGINATION
+    let newCurrentPage = 1;
+    const newRowsPerPage = 10;
+    let newCurrentVolunteers = [];
+    document.addEventListener('DOMContentLoaded', function() {
+      if (typeof window.newVolunteers !== 'undefined') {
+        newCurrentVolunteers = window.newVolunteers;
+        displayNewVolunteers(newCurrentPage);
+        createNewPaginationButtons();
+      }
+    });
+    function displayNewVolunteers(page) {
+      const tableBody = document.getElementById('new-volunteer-table-body');
+      const startIndex = (page - 1) * newRowsPerPage;
+      const endIndex = Math.min(startIndex + newRowsPerPage, newCurrentVolunteers.length);
+      tableBody.innerHTML = '';
+      if (newCurrentVolunteers.length === 0) {
+        tableBody.innerHTML = '<tr><td colspan="4">No volunteers found.</td></tr>';
+        return;
+      }
+      for (let i = startIndex; i < endIndex; i++) {
+        const volunteer = newCurrentVolunteers[i];
+        const row = `
+          <tr>
+            <td>V-${volunteer.volunteer_id}</td>
+            <td class="volunteer-name">${volunteer.name}</td>
+            <td class="volunteer-info">
+              <div>
+                <p><b>Email:</b> ${volunteer.email}</p>
+                <p><b>Phone:</b> ${volunteer.phone}</p>
+                <p><b>DOB:</b> ${volunteer.dob}</p>
+              </div>
+              <div>
+                <p><b>Joined Date:</b> ${volunteer.join_time}</p>
+                <p><b>Address:</b> ${volunteer.address}</p>
+                <p><b>Preferable Address:</b> ${volunteer.pref_address}</p>
+              </div>
+            </td>
+            <td>
+              <button class="button-style" onclick="showVolunteerDetails('${volunteer.volunteer_id}')">Details</button></td>
+          </tr>
+        `;
+        tableBody.innerHTML += row;
+      }
+      updateNewPaginationInfo(startIndex + 1, endIndex, newCurrentVolunteers.length);
+    }
+    function createNewPaginationButtons() {
+      const totalPages = Math.ceil(newCurrentVolunteers.length / newRowsPerPage);
+      const paginationContainer = document.getElementById('new-pagination-buttons');
+      paginationContainer.innerHTML = '';
+      if (newCurrentPage > 1) {
+        const prevButton = createNewPaginationButton('Previous', newCurrentPage - 1);
+        paginationContainer.appendChild(prevButton);
+      }
+      for (let i = 1; i <= totalPages; i++) {
+        const button = createNewPaginationButton(i, i);
+        if (i === newCurrentPage) button.classList.add('active');
+        paginationContainer.appendChild(button);
+      }
+      if (newCurrentPage < totalPages) {
+        const nextButton = createNewPaginationButton('Next', newCurrentPage + 1);
+        paginationContainer.appendChild(nextButton);
+      }
+    }
+    function createNewPaginationButton(text, page) {
+      const button = document.createElement('button');
+      button.className = 'button-style pagination-btn';
+      button.textContent = text;
+      button.addEventListener('click', function() {
+        goToNewPage(page);
+      });
+      return button;
+    }
+    function goToNewPage(page) {
+      const totalPages = Math.ceil(newCurrentVolunteers.length / newRowsPerPage);
+      if (page >= 1 && page <= totalPages) {
+        newCurrentPage = page;
+        displayNewVolunteers(newCurrentPage);
+        createNewPaginationButtons();
+      }
+    }
+    function updateNewPaginationInfo(start, end, total) {
+      const infoElement = document.getElementById('new-pagination-info-text');
+      if (infoElement) {
+        infoElement.textContent = `Showing ${start}-${end} of ${total} volunteers`;
+      }
+    }
+
+
+    function showVolunteerDetails(volunteerId) {
+      window.location.href = `/admin/volunteer/${volunteerId}`;
+    }
+
+
+
+    </script>
     <script src ="{{ url_for('static', filename='script/volunteer_list.js') }}"></script>
   </body>
 </html>
