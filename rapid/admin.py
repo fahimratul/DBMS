@@ -31,7 +31,20 @@ def admin_events():
 @bp.route('/volunteer_list')
 @login_required
 def volunteer_list():
-    return render_template('admin/volunteer_list.html')
+    db = get_bd()
+    cursor = db.cursor(dictionary=True)
+    cursor.execute('SELECT * FROM volunteer where status="free";')
+    freevolunteers = cursor.fetchall()
+    cursor.execute('SELECT * FROM volunteer where status="assign";')
+    assignvolunteers = cursor.fetchall()
+    cursor.execute('SELECT * FROM volunteer where status ="block";')
+    blockvolunteers = cursor.fetchall()
+    cursor.execute('SELECT * FROM volunteer where status="new";')
+    newvolunteers = cursor.fetchall()   
+    cursor.close()
+    return render_template('admin/volunteer_list.html', freevolunteers=freevolunteers, assignvolunteers=assignvolunteers, blockvolunteers=blockvolunteers, newvolunteers=newvolunteers)
+    
+
 
 @bp.route('/admin_donors')
 @login_required

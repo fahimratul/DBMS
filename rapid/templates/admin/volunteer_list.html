@@ -242,36 +242,31 @@
               </tr>
             </thead>
             <tbody>
-              {% set volunteers = [
-                {'id': '1002', 'name': 'John Doe', 'email': 'john.doe@example.com', 'phone': '123-456-7890', 'status': 'Active', 'dob':'1990-01-01', 'joined_date':'2022-01-01', 'address':'123 Main St, City, Country', 'experience':5},
-                {'id': '1003', 'name': 'Jane Smith', 'email': 'jane.smith@example.com', 'phone': '987-654-3210', 'status': 'Inactive', 'dob':'1992-02-02', 'joined_date':'2022-02-02', 'address':'456 Elm St, City, Country', 'experience':3}
-              ] %}
-              {% if not volunteers %}
+              {% if not freevolunteers %}
                 <tr>
                   <td colspan="4">No volunteers found.</td>
                 </tr>
               {% else %}
-              {% for volunteer in volunteers %}
+              {% for volunteer in freevolunteers %}
               <tr>
-                <td>{{ volunteer.id }}</td>
+                <td>V-{{ volunteer.volunteer_id }}</td>
                 <td class="volunteer-name">{{ volunteer.name }}</td>
                 <td class="volunteer-info">
                   <div>
                     <p><b>Email:</b> {{ volunteer.email }}</p>
                     <p><b>Phone:</b> {{ volunteer.phone }}</p>
-                    <p><b>Experience:</b> {{ volunteer.experience }} years</p>
+                    <p><b>DOB:</b> {{ volunteer.dob }}</p>
                   </div>
                   <div>
-                    <p><b>DOB:</b> {{ volunteer.dob }}</p>
-                    <p><b>Joined Date:</b> {{ volunteer.joined_date }}</p>
+                    <p><b>Joined Date:</b> {{ volunteer.join_time }}</p>
                     <p><b>Address:</b> {{ volunteer.address }}</p>
+                    <p><b>Preferable Address:</b> {{ volunteer.pref_address }} years</p>
                   </div>
                 </td>
                 <td>
                     <button class="button-style">Assign</button>
                     <button class="button-style alert">Block</button>
                 </td>
-
               </tr>
               {% endfor %}
               {% endif %}
@@ -291,29 +286,24 @@
               </tr>
             </thead>
             <tbody>
-              {% set volunteers = [
-                {'id': '1002', 'name': 'Abul hasan', 'email': 'john.doe@example.com', 'phone': '123-456-7890', 'status': 'Active', 'dob':'1990-01-01', 'joined_date':'2022-01-01', 'address':'123 Main St, City, Country', 'experience':5},
-                {'id': '1003', 'name': 'kudus Mia', 'email': 'jane.smith@example.com', 'phone': '987-654-3210', 'status': 'Inactive', 'dob':'1992-02-02', 'joined_date':'2022-02-02', 'address':'456 Elm St, City, Country', 'experience':3}
-              ] %}
-              {% if not volunteers %}
+              {% if not assignvolunteers %}
                 <tr>
                   <td colspan="4">No volunteers found.</td>
                 </tr>
               {% else %}
-              {% for volunteer in volunteers %}
-              <tr>
-                <td>{{ volunteer.id }}</td>
+              {% for volunteer in assignvolunteers %}
+              <tr><td>V-{{ volunteer.volunteer_id }}</td>
                 <td class="volunteer-name">{{ volunteer.name }}</td>
                 <td class="volunteer-info">
                   <div>
                     <p><b>Email:</b> {{ volunteer.email }}</p>
                     <p><b>Phone:</b> {{ volunteer.phone }}</p>
-                    <p><b>Experience:</b> {{ volunteer.experience }} years</p>
+                    <p><b>DOB:</b> {{ volunteer.dob }}</p>
                   </div>
                   <div>
-                    <p><b>DOB:</b> {{ volunteer.dob }}</p>
-                    <p><b>Joined Date:</b> {{ volunteer.joined_date }}</p>
+                    <p><b>Joined Date:</b> {{ volunteer.join_time }}</p>
                     <p><b>Address:</b> {{ volunteer.address }}</p>
+                    <p><b>Preferable Address:</b> {{ volunteer.pref_address }} years</p>
                   </div>
                 </td>
                 <td>
@@ -343,25 +333,25 @@
                 {'id': '1002', 'name': 'John Doe', 'email': 'john.doe@example.com', 'phone': '123-456-7890', 'status': 'Active', 'dob':'1990-01-01', 'joined_date':'2022-01-01', 'address':'123 Main St, City, Country', 'experience':5},
                 {'id': '1003', 'name': 'Jane Smith', 'email': 'jane.smith@example.com', 'phone': '987-654-3210', 'status': 'Inactive', 'dob':'1992-02-02', 'joined_date':'2022-02-02', 'address':'456 Elm St, City, Country', 'experience':3}
               ] %}
-              {% if not volunteers %}
+              {% if not newvolunteers %}
                 <tr>
                   <td colspan="4">No volunteers found.</td>
                 </tr>
               {% else %}
-              {% for volunteer in volunteers %}
+              {% for volunteer in newvolunteers %}
               <tr>
-                <td>{{ volunteer.id }}</td>
+                <td>V-{{ volunteer.volunteer_id }}</td>
                 <td class="volunteer-name">{{ volunteer.name }}</td>
                 <td class="volunteer-info">
                   <div>
                     <p><b>Email:</b> {{ volunteer.email }}</p>
                     <p><b>Phone:</b> {{ volunteer.phone }}</p>
-                    <p><b>Experience:</b> {{ volunteer.experience }} years</p>
+                    <p><b>DOB:</b> {{ volunteer.dob }}</p>
                   </div>
                   <div>
-                    <p><b>DOB:</b> {{ volunteer.dob }}</p>
-                    <p><b>Joined Date:</b> {{ volunteer.joined_date }}</p>
+                    <p><b>Joined Date:</b> {{ volunteer.join_time }}</p>
                     <p><b>Address:</b> {{ volunteer.address }}</p>
+                    <p><b>Preferable Address:</b> {{ volunteer.pref_address }} years</p>
                   </div>
                 </td>
                 <td>
@@ -387,32 +377,17 @@
                 <th>Status</th>
               </tr>
             </thead>
-            <tbody id="volunteer-table-body">
-              {% set volunteers = [
-                {'id': '1002', 'name': 'John Doe', 'email': 'john.doe@example.com', 'phone': '123-456-7890', 'status': 'Active', 'dob':'1990-01-01', 'joined_date':'2022-01-01', 'address':'123 Main St, City, Country', 'experience':5},
-                {'id': '1003', 'name': 'Jane Smith', 'email': 'jane.smith@example.com', 'phone': '987-654-3210', 'status': 'Inactive', 'dob':'1992-02-02', 'joined_date':'2022-02-02', 'address':'456 Elm St, City, Country', 'experience':3},
-                {'id': '1004', 'name': 'Alice Johnson', 'email': 'alice.johnson@example.com', 'phone': '555-123-4567', 'status': 'Active', 'dob':'1988-03-03', 'joined_date':'2022-03-03', 'address':'789 Oak St, City, Country', 'experience':4},
-                {'id': '1005', 'name': 'Bob Wilson', 'email': 'bob.wilson@example.com', 'phone': '123-456-7890', 'status': 'Active', 'dob':'1990-01-01', 'joined_date':'2022-01-01', 'address':'123 Main St, City, Country', 'experience':5},
-                {'id': '1006', 'name': 'Carol Davis', 'email': 'carol.davis@example.com', 'phone': '987-654-3210', 'status': 'Inactive', 'dob':'1992-02-02', 'joined_date':'2022-02-02', 'address':'456 Elm St, City, Country', 'experience':3},
-                {'id': '1007', 'name': 'David Miller', 'email': 'david.miller@example.com', 'phone': '555-123-4567', 'status': 'Active', 'dob':'1988-03-03', 'joined_date':'2022-03-03', 'address':'789 Oak St, City, Country', 'experience':4},
-                {'id': '1008', 'name': 'Eva Brown', 'email': 'eva.brown@example.com', 'phone': '123-456-7890', 'status': 'Active', 'dob':'1990-01-01', 'joined_date':'2022-01-01', 'address':'123 Main St, City, Country', 'experience':5},
-                {'id': '1009', 'name': 'Frank Garcia', 'email': 'frank.garcia@example.com', 'phone': '987-654-3210', 'status': 'Inactive', 'dob':'1992-02-02', 'joined_date':'2022-02-02', 'address':'456 Elm St, City, Country', 'experience':3},
-                {'id': '1010', 'name': 'Grace Lee', 'email': 'grace.lee@example.com', 'phone': '555-123-4567', 'status': 'Active', 'dob':'1988-03-03', 'joined_date':'2022-03-03', 'address':'789 Oak St, City, Country', 'experience':4},
-                {'id': '1011', 'name': 'Henry Taylor', 'email': 'henry.taylor@example.com', 'phone': '123-456-7890', 'status': 'Active', 'dob':'1990-01-01', 'joined_date':'2022-01-01', 'address':'123 Main St, City, Country', 'experience':5},
-                {'id': '1012', 'name': 'Ivy Martinez', 'email': 'ivy.martinez@example.com', 'phone': '987-654-3210', 'status': 'Inactive', 'dob':'1992-02-02', 'joined_date':'2022-02-02', 'address':'456 Elm St, City, Country', 'experience':3},
-                {'id': '1013', 'name': 'Jack Anderson', 'email': 'jack.anderson@example.com', 'phone': '555-123-4567', 'status': 'Active', 'dob':'1988-03-03', 'joined_date':'2022-03-03', 'address':'789 Oak St, City, Country', 'experience':4}
-              ] %}
-              
-              <script>
-                // Store volunteers data in JavaScript
-                window.blockedVolunteers = {{ volunteers | tojson }};
-              </script>
-              
-              {% if not volunteers %}
-                <tr>
-                  <td colspan="4">No volunteers found.</td>
-                </tr>
-              {% endif %}
+            {% set volunteers = blockvolunteers %}
+            <script>
+              // Store volunteers data in JavaScript
+              window.blockedVolunteers = {{ volunteers | tojson }};
+            </script>
+
+            {% if not volunteers %}
+              <tr>
+                <td colspan="4">No volunteers found.</td>
+              </tr>
+            {% endif %}
             </tbody>
           </table>
           
