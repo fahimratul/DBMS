@@ -62,21 +62,21 @@ CREATE TABLE event_type (
 );
 
 CREATE TABLE `volunteer` (
-    volunteer_id int NOT NULL AUTO_INCREMENT,
-    name varchar(100) NOT NULL,
-    phone varchar(20) NOT NULL,
-    email varchar(100) DEFAULT NULL,
-    dob date NOT NULL,
-    address text NOT NULL,
-    pref_address text,
-    join_time date NOT NULL,
-    user_name varchar(20) NOT NULL,
-    password text NOT NULL,
-    nid_birthcert blob,
-    profile_picture blob,
-    status varchar(255) DEFAULT 'new',
-    PRIMARY KEY (volunteer_id),
-    UNIQUE KEY user_name (user_name)
+    `volunteer_id` int NOT NULL AUTO_INCREMENT,
+    `name` varchar(100) NOT NULL,
+    `phone` varchar(20) NOT NULL,
+    `email` varchar(100) DEFAULT NULL,
+    `dob` date NOT NULL,
+    `address` text NOT NULL,
+    `pref_address` text,
+    `join_time` date NOT NULL,
+    `user_name` varchar(20) NOT NULL,
+    `password` text NOT NULL,
+    `nid_birthcert` mediumblob,
+    `profile_picture` mediumblob,
+    `status` varchar(255) DEFAULT 'new',
+    PRIMARY KEY (`volunteer_id`),
+    UNIQUE KEY `user_name` (`user_name`)
 );
 
 CREATE TABLE item (

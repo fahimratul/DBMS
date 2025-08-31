@@ -101,18 +101,22 @@ def registration_handler(role):
                               (name, phone, username, generate_password_hash(password), emergency_phone, address))
             elif role == 'volunteer':
                 from datetime import date
-                
                 name = request.form.get('name', '')
                 phone = request.form.get('phone', '')
                 email = request.form.get('email', '')
                 dob = request.form.get('dob', '')
                 address = request.form.get('address', '')
-                pref_address = request.form.get('address_2', '')  # Fixed field name to match form
-                nid_birthcert = request.form.get('nid_img', None)  # Optional field
-                join_time = date.today()  # Current date
+                pref_address = request.form.get('address_2', '')
+                profile_file = request.files.get('profile_img')
+                profile_picture = profile_file.read() if profile_file else None  # <-- read as bytes
+                nid_file = request.files.get('nid_img')  # <-- get file from request.files
+                nid_birthcert = nid_file.read() if nid_file else None  # <-- read as bytes
+                join_time = date.today()
 
-                cursor.execute('INSERT INTO volunteer (name, phone, email, dob, address, pref_address, join_time, user_name, password, nid_birthcert) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)', 
-                              (name, phone, email, dob, address, pref_address, join_time, username, generate_password_hash(password), nid_birthcert))
+                cursor.execute(
+                    'INSERT INTO volunteer (name, phone, email, dob, address, pref_address, join_time, user_name, password, profile_picture, nid_birthcert) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)',
+                    (name, phone, email, dob, address, pref_address, join_time, username, generate_password_hash(password), profile_picture, nid_birthcert)
+                )
             
             db.commit()
         except IntegrityError:

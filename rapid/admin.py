@@ -11,7 +11,7 @@ from rapid.db import get_bd
 
 from werkzeug.security import generate_password_hash, check_password_hash
 import json
-
+import base64
 
 
 bp = Blueprint('admin', __name__, url_prefix='/admin')
@@ -73,6 +73,34 @@ def get_volunteer(volunteer_id):
     )
     volunteer = cursor.fetchone()
     
+    if volunteer and volunteer.get('nid_birthcert'):
+        image_blob = volunteer['nid_birthcert']
+        # Try to detect image type (basic check for PNG/JPEG headers)
+        if image_blob.startswith(b'\x89PNG\r\n\x1a\n'):
+            mime_type = 'image/png'
+        elif image_blob.startswith(b'\xff\xd8'):
+            mime_type = 'image/jpeg'
+        else:
+            mime_type = 'application/octet-stream'
+        volunteer['nid'] = f"data:{mime_type};base64,{base64.b64encode(image_blob).decode('utf-8')}"
+        print(volunteer['nid'][:30])
+    else:
+        volunteer['nid'] = None
+
+    if volunteer and volunteer.get('profile_picture'):
+        image_blob = volunteer['profile_picture']
+        # Try to detect image type (basic check for PNG/JPEG headers)
+        if image_blob.startswith(b'\x89PNG\r\n\x1a\n'):
+            mime_type = 'image/png'
+        elif image_blob.startswith(b'\xff\xd8'):
+            mime_type = 'image/jpeg'
+        else:
+            mime_type = 'application/octet-stream'
+        volunteer['profile_picture'] = f"data:{mime_type};base64,{base64.b64encode(image_blob).decode('utf-8')}"
+        print(volunteer['profile_picture'][:30])
+    else:
+        volunteer['profile_picture'] = None
+
     cursor.execute(
         "SELECT volunteer_id, COUNT(*) AS event_count FROM event WHERE volunteer_id = %s GROUP BY volunteer_id;",
         (volunteer_id,)
@@ -127,13 +155,13 @@ def admin_events():
 def volunteer_list():
     db = get_bd()
     cursor = db.cursor(dictionary=True)
-    cursor.execute('SELECT * FROM volunteer where status="free";')
+    cursor.execute('SELECT volunteer_id, name, phone, email, dob, address, pref_address , join_time FROM volunteer where status="free";')
     freevolunteers = cursor.fetchall()
-    cursor.execute('SELECT * FROM volunteer where status="assign";')
+    cursor.execute('SELECT volunteer_id, name, phone, email, dob, address, pref_address , join_time FROM volunteer where status="assign";')
     assignvolunteers = cursor.fetchall()
-    cursor.execute('SELECT * FROM volunteer where status ="block";')
+    cursor.execute('SELECT volunteer_id, name, phone, email, dob, address, pref_address , join_time FROM volunteer where status ="block";')
     blockvolunteers = cursor.fetchall()
-    cursor.execute('SELECT * FROM volunteer where status="new";')
+    cursor.execute('SELECT volunteer_id, name, phone, email, dob, address, pref_address , join_time FROM volunteer where status="new";')
     newvolunteers = cursor.fetchall()
     cursor.close()
     return render_template('admin/volunteer_list.html', freevolunteers=freevolunteers, assignvolunteers=assignvolunteers, blockvolunteers=blockvolunteers, newvolunteers=newvolunteers)

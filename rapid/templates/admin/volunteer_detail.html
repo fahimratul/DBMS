@@ -121,14 +121,14 @@
                 <div class="profile-card account-card">
                     <h3 class="card-title">NID Card</h3>
                     <div class="nid-preview"></div>
-                        {%if volunteer.nid_birthcert %}
-                        <img src="{{ volunteer.nid_birthcert }}" alt="NID Card Image" class="nid-img" style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);" />
-                        {% else %}
-                        <p>No NID Card available</p>
-                        {% endif %}
+                    {% if volunteer.nid %}
+                      <img src={{volunteer.nid}} alt="Volunteer Image" style="max-width:300px;">
+                    {% else %}
+                      <p>No image available.</p>
+                    {% endif %}
                     </div>
                 </div>
-                {%if volunteer.status == 'assign' %}
+                {% if volunteer.status == 'assign' %}
                 <div class="profile-card account-card">
                     <h3 class="card-title left">On Going Event</h3>
                     <div>
@@ -233,7 +233,7 @@
       .then(response => {
         if (response.ok) {
           alert('Volunteer declined successfully!');
-          location.reload(); // Reload the page to reflect changes
+          window.location.href = "/admin/volunteer_list";
         } else {
           alert('Error declining volunteer.');
         }
