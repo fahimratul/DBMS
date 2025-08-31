@@ -46,7 +46,8 @@ CREATE TABLE volunteer (
     join_time DATE NOT NULL,
     user_name VARCHAR(20) NOT NULL UNIQUE,
     password TEXT NOT NULL,
-    nid_birthcert BLOB
+    nid_birthcert BLOB,
+    profile_picture BLOB
 );
 
 CREATE TABLE item (
@@ -97,6 +98,8 @@ CREATE TABLE event (
     event_type_id INT,
     item_id INT,
     donation_receiver_id INT,
+    start_date DATE,
+    end_date DATE,
     status VARCHAR(30) NOT NULL,
     FOREIGN KEY (volunteer_id) REFERENCES volunteer(volunteer_id),
     FOREIGN KEY (event_type_id) REFERENCES event_type(event_type_id),
