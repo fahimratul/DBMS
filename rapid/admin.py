@@ -213,19 +213,17 @@ def admin_dashboard():
     #function to get available stock
     # execute once to create the function in the database, 
     # then can be called as needed
-    # DELIMITER //
-    # CREATE FUNCTION get_available_stock(item_id INT)
-    # RETURNS INT
-    # DETERMINISTIC
-    # BEGIN
-    #     DECLARE qty INT;
-    #     SELECT COUNT(*) INTO qty
-    #     FROM stock_items
-    #     WHERE stock_items.item_id = item_id
-    #     AND stock_items.expire_date >= CURDATE();
-    #     RETURN qty;
-    # END //
-    # DELIMITER ;
+#    CREATE FUNCTION get_available_quantity(item_id INT)
+#     RETURNS INT
+#     DETERMINISTIC
+#     BEGIN
+#         DECLARE qty INT;
+#         SELECT IFNULL(SUM(quantity), 0) INTO qty
+#         FROM stock
+#         WHERE stock.item_id = item_id
+#         AND stock.expire_date >= CURDATE();
+#         RETURN qty;
+#     END
     cursor.execute("""
         SELECT i.name, 
                get_available_quantity(i.item_id) AS available_quantity
@@ -249,7 +247,7 @@ def admin_dashboard():
     request_data = cursor.fetchall() #{receiver_name:..., item_name:...}
 
     cursor.execute("""
-        SELECT volunteer_id, name, profile_picture FROM volunteer;
+        SELECT volunteer_id, name, profile_picture FROM volunteer ORDER BY volunteer_id Desc limit 7;
     """)
     raw_volunteer_data = cursor.fetchall()
     

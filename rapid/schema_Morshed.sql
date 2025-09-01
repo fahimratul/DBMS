@@ -133,17 +133,17 @@ CREATE TABLE event (
     event_type_id INT,
     item_id INT,
     donation_receiver_id INT,
+    start_date DATE,
+    end_date DATE,
     status VARCHAR(30) NOT NULL,
-    FOREIGN KEY (volunteer_id) REFERENCES volunteer(volunteer_id)
-        ON UPDATE CASCADE ON DELETE CASCADE,
-    FOREIGN KEY (event_type_id) REFERENCES event_type(event_type_id)
-        ON UPDATE CASCADE ON DELETE CASCADE,
+    FOREIGN KEY (volunteer_id) REFERENCES volunteer(volunteer_id),
+    FOREIGN KEY (event_type_id) REFERENCES event_type(event_type_id),
     FOREIGN KEY (item_id) REFERENCES item(item_id)
-        ON UPDATE CASCADE ON DELETE SET NULL,
-    FOREIGN KEY (donation_receiver_id) REFERENCES donation_receiver(donation_receiver_id)
-        ON UPDATE CASCADE ON DELETE CASCADE
 );
-
+alter TABLE event
+    ADD COLUMN start_date DATE,
+    ADD COLUMN end_date DATE;
+    
 CREATE TABLE money_transfer (
     trx_id INT PRIMARY KEY AUTO_INCREMENT,
     account_id INT,
