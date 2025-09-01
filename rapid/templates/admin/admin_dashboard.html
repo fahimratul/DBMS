@@ -216,8 +216,8 @@
 
       <div class="total-amount-card">
         <div class="total-amount-header">
-          <p>Total Amount</p>
-          <h5> 1213213<!--{{total_amount}}--></h5>
+          <p>Available Balance</p>
+          <h5> {{ admin_data['available_balance'] }}</h5>
         </div>
         <div class="total-amount-icon">
           <img src="{{ url_for('static', filename='images/logo/bank-logo.png') }}" alt="Bank Logo" class="bank-logo" />
@@ -227,7 +227,7 @@
       <div class="total-amount-card">
         <div class="total-amount-header">
           <p>Total Volunteers</p>
-          <h5>{{volunteer_cnt}}</h5>
+          <h5>{{admin_data['volunteer_cnt']}}</h5>
         </div>
         <div class="total-amount-icon">
           <i class="fas fa-user-friends"></i>
@@ -237,7 +237,7 @@
       <div class="total-amount-card">
         <div class="total-amount-header">
           <p>Total Donors</p>
-          <h5> 1213213<!--{{completed_amount}}--></h5>
+          <h5> {{admin_data['donor_cnt']}}</h5>
         </div>
         <div class="total-amount-icon">
           <i class="fas fa-heart"></i>
@@ -247,7 +247,7 @@
       <div class="total-amount-card">
         <div class="total-amount-header">
           <p>Total Recipients</p>
-          <h5> 1213213<!--{{cancelled_amount}}--></h5>
+          <h5> {{ admin_data['recipient_cnt'] }}</h5>
         </div>
         <div class="total-amount-icon">
           <i class="fas fa-user-friends"></i>
@@ -261,38 +261,61 @@
         <h3>Monthly Donations</h3>
         <p>This chart shows the trend of donations over the past months.</p>
         <canvas id="myChart" style="width:100%;max-width:600px"></canvas>
+        <!-- Chart.js: Monthly Donations Line Graph -->
+        <!--
+          This block uses Chart.js to render a line graph of monthly donations.
+          - Data is passed from Flask as admin_data['donations_by_month'] (list of dicts with 'month' and 'donation_count').
+          - The Jinja2 tojson filter serializes the data for JavaScript.
+          - X axis: months (YYYY-MM), Y axis: number of donations per month.
+        -->
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script>
+          // Prepare data from Flask backend
+          const donationData = {{ admin_data['donations_by_month'] | tojson }};
+          // Convert 'YYYY-MM' to 'Mon YYYY' for display
+          const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+          const months = donationData.map(row => {
+            const [year, month] = row.month.split('-');
+            return `${monthNames[parseInt(month, 10) - 1]} ${year}`;
+          });
+          const counts = donationData.map(row => row.donation_count);
+
+          // Render the line chart
+          const ctx = document.getElementById('myChart').getContext('2d');
+          new Chart(ctx, {
+            type: 'line',
+            data: {
+              labels: months,
+              datasets: [{
+                label: 'Donations per Month',
+                data: counts,
+                borderColor: 'teal',
+                backgroundColor: 'rgba(0,128,128,0.1)',
+                fill: true,
+                tension: 0.2
+              }]
+            },
+            options: {
+              scales: {
+                x: { title: { display: true, text: 'Month' } },
+                y: { title: { display: true, text: 'Number of Donations' }, beginAtZero: true }
+              }
+            }
+          });
+        </script>
       </div>
       <div class="event-section">
         <h3>Events</h3>
         <ul class="event-list">
+          {% for event in admin_data['events'] %}
           <li class="event-item">
             <div>
-              <h4>Flood in barishal</h4>
-              <p>Date: 25th Dec 2023</p>
+              <h4>{{ event.event_type }}</h4>
+              <p>Date: {{ event.start_date }}{% if event.end_date %} - {{ event.end_date }}{% endif %}</p>
             </div>
-            <p>Ongoing</p>
+            <p>{{ event.status }}</p>
           </li>
-          <li class="event-item">
-            <div>
-              <h4>Food Distribution</h4>
-              <p>Date: 15th Jan 2024</p>
-            </div>
-            <p>Upcoming</p>
-          </li>
-          <li class="event-item">
-            <div>
-              <h4>Clothing Drive</h4>
-              <p>Date: 5th Feb 2024</p>
-            </div>
-            <p>Upcoming</p>
-          </li>
-          <li class="event-item">
-            <div>
-              <h4>Health Camp</h4>
-              <p>Date: 20th Feb 2024</p>
-            </div>
-            <p>Upcoming</p>
-          </li>
+          {% endfor %}
         </ul>
         <a href="{{ url_for('admin.admin_events') }}" class="btn">View All Events</a>
       </div>
@@ -309,36 +332,16 @@
           </div>
 
           <div class="volunteer-list">
+            {% for volunteer in admin_data['volunteer_profile_pics'] %}
             <div class="volunteer-item">
-              <img src="{{ url_for('static', filename='images/profile_img/profile1.jpeg') }}" alt="Volunteer 1" />
-              <h2>John Doe</h2>
-              <p>Volunteer Role: Team Leader</p>
+                {% if volunteer['image_src'] and volunteer['image_src'].startswith('data:') %}
+                  <img src="{{ volunteer['image_src'] }}" alt="Volunteer {{ volunteer['volunteer_id'] }}" />
+                {% else %}
+                  <img src="{{ url_for('static', filename='images/profile_img/default_profie.jpg') }}" alt="Default Volunteer" />
+                {% endif %}
+              <h2>{{ volunteer['name'] }}</h2>
             </div>
-            <div class="volunteer-item">
-              <img src="{{ url_for('static', filename='images/profile_img/profile2.jpeg') }}" alt="Volunteer 2" />
-              <h2>Jane Smith</h2>
-              <p>Volunteer Role: Fundraiser</p>
-            </div>
-            <div class="volunteer-item">
-              <img src="{{ url_for('static', filename='images/profile_img/profile3.jpeg') }}" alt="Volunteer 3" />
-              <h2>Mike Johnson</h2>
-              <p>Volunteer Role: Community Outreach</p>
-            </div>
-            <div class="volunteer-item">
-              <img src="{{ url_for('static', filename='images/profile_img/profile4.jpeg') }}" alt="Volunteer 4" />
-              <h2>Emily Davis</h2>
-              <p>Volunteer Role: Event Coordinator</p>
-            </div>
-            <div class="volunteer-item">
-              <img src="{{ url_for('static', filename='images/profile_img/profile5.jpeg') }}" alt="Volunteer 5" />
-              <h2>Sarah Brown</h2>
-              <p>Volunteer Role: Social Media Manager</p>
-            </div>
-            <div class="volunteer-item">
-              <img src="{{ url_for('static', filename='images/profile_img/profile6.jpeg') }}" alt="Volunteer 6" />
-              <h2>David Wilson</h2>
-              <p>Volunteer Role: Logistics Coordinator</p>
-            </div>
+            {% endfor %}
           </div>
 
 
@@ -353,26 +356,27 @@
       <div class="recipient-section">
 
         <h3>Donors</h3>
-        {% for i in range(5) %}
-        <div class="recipient-item">
-          <h4>John Doe {{ i }}</h4>
-          <p>Donation Amount: {{i*200+50}}</p>
-        </div>
-        {% endfor %}
-        <a href="{{ url_for('admin.admin_donors') }}">See all</a>
+          <ul class="donor-list">
+          {% for donor in admin_data['top_donors'] %}
+            <li class="recipient-item">
+              <h4>{{ donor.name }}</h4>
+              <p>Number of Donations: {{ donor.donation_count }}</p>
+            </li>
+          {% endfor %}
+          </ul>
+          <a href="{{ url_for('admin.admin_donors') }}">See all</a>
       </div>
 
       <div class="stock-section">
         <h3>Stock</h3>
         <div>
-          {% set stocks = ['Food Supplies', 'Clothing', 'Medical Supplies', 'Books', 'Toys'] %}
-          {% for stock in stocks %}
+          {% for item in admin_data['stock_items'] %}
           <div class="card">
             <div class="card-details">
-              <p class="text-title">{{ stock }}</p>
-              <p class="text-body">Available: {{ stock | length }}</p>
+              <p class="text-title">{{ item['name'] }}</p>
+              <p class="text-body">Available: {{ item['available_quantity'] }}</p>
             </div>
-            <buttonc class="card-button">More Info</button>
+            <buttonc class="card-button">More Info</buttonc>
           </div>
           {% endfor %}
         </div>
@@ -381,10 +385,10 @@
 
       <div class="recipient-section">
         <h3>Request list</h3>
-        {% for i in range(5) %}
+        {% for request in admin_data['requests'] %}
         <div class="recipient-item">
-          <h4>Jane Smith {{ i }}</h4>
-          <p>Received Amount: {{i*100+20}}</p>
+          <h4>{{request['receiver_name']}}</h4>
+          <p>Received: {{request['item_name']}}</p>
         </div>
         {% endfor %}
         <a href="{{ url_for('admin.admin_requests') }}" class="btn">>See all</a>
