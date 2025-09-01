@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - RAPID</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin/donor_details.css') }}">
+</head>
+<body>
+
+
+    <!-- Main Content -->
+    <div class="main-container">
+            <div class="profile-container">
+                <!-- Profile Header -->
+                <div class="profile-header">
+                    <h1 class="profile-title">Volunteer Profile</h1>
+                    <div class="btn-group">
+                        {% if volunteer.status == 'new' %}
+                        <button class="btn-secondary" id="editBtn" onclick="approveVolunteer('{{ volunteer.volunteer_id }}')">
+                            <i data-lucide="check" style="width: 16px; height: 16px;"></i>
+                            Approve
+                        </button>
+                        <button class="btn-cancel" id="cancelBtn" onclick="declineVolunteer('{{ volunteer.volunteer_id }}')">
+                            <i data-lucide="x" style="width: 16px; height: 16px;"></i>
+                            Decline
+                        </button>
+                        {% elif volunteer.status == 'block' %}
+                        <button class="btn-secondary" onclick="unblockVolunteer('{{ volunteer.volunteer_id }}')">
+                            <i data-lucide="unlock" style="width: 16px; height: 16px;"></i>
+                            Unblock
+                        </button>
+                        {% else %}
+                        <button class="btn-cancel" onclick="blockVolunteer('{{ volunteer.volunteer_id }}')">
+                            <i data-lucide="ban" style="width: 16px; height: 16px;"></i>
+                            Block
+                        </button>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Profile Grid -->
+                <div class="profile-grid">
+                    <!-- Profile Picture and Basic Info -->
+                    <div class="profile-card">
+                        <div class="avatar-section">
+                            <div class="avatar-container">
+                                <img src="{{ volunteer.profile_picture }}" alt="Profile Picture" class="avatar" id="avatarImg" />
+                            </div>
+                            <h2 class="profile-name" id="displayName">{{ volunteer.name }}</h2>
+                            <div class="donor-id">
+                                <span>ID: {{ volunteer.volunteer_id }}</span>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- Profile Details -->
+                    <div class="profile-info">
+                        <div class="personal-details">
+                            <h3 class="card-title">Profile Information</h3>
+                            <div>
+                                <div>
+                                    <span>
+                                        <i data-lucide="user" style="width: 16px; height: 16px;"></i>
+                                    </span>
+                                    <span>Name: {{volunteer.name}}</span>
+                                </div>
+                                <div>
+                                    <span>
+                                        <i data-lucide="phone" style="width: 16px; height: 16px;"></i>
+                                    </span>
+                                    <span>Phone Number: {{volunteer.phone}}</span>
+                                </div>
+                                <div>
+                                    <span>
+                                        <i data-lucide="mail" style="width: 16px; height: 16px;"></i>
+                                    </span>
+                                    <span>Email Address: {{volunteer.email}}</span>
+                                </div>
+                                <div>
+                                    <span>
+                                        <i data-lucide="cake" style="width: 16px; height: 16px;"></i>
+                                    </span>
+                                    <span>Date of Birth: {{volunteer.dob}}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="personal-details">
+                            <h3 class="card-title left">Contact Information</h3>
+                            <div>
+                                <div>
+                                    <span>
+                                        <i data-lucide="map-pin" style="width: 16px; height: 16px;"></i>
+                                    </span>
+                                    <span>Address: {{volunteer.address}}</span>
+                                </div>
+                                <div>
+                                    <span>
+                                        <i data-lucide="map-pin" style="width: 16px; height: 16px;"></i>
+                                    </span>
+                                    <span>Preferable Address: {{volunteer.pref_address}}</span>
+                                </div>
+                                <div>
+                                    <span>
+                                        <i data-lucide="calendar" style="width: 16px; height: 16px;"></i>
+                                    </span>
+                                    <span>Join Time: {{volunteer.join_time}}</span>
+                                </div>
+                                <div>
+                                    <span>
+                                        <i data-lucide="cake" style="width: 16px; height: 16px;"></i>
+                                    </span>
+                                    <span>User Name: {{volunteer.user_name}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                <!-- Account Information -->
+                <div class="profile-card account-card">
+                    <h3 class="card-title">NID Card</h3>
+                    <div class="nid-preview"></div>
+                    {% if volunteer.nid %}
+                      <img src={{volunteer.nid}} alt="Volunteer Image" style="max-width:300px;">
+                    {% else %}
+                      <p>No image available.</p>
+                    {% endif %}
+                    </div>
+                </div>
+                {% if volunteer.status == 'assign' %}
+                <div class="profile-card account-card">
+                    <h3 class="card-title left">On Going Event</h3>
+                    <div>
+                        <span>Event Name: </span>
+                    </div>
+                </div>
+                {% endif %}
+                    <div class="profile-info">
+                        <div class="personal-details">
+                            <h3 class="card-title">Total Events Participated</h3>
+                            <div>
+                               <h1>{{ volunteer.event_count }}</h1>
+                            </div>
+                        </div>
+                        <div class="personal-details">
+                            <h3 class="card-title left">Total Feedback Given</h3>
+                            <div>
+                               <h1>{{ volunteer.feedback_count }}</h1>
+                            </div>
+                                    
+                        </div>
+                    </div>
+            </div>
+
+    </div>
+
+ <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <script>
+        lucide.createIcons();
+
+    function blockVolunteer(volunteerId) {
+      fetch(`/admin/block_volunteer/${volunteerId}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      .then(response => {
+        if (response.ok) {
+          alert('Volunteer blocked successfully!');
+          location.reload(); // Reload the page to reflect changes
+        } else {
+          alert('Error blocking volunteer.');
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        alert('Error blocking volunteer.');
+      });
+    }
+
+    function approveVolunteer(volunteerId) {
+      fetch(`/admin/approve_volunteer/${volunteerId}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      .then(response => {
+        if (response.ok) {
+          alert('Volunteer approved successfully!');
+          location.reload(); // Reload the page to reflect changes
+        } else {
+          alert('Error approving volunteer.');
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        alert('Error approving volunteer.');
+      });
+    }
+
+    function unblockVolunteer(volunteerId) {
+      fetch(`/admin/unblock_volunteer/${volunteerId}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      .then(response => {
+        if (response.ok) {
+          alert('Volunteer unblocked successfully!');
+          location.reload(); // Reload the page to reflect changes
+        } else {
+          alert('Error unblocking volunteer.');
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        alert('Error unblocking volunteer.');
+      });
+    }
+
+    
+    function declineVolunteer(volunteerId) {
+      fetch(`/admin/decline_volunteer/${volunteerId}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      .then(response => {
+        if (response.ok) {
+          alert('Volunteer declined successfully!');
+          window.location.href = "/admin/volunteer_list";
+        } else {
+          alert('Error declining volunteer.');
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        alert('Error declining volunteer.');
+      });
+    }
+
+    </script>
+    <script src="{{ url_for('static', filename='script/donor/profile.js') }}"></script> 
+</body>
+</html>
