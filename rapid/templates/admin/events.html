@@ -160,7 +160,7 @@
         </li>
 
         <li>
-          <a class="sidebar-link" href="{{ url_for('auth.logout') }}">
+          <a class="sidebar-link" href="{{ url_for('index') }}">
             <span class="sidebar-icon">
               <!-- Sign In SVG -->
               <svg width="60px" height="60px" viewBox="0 0 46 46" xmlns="http://www.w3.org/2000/svg">
@@ -189,165 +189,77 @@
     </nav>
   </aside>
 
-  <main class="main-container">
-    <!-- Navbar -->
-    <nav class="navbar" navbar-main navbar-scroll="true">
-      <div class="navbar-div">
-        <nav>
-          <h2>RAPID</h2>
-        </nav>
+<main class="main-container">
+  <!-- Navbar -->
+  <nav class="navbar" navbar-main navbar-scroll="true">
+    <div class="navbar-div">
+      <nav>
+        <h2>RAPID</h2>
+      </nav>
+    </div>
+  </nav>
+
+  <!-- Table -->
+  <main class="table" id="events_table">
+    <section class="table__header">
+      <h1>Events</h1>
+      <div class="input-group">
+        <input id="searchInput" type="search" placeholder="Search events..." />
       </div>
-    </nav>
+      <div><a href="{{ url_for('admin.admin_create_event') }}" class="create-event-btn">Create event</a></div>
+    </section>
+    <section class="table__body">
+      <table id="eventsTable">
+        <thead>
+          <tr>
+            <th>Event Id</th>
+            <th>Event Type</th>
+            <th>Status</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Volunteer</th>
+            <th>Receiver</th>
+            <th>Item</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for event in events %}
+          <tr>
+            <td>E{{ '%05d'|format(event.task_id) }}</td>
+            <td>{{ event.event_type or "N/A" }}</td>
+            <td>{{ event.status or "N/A" }}</td>
+            <td>{{ event.start_date or "N/A" }}</td>
+            <td>{{ event.end_date or "N/A" }}</td>
+            <td>{{ event.volunteer_name or "N/A" }}</td>
+            <td>{{ event.receiver_name or "N/A" }}</td>
+            <td>{{ event.item_name or "N/A" }}</td>
+            <td>
+              <button class="details-btn" data-task-id="{{ event.task_id }}">Details</button>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </section>
 
-    <!-- Table -->
-    <main class="table" id="events_table">
-      <section class="table__header">
-        <h1>Events</h1>
-        <div class="input-group">
-          <input id="searchInput" type="search" placeholder="Search events..." />
-        </div>
-        <div><a href="{{ url_for('admin.admin_create_event') }}" class="create-event-btn">Create event</a></div>
-
-      </section>
-      <section class="table__body">
-        <table id="eventsTable">
-          <thead>
-            <tr>
-              <th>Event Id <span class="icon-arrow">&UpArrow;</span></th>
-              <th>Event Type <span class="icon-arrow">&UpArrow;</span></th>
-              <th>Status <span class="icon-arrow">&UpArrow;</span></th>
-              <th>Request Date <span class="icon-arrow">&UpArrow;</span></th>
-              <th>Completion Date <span class="icon-arrow">&UpArrow;</span></th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>E00023</td>
-              <td>Flood</td>
-              <td>
-                <p class="status completed">Completed</p>
-              </td>
-              <td>17 Dec, 2022</td>
-              <td>20 Dec, 2022</td>
-              <td><button class="details-btn">Details</button></td>
-            </tr>
-            <tr>
-              <td>E00024</td>
-              <td>Earthquake</td>
-              <td>
-                <p class="status ongoing">Ongoing</p>
-              </td>
-              <td>05 Feb, 2023</td>
-              <td>—</td>
-              <td><button class="details-btn">Details</button></td>
-            </tr>
-            <tr>
-              <td>E00025</td>
-              <td>Wildfire</td>
-              <td>
-                <p class="status cancelled">Cancelled</p>
-              </td>
-              <td>12 Mar, 2023</td>
-              <td>—</td>
-              <td><button class="details-btn">Details</button></td>
-            </tr>
-            <tr>
-              <td>E00026</td>
-              <td>Hurricane</td>
-              <td>
-                <p class="status completed">Completed</p>
-              </td>
-              <td>20 Apr, 2023</td>
-              <td>01 May, 2023</td>
-              <td><button class="details-btn">Details</button></td>
-            </tr>
-            <tr>
-              <td>E00027</td>
-              <td>Tornado</td>
-              <td>
-                <p class="status pending">Pending</p>
-              </td>
-              <td>10 May, 2023</td>
-              <td>—</td>
-              <td><button class="details-btn">Details</button></td>
-            </tr>
-            <tr>
-              <td>E00028</td>
-              <td>Flood</td>
-              <td>
-                <p class="status ongoing">Ongoing</p>
-              </td>
-              <td>25 Jun, 2023</td>
-              <td>—</td>
-              <td><button class="details-btn">Details</button></td>
-            </tr>
-            <tr>
-              <td>E00029</td>
-              <td>Earthquake</td>
-              <td>
-                <p class="status completed">Completed</p>
-              </td>
-              <td>15 Jul, 2023</td>
-              <td>30 Jul, 2023</td>
-              <td><button class="details-btn">Details</button></td>
-            </tr>
-            <tr>
-              <td>E00030</td>
-              <td>Wildfire</td>
-              <td>
-                <p class="status cancelled">Cancelled</p>
-              </td>
-              <td>01 Aug, 2023</td>
-              <td>—</td>
-              <td><button class="details-btn">Details</button></td>
-            </tr>
-            <tr>
-              <td>E00031</td>
-              <td>Hurricane</td>
-              <td>
-                <p class="status ongoing">Ongoing</p>
-              </td>
-              <td>20 Sep, 2023</td>
-              <td>—</td>
-              <td><button class="details-btn">Details</button></td>
-            </tr>
-            <tr>
-              <td>E00032</td>
-              <td>Flood</td>
-              <td>
-                <p class="status completed">Completed</p>
-              </td>
-              <td>05 Oct, 2023</td>
-              <td>20 Oct, 2023</td>
-              <td><button class="details-btn">Details</button></td>
-            </tr>
-
-          </tbody>
-        </table>
-      </section>
-    </main>
+    <!-- Modal for event details -->
     <div id="eventModal" class="modal">
       <div class="modal-content">
         <span class="close">&times;</span>
-
         <h2><strong>Event ID:</strong> <span id="modalEventId"></span></h2>
-
         <div class="section">
           <p><strong>Event Type:</strong> <span id="modalEventType"></span></p>
           <p><strong>Status:</strong> <span id="modalStatus" class="status"></span></p>
           <p><strong>Priority:</strong> <span id="modalPriority"></span></p>
         </div>
-
         <div class="section dates">
           <p><strong>Requested On:</strong> <span id="modalRequestDate"></span></p>
           <p><strong>Completed On:</strong> <span id="modalCompletionDate"></span></p>
         </div>
-
         <div class="section">
           <p><strong>Location:</strong> <span id="modalLocation"></span></p>
         </div>
-
         <div class="section">
           <h3>Team Members</h3>
           <p><strong>Team Leader:</strong> <span id="modalLeader"></span></p>
@@ -362,7 +274,6 @@
             <tbody id="modalTeamMembers"></tbody>
           </table>
         </div>
-
         <div class="section">
           <h3>Allocated Items</h3>
           <table class="info-table">
@@ -376,7 +287,6 @@
             <tbody id="modalAllocatedItems"></tbody>
           </table>
         </div>
-
         <div class="section">
           <h3>Requested By</h3>
           <p><strong>Name:</strong> <span id="modalRequester"></span></p>
@@ -385,17 +295,18 @@
         </div>
         <div class="section">
           <h3>Feedback</h3>
-          <ul id="modalFeedbackList" class="feedback-list">
-          </ul>
+          <ul id="modalFeedbackList" class="feedback-list"></ul>
         </div>
-
       </div>
     </div>
 
+    <!-- Scripts -->
     <script src="{{ url_for('static', filename='script/admin/detailsModal.js') }}"></script>
     <script src="{{ url_for('static', filename='script/admin/searchFilter.js') }}"></script>
-
   </main>
+</main>
+</body>
+</html>
 
 </body>
 

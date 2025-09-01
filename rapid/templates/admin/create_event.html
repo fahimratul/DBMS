@@ -204,7 +204,7 @@
             <!-- Event ID: auto-generated -->
             <div class="form-group">
                 <label for="eventId">Event ID</label>
-                <input type="text" id="eventId" name="eventId" readonly value="E00344" />
+                <input type="text" id="eventId" name="eventId" readonly value="{{ event_id }}"/>
             </div>
 
             <!-- Requester select -->
@@ -237,6 +237,12 @@
                 <input type="text" id="location" name="location" placeholder="Location or manual input" />
             </div>
 
+             <div class="form-group">
+                <label for="contact">Contact</label>
+                <input type="text" id="contact" name="contact"
+                    placeholder="Contact or manual input" />
+            </div>
+
             <div class="form-group">
                 <label for="emergencyContact">Emergency Contact</label>
                 <input type="text" id="emergencyContact" name="emergencyContact"
@@ -249,6 +255,7 @@
                 <select id="volunteersSelect" name="volunteers" multiple>
                 </select>
             </div>
+
 
             <!-- Leader selection (only among selected volunteers) -->
             <div class="form-group">
@@ -279,6 +286,11 @@
 
 
     </main>
+    <script>
+  const jsRequesters = JSON.parse('{{ requesters | tojson | safe }}');
+  const jsVolunteers = JSON.parse('{{ volunteers | tojson | safe }}');
+  const jsEventTypes = JSON.parse('{{ event_types | tojson | safe }}');
+</script>
 
     <script src="{{ url_for('static', filename='script/admin/createevent.js') }}"></script>
 </body>
