@@ -32,16 +32,28 @@ def admin_events():
 @login_required
 def volunteer_list():
     return render_template('admin/volunteer_list.html')
-
 @bp.route('/admin_donors')
 @login_required
 def admin_donors():
-    return render_template('admin/donor_list.html')
+    db = get_bd()
+    cursor = db.cursor(dictionary=True)
+    cursor.execute('SELECT * FROM donor;')
+    donors = cursor.fetchall()
+    return render_template('admin/donor_list.html', donors=donors)
 
 @bp.route('/admin_requests')
 @login_required
 def admin_requests():
-    return render_template('admin/requests.html')
+    db = get_bd()
+    cursor = db.cursor(dictionary=True)
+    cursor.execute('''
+        SELECT dr.donation_receiver_id, dr.date, dr.priority_message, dr.additional_item, r.name AS receiver_name
+        FROM donation_receiver dr
+        JOIN receiver r ON dr.receiver_id = r.receiver_id
+    ''')
+    requests = cursor.fetchall()
+    return render_template('admin/requests.html', requests=requests)
+
 
 @bp.route('/admin_stock')
 @login_required
