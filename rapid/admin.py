@@ -303,7 +303,7 @@ def volunteer_list():
     assignvolunteers = cursor.fetchall()
     cursor.execute('SELECT volunteer_id, name, phone, email, dob, address, pref_address , join_time FROM volunteer where status ="block";')
     blockvolunteers = cursor.fetchall()
-    cursor.execute('SELECT volunteer_id, name, phone, email, dob, address, pref_address , join_time FROM volunteer where status="new";')
+    cursor.execute('SELECT volunteer_id, name, phone, email, dob, address, pref_address , join_time FROM volunteer where status="new" order by join_time desc;')
     newvolunteers = cursor.fetchall()
     cursor.close()
     return render_template('admin/volunteer_list.html', freevolunteers=freevolunteers, assignvolunteers=assignvolunteers, blockvolunteers=blockvolunteers, newvolunteers=newvolunteers)

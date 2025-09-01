@@ -51,6 +51,8 @@ def create_app(test_config=None):
     from .import donor
     app.register_blueprint(donor.bp)
 
+    from . import volunteer
+    app.register_blueprint(volunteer.bp)
     
     @app.route('/')
     def index():
