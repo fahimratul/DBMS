@@ -220,13 +220,56 @@
                         </tr>
                     </thead>
                     <tbody id="donorTableBody">
-                    </tbody>
+            {% for donor in donors %}
+            <tr>
+              <td>{{ donor.donor_id }}</td>
+              <td>{{ donor.name }}</td>
+              <td>{{ donor.phone }}</td>
+              <td>{{ donor.email }}</td>
+              <td>{{ donor.address }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
                 </table>
             </section>
         </main>
     </main>
 
-    <script src="{{ url_for('static', filename='script/admin/donor_list.js') }}"></script>
+    <script>
+      
+// Populate donor table body
+const donorBody = document.getElementById("donorTableBody");
+for (const donorId in donorTableData) {
+  const donor = donorTableData[donorId];
+  const tr = document.createElement("tr");
+  tr.innerHTML = `
+    <td>${donorId}</td>
+    <td>${donor.name}</td>
+    <td>${donor.phone}</td>
+    <td>${donor.email}</td>
+    <td>${donor.address}</td>
+  `;
+  donorBody.appendChild(tr);
+}
+
+// Search function (same as in your request table)
+function searchTable(inputId, tableId) {
+  const input = document.getElementById(inputId);
+  if (!input) return;
+
+  const filter = input.value.toLowerCase();
+  const table = document.getElementById(tableId);
+  if (!table) return;
+
+  const rows = table.getElementsByTagName("tr");
+
+  for (let i = 1; i < rows.length; i++) {
+    const rowText = rows[i].innerText.toLowerCase();
+    rows[i].style.display = rowText.includes(filter) ? "" : "none";
+  }
+}
+
+    </script>
 </body>
 
 </html>
