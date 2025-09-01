@@ -453,6 +453,7 @@ color: #64748b;
 .pagination-info {
     color: #666;
     font-size: 14px;
+    margin-right: 10px;
 }
 
 .pagination-buttons {

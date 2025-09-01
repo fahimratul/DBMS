@@ -113,7 +113,7 @@ CREATE TABLE money_transfer (
     date DATE,
     FOREIGN KEY (account_id) REFERENCES account(account_id),
     FOREIGN KEY (donation_id) REFERENCES donation(donation_id)
-)
+);
 
 CREATE TABLE feedback (
     feedback_id INT PRIMARY KEY AUTO_INCREMENT,
