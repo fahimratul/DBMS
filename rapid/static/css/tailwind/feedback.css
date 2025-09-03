@@ -50,8 +50,8 @@ button {
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    margin-left: 80%;
-    width: 20%;
+    width: fit-content;
+    margin-right: 5px;
     transition: background-color 0.3s ease;
 }
 
