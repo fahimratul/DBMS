@@ -57,7 +57,10 @@ def create_app(test_config=None):
     @app.route('/')
     def index():
         return render_template('index.html')
-    
+    @app.route('/feedback')
+    def feedback():
+        return render_template('feedback.html', name='RAPID')
+
     @app.route('/request_donation')
     def request_donation():
         return render_template('request_donation.html')
