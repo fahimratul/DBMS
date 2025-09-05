@@ -86,6 +86,7 @@ function addItemRow(item = { itemId: '', item: '', quantity: '', isFilled: false
     <select class="item-select" ${item.isFilled ? 'disabled' : ''}>${options}</select>
     <input type="number" class="item-qty" name="item-qty" placeholder="Quantity" value="${item.quantity}" min="1" ${item.isFilled ? 'readonly' : ''} />
     <input type="hidden" class="item-id" name="item-id" value="${item.itemId}" />
+    <input type="hidden" class="item-name" name="item-name" value="${item.item}" />
     <button type="button" class="remove-item-btn">Remove</button>
   `;
 
@@ -93,6 +94,7 @@ function addItemRow(item = { itemId: '', item: '', quantity: '', isFilled: false
 
   const select = div.querySelector('.item-select');
   const idInput = div.querySelector('.item-id');
+  const nameHidden = div.querySelector('.item-name');
 
   if (!item.isFilled) {
     select.addEventListener('change', () => {
@@ -100,14 +102,19 @@ function addItemRow(item = { itemId: '', item: '', quantity: '', isFilled: false
       if (val) {
         const [id, name] = val.split('#');
         idInput.value = id;
+        nameHidden.value = name;
       } else {
         idInput.value = '';
+        nameHidden.value = '';
       }
     });
   }
 
   div.querySelector('.remove-item-btn').addEventListener('click', () => div.remove());
 }
+
+
+
 
 
 function fillRequesterDetails(id) {
@@ -218,13 +225,38 @@ const form = document.getElementById('createEventForm');
 form.addEventListener('submit', function(e) {
   e.preventDefault();
 
+  document.querySelectorAll('.item-row').forEach(row => {
+    const select = row.querySelector('.item-select');
+    const idInput = row.querySelector('.item-id');
+    const nameHidden = row.querySelector('.item-name');
+    const nameVisible = row.querySelector('.item-name-input');
+
+    if (select && select.value) {
+      const [id, name] = select.value.split('#');
+      idInput.value = id;
+      nameHidden.value = name;
+    } else {
+      // Manual item
+      idInput.value = ''; // no ID
+      nameHidden.value = nameVisible.value;
+    }
+  });
+
   const formData = new FormData(form);
+
   getSelectedVolunteers().forEach(v => formData.append('volunteers', v));
 
   const data = new URLSearchParams(formData);
+  console.log('Submitting data:', Array.from(data.entries()));
 
   fetch('/admin/admin_create_event', { method: 'POST', body: data })
     .then(res => res.text())
-    .then(result => { alert('Event created successfully!'); window.location.reload(); })
-    .catch(err => { console.error(err); alert('Error creating event.'); });
+    .then(result => {
+      alert('Event created successfully!');
+      window.location.reload();
+    })
+    .catch(err => {
+      console.error(err);
+      alert('Error creating event.');
+    });
 });

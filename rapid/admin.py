@@ -355,43 +355,53 @@ def admin_create_event():
     cursor = db.cursor(dictionary=True)
 
     if request.method == 'POST':
-        requester_id = request.form.get('requesterId')        
+        requester_id = request.form.get('requesterId')  # can be None or ''
         leader_id = request.form.get('teamLeader')           
         event_type_name = request.form.get('eventType')       
-        status = 'Pending'                                   
+        status = 'Pending'  
+        location = request.form.get('location')  # can be manual
+                                 
 
-        cursor.execute(
-            "SELECT event_type_id FROM event_type WHERE event_type = %s",
-            (event_type_name,)
-        )
+    
+        cursor.execute("SELECT event_type_id FROM event_type WHERE event_type = %s", (event_type_name,))
         row = cursor.fetchone()
         event_type_id = row['event_type_id'] if row else None
 
+   
         volunteer_ids = request.form.getlist("volunteers")  # ["2","3","5"]
-        if leader_id not in volunteer_ids:
+        if leader_id and leader_id not in volunteer_ids:
             volunteer_ids.insert(0, leader_id)
-        volunteer_id_list = "$".join(volunteer_ids) + "$"   # "1$2$3$"
+        volunteer_id_list = "$".join(volunteer_ids) + "$" if volunteer_ids else None
 
-        item_ids = request.form.getlist('item-id')          # ["1","2","5"]
-        item_quantities = request.form.getlist('item-qty')  # ["2","1","3"]
+    
+        item_ids = request.form.getlist('item-id')
+        item_names = request.form.getlist('item-name')
+        item_quantities = request.form.getlist('item-qty')
 
         item_string_list = []
-        for item_id, qty in zip(item_ids, item_quantities):
-            cursor.execute("SELECT name FROM item WHERE item_id=%s", (item_id,))
-            item_row = cursor.fetchone()
-            if item_row:
-                item_name = item_row['name']
-                item_string_list.append(f"{item_id}#{item_name}#{qty}")
+        for item_id, item_name, qty in zip(item_ids, item_names, item_quantities):
+            if not item_id:  
+                item_string_list.append(f"manual#{item_name}#{qty}")
+            else:
+                cursor.execute("SELECT name FROM item WHERE item_id=%s", (item_id,))
+                item_row = cursor.fetchone()
+                if item_row:
+                    item_name_db = item_row['name']
+                    item_string_list.append(f"{item_id}#{item_name_db}#{qty}")
+
         item_string = "$".join(item_string_list) + "$" if item_string_list else None
 
         cursor.execute("""
-            INSERT INTO event (volunteer_id_list, event_type_id, donation_receiver_id, status, start_date, item_id_list)
-            VALUES (%s, %s, %s, %s, CURDATE(), %s)
-        """, (volunteer_id_list, event_type_id, requester_id, status, item_string))
-
+            INSERT INTO event (volunteer_id_list, event_type_id, donation_receiver_id, status, start_date, item_id_list, location)
+        VALUES (%s, %s, %s, %s, CURDATE(), %s, %s)
+        """, (volunteer_id_list, event_type_id, requester_id if requester_id else None, status, item_string,location))
+        
+    
         db.commit()
         flash("Event created successfully!", "success")
         return redirect(url_for('admin.admin_create_event'))
+
+    
 
 
 
