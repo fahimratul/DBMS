@@ -223,7 +223,7 @@
       </section>
 
       <section class="table__body">
-        <table id="requests_table">
+        <table id="request_table">
           <thead>
             <tr>
               <th>Request ID <span class="icon-arrow">&UpArrow;</span></th>
@@ -243,7 +243,9 @@
               <td>{{ req.receiver_name }}</td>
               <td>{{ req.phone }}</td>
               <td>
-                <button class="details-btn" data-id="{{ req.donation_receiver_id }}">View</button>
+              <td>
+                <button class="details-btn" data-request='{{ req | tojson }}'>View</button>
+              </td>
               </td>
             </tr>
             {% endfor %}
@@ -295,22 +297,6 @@
   </main>
 
   <script>
-    const requestBody = document.getElementById("requestTableBody");
-    for (const requestId in donationRequests) {
-      const req = donationRequests[requestId];
-      const rec = receiverTable[req.receiverId];
-      const tr = document.createElement("tr");
-      tr.innerHTML = `
-    <td>${requestId}</td>
-    <td>${req.receiverId}</td>
-    <td>${req.requestDate}</td>
-    <td>${rec?.name || "Unknown"}</td>
-    <td>${rec?.phone || "Unknown"}</td>
-    <td><button class="details-btn" data-id="${requestId}">Details</button></td>
-  `;
-      requestBody.appendChild(tr);
-    }
-
     const modal = document.getElementById("requestModal");
     const closeBtn = modal.querySelector(".close");
 
@@ -318,21 +304,24 @@
       while (tbody.firstChild) tbody.removeChild(tbody.firstChild);
     }
 
-    function showRequestModal(requestId) {
-      // Convert to string to match keys
-      const key = String(requestId);
-      const data = donationRequests[key];
-      const rec = receiverTable[String(data?.receiverId)] || {};
+    function showRequestModal(data) {
+      console.log("Debug:", data);
 
-      if (!data) return; // Safety check
+      const rec = {
+        name: data.receiver_name || "—",
+        phone: data.phone || "—",
+        emergency: data.emergency_phone || "—",
+        address: data.address || "—"
+      };
 
-      document.getElementById("modalRequestId").innerText = key;
-      document.getElementById("modalRequestDate").innerText = data.requestDate;
-      document.getElementById("modalPriorityMessage").innerText = data.priorityMessage;
+      document.getElementById("modalRequestId").innerText = data.donation_receiver_id;
+      document.getElementById("modalRequestDate").innerText = data.date;
+      document.getElementById("modalPriorityMessage").innerText = data.priority_message;
 
       const itemBody = document.getElementById("modalRequestedItems");
       clearTableBody(itemBody);
-      const items = (data.requestedItems || "")
+
+      const items = (data.item_id_list || "")
         .split("$")
         .filter(Boolean)
         .map(str => {
@@ -346,26 +335,26 @@
         itemBody.appendChild(row);
       });
 
-      document.getElementById("modalAdditionalItems").innerText = data.additionalItems;
-      document.getElementById("modalReceiverId").innerText = data.receiverId;
-      document.getElementById("modalReceiverName").innerText = rec?.name || "—";
-      document.getElementById("modalReceiverPhone").innerText = rec?.phone || "—";
-      document.getElementById("modalReceiverEmergency").innerText = rec?.emergency || "—";
-      document.getElementById("modalReceiverAddress").innerText = rec?.address || "—";
+      document.getElementById("modalAdditionalItems").innerText = data.additional_item;
+      document.getElementById("modalReceiverId").innerText = data.receiver_id;
+      document.getElementById("modalReceiverName").innerText = rec.name;
+      document.getElementById("modalReceiverPhone").innerText = rec.phone;
+      document.getElementById("modalReceiverEmergency").innerText = rec.emergency;
+      document.getElementById("modalReceiverAddress").innerText = rec.address;
 
       modal.style.display = "block";
     }
 
     document.addEventListener("click", (e) => {
       if (e.target.matches(".details-btn")) {
-        const requestId = e.target.getAttribute("data-id");
-        showRequestModal(requestId);
+        const data = JSON.parse(e.target.getAttribute("data-request"));
+        showRequestModal(data);
       }
     });
 
     closeBtn.onclick = () => modal.style.display = "none";
     window.onclick = (e) => { if (e.target === modal) modal.style.display = "none"; }
-
+    
     function searchTable(inputId, tableId) {
       const input = document.getElementById(inputId);
       if (!input) return;
@@ -381,6 +370,7 @@
       }
     }
   </script>
+
 
 </body>
 
