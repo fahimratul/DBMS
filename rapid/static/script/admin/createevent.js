@@ -11,9 +11,9 @@ const contactField = document.getElementById('contact');
 const emergencyContactField = document.getElementById('emergencyContact');
 const volunteersSelect = document.getElementById('volunteersSelect');
 const leaderSelect = document.getElementById('leaderSelect');
-const stockContainer = document.getElementById('stockContainer');
+const itemContainer = document.getElementById('itemContainer');
 const eventTypeSelect = document.getElementById('eventType');
-const addStockBtn = document.getElementById('addStockBtn');
+const addItemBtn = document.getElementById('addItemBtn');
 
 function populateRequesterOptions() {
   requesters.forEach(r => {
@@ -66,25 +66,26 @@ function populateEventTypes() {
   });
 }
 
-function clearStockItems() {
-  stockContainer.innerHTML = '';
+function clearItems() {
+  itemContainer.innerHTML = '';
 }
 
-function addStockRow(stockItem = { stockId: '', item: '', quantity: '' }) {
+function addItemRow(item = { itemId: '', item: '', quantity: '' }) {
   const div = document.createElement('div');
-  div.classList.add('stock-row');
+  div.classList.add('item-row');
   div.innerHTML = `
-    <input type="text" class="stock-id" placeholder="Stock ID" value="${stockItem.stockId}" />
-    <input type="text" class="stock-item" placeholder="Item Name" value="${stockItem.item}" />
-    <input type="number" class="stock-qty" placeholder="Quantity" value="${stockItem.quantity}" min="1" />
-    <button type="button" class="remove-stock-btn">Remove</button>
+    <input type="text" class="item-id" placeholder="Item ID" value="${item.itemId}" />
+    <input type="text" class="item-name" placeholder="Item Name" value="${item.item}" />
+    <input type="number" class="item-qty" placeholder="Quantity" value="${item.quantity}" min="1" />
+    <button type="button" class="remove-item-btn">Remove</button>
   `;
-  stockContainer.appendChild(div);
+  itemContainer.appendChild(div);
 
-  div.querySelector('.remove-stock-btn').addEventListener('click', () => {
+  div.querySelector('.remove-item-btn').addEventListener('click', () => {
     div.remove();
   });
 }
+
 
 function fillRequesterDetails(id) {
   if (!id) {
@@ -107,7 +108,7 @@ function fillRequesterDetails(id) {
     emergencyContactField.value = '';
     emergencyContactField.readOnly = false;
 
-    clearStockItems();
+    clearItems();
     return;
   }
 
@@ -133,8 +134,9 @@ function fillRequesterDetails(id) {
   emergencyContactField.value = requester.emergencyContact;
   emergencyContactField.readOnly = true;
 
-  clearStockItems();
-  requester.stockItems.forEach(item => addStockRow(item));
+  clearItems();
+  requester.items.forEach(item => addItemRow(item));
+
 }
 
 
@@ -168,9 +170,10 @@ volunteersSelect.addEventListener('change', () => {
   updateLeaderOptions();
 });
 
-addStockBtn.addEventListener('click', () => {
-  addStockRow();
+addItemBtn.addEventListener('click', () => {
+  addItemRow();
 });
+
 
 populateRequesterOptions();
 populateVolunteers();
