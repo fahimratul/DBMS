@@ -14,7 +14,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 import json
 import base64
 
-
+from datetime import datetime
 bp = Blueprint('admin', __name__, url_prefix='/admin')
 
 
@@ -439,22 +439,46 @@ def admin_stock():
 
     if request.method == 'POST':
         data = request.get_json()
+
+        # -------------------------------
+        # Case 1: Add new item / type only
+        # -------------------------------
+        new_item_name = data.get('new_item')
+        type_id = data.get('type_id')
+        new_type_name = data.get('new_type')
+
+        if new_type_name:  # insert new type
+            cursor.execute("INSERT INTO type_list (type_name) VALUES (%s)", (new_type_name,))
+            db.commit()
+            type_id = cursor.lastrowid
+
+        if new_item_name:  # insert new item
+            cursor.execute("INSERT INTO item (name, type_id) VALUES (%s, %s)", (new_item_name, type_id))
+            db.commit()
+            return jsonify({"status": "success", "message": "Item added successfully"})
+
+        # -------------------------------
+        # Case 2: Add stock
+        # -------------------------------
         price = data.get('price')
         quantity = data.get('quantity')
         expire_date = data.get('expire_date')
-        item_id = data.get('item_id')
-        stock_date = data.get('stock_date')
+        stock_date = data.get('stock_date') or datetime.now().date()
         purchase_date = data.get('purchase_date')
-        account_id = data.get('account_id')  # optional
+        account_id = data.get('account_id')
+        item_id = data.get('item_id')
 
         cursor.execute("""
             INSERT INTO stock (price, quantity, expire_date, item_id, account_id, stock_date, purchase_date)
             VALUES (%s, %s, %s, %s, %s, %s, %s)
         """, (price, quantity, expire_date, item_id, account_id, stock_date, purchase_date))
-
         db.commit()
-        return jsonify({"status": "success"})
 
+        return jsonify({"status": "success", "message": "Stock added successfully"})
+
+    # -------------------------------
+    # GET request → load stock page
+    # -------------------------------
     cursor.execute('''
         SELECT s.stock_id, s.price, s.quantity, s.purchase_date, s.stock_date, s.expire_date,
                s.item_id, i.name AS item_name, t.type_name AS item_type, s.account_id
@@ -485,6 +509,7 @@ def admin_stock():
         types=types,
         next_item_id=next_item_id
     )
+
 
 
 

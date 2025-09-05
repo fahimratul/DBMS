@@ -18,7 +18,7 @@ function showStockModal(stockId) {
 }
 
 
-document.getElementById("stock_search").addEventListener("keyup", function() {
+document.getElementById("stock_search").addEventListener("keyup", function () {
     const query = this.value.toLowerCase();
     document.querySelectorAll("#stockTable tbody tr").forEach(row => {
         row.style.display = Array.from(row.cells).some(td =>
@@ -64,15 +64,15 @@ stockItemSelect.addEventListener("change", () => {
 document.getElementById("addStockForm").onsubmit = async (e) => {
     e.preventDefault();
     const data = {
-        price: document.getElementById("newPrice").value,
-        quantity: document.getElementById("newQuantity").value,
+        price: parseFloat(document.getElementById("newPrice").value),
+        quantity: parseInt(document.getElementById("newQuantity").value),
         expire_date: document.getElementById("newExpireDate").value || null,
-        item_id: stockItemSelect.value,
-        stock_date: document.getElementById("newStockDate").value,
-        purchase_date: document.getElementById("newPurchaseDate").value
+        item_id: parseInt(stockItemSelect.value),
+        purchase_date: document.getElementById("newPurchaseDate").value || null
     };
 
-    const res = await fetch("/admin_add_stock", {
+
+    const res = await fetch("/admin/admin_stock", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data)
@@ -85,8 +85,8 @@ document.getElementById("addStockForm").onsubmit = async (e) => {
     } else alert("Failed to add stock");
 };
 
-const itemIdInput = document.getElementById("itemId");        
-const itemTypeSelect = document.getElementById("itemType");  
+const itemIdInput = document.getElementById("itemId");
+const itemTypeSelect = document.getElementById("itemType");
 const newTypeContainer = document.getElementById("newTypeContainer");
 const newTypeInput = document.getElementById("newTypeName");
 
@@ -104,29 +104,32 @@ itemTypeSelect.addEventListener("change", () => {
 document.getElementById("addItemForm").onsubmit = async (e) => {
     e.preventDefault();
 
-    let typeName = itemTypeSelect.value;
-    if (typeName === "__new_type__") {
-        typeName = newTypeInput.value.trim();
-        if (!typeName) return alert("Enter new type name");
+    const name = document.getElementById("itemName").value.trim();
+    const typeSelect = document.getElementById("itemType");
+    const type_id = typeSelect.value !== "__new_type__" ? parseInt(typeSelect.value) : null;
+    const new_type = typeSelect.value === "__new_type__"
+        ? document.getElementById("newTypeName").value.trim()
+        : null;
+
+    if (!name || (!type_id && !new_type)) {
+        return alert("Enter item name and either select existing type or provide a new type");
     }
 
-    const data = {
-        item_id: itemIdInput.value,
-        name: document.getElementById("itemName").value.trim(),
-        type_name: typeName
-    };
-
-    if (!data.name || !data.type_name) return alert("Please fill all fields!");
-
-    const res = await fetch("/admin_add_item", {
+    // ✅ match Flask keys
+    const res = await fetch("/admin/admin_stock", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data)
+        body: JSON.stringify({ new_item: name, type_id, new_type })
     });
 
     if (res.ok) {
         alert("Item added successfully!");
         addItemModal.style.display = "none";
-        location.reload(); 
-    } else alert("Failed to add item");
+        location.reload();
+    } else {
+        const err = await res.text();
+        alert("Failed to add item: " + err);
+    }
+    console.log("Submitting:", data);
+
 };

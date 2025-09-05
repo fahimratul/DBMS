@@ -245,7 +245,10 @@
                             <td>{{ stock.stock_id }}</td>
                             <td>{{ stock.quantity }}</td>
                             <td>{{ stock.stock_date.strftime('%d %b, %Y') }}</td>
-                            <td>{{ stock.expire_date.strftime('%d %b, %Y') }}</td>
+                            <td>
+                                {{ stock.expire_date.strftime('%Y-%m-%d') if stock.expire_date else 'N/A' }}
+                            </td>
+
                             <td>{{ stock.item_id }}</td>
                             <td>{{ stock.item_name or '—' }}</td>
                             <td><button class="details-btn" data-id="{{ stock.stock_id }}">Details</button></td>
@@ -346,7 +349,7 @@
                         <select id="itemType" required>
                             <option value="">-- Select Type --</option>
                             {% for type in types %}
-                            <option value="{{ type.type_name }}">{{ type.type_name }}</option>
+                            <option value="{{ type.type_id }}">{{ type.type_name }}</option>
                             {% endfor %}
                             <option value="__new_type__">+ Add New Type</option>
                         </select>
