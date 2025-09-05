@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - RAPID</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/volunteer/profile.css') }}">
+    
+</head>
+<body>
+   <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <img src="{{ url_for('static', filename='images/logo/logo_icon.png') }}" class="sidebar-logo-img" alt="main_logo" />
+        <span class="sidebar-logo-text">Rapid</span>
+      </div>
+      <nav class="sidebar-nav">
+        <ul class="sidebar-list">
+          <!-- Dashboard SVG -->
+          <li>
+            <a href="{{ url_for('volunteer.volunteer_dashboard') }}" class="sidebar-link active">
+              <span class="sidebar-icon">
+                <i data-lucide="bar-chart-3"></i>
+              </span>
+              <span class="sidebar-label">Dashboard</span>
+            </a>
+          </li>
+          <!-- History SVG -->
+          <li>
+            <a href="{{ url_for('volunteer.volunteer_tasks') }}" class="sidebar-link">
+              <span class="sidebar-icon">
+                <i data-lucide="check-square"></i>
+              </span>
+              <span class="sidebar-label">Tasks</span>
+            </a>
+          </li>
+          <!-- Profile SVG -->
+          <li>
+            <a href="{{ url_for('volunteer.profile') }}" class="sidebar-link">
+              <span class="sidebar-icon">
+                <i data-lucide="user"></i>
+              </span>
+              <span class="sidebar-label">Profile</span>
+            </a>
+          </li>
+          <!-- Feedback SVG -->
+          <li>
+            <a href="{{ url_for('volunteer.volunteer_feedback') }}" class="sidebar-link">
+              <span class="sidebar-icon">
+                <i data-lucide="message-square"></i>
+              </span>
+              <span class="sidebar-label">Feedback</span>
+            </a>
+          </li>
+          <!-- Sign In SVG -->
+          <li style="margin-top: 2rem;">
+            <a href="{{ url_for('auth.logout') }}" class="sidebar-link" style="color: #ef4444;">
+              <span class="sidebar-icon">
+                <i data-lucide="log-out"></i>
+              </span>
+              <span class="sidebar-label">Log Out</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="main-container">
+            <div class="profile-container">
+                <!-- Profile Header -->
+                <div class="profile-header">
+                    <h1 class="profile-title">Volunteer Profile</h1>
+                    <div class="btn-group">
+                        <button class="btn-primary" id="editBtn" onclick="toggleEdit()">
+                            <i data-lucide="edit" style="width: 16px; height: 16px;"></i>
+                            Edit Profile
+                        </button>
+                        <button class="btn-secondary hidden" id="saveBtn" onclick="saveProfile()">
+                            <i data-lucide="save" style="width: 16px; height: 16px;"></i>
+                            Save
+                        </button>
+                        <button class="btn-cancel hidden" id="cancelBtn" onclick="cancelEdit()">
+                            <i data-lucide="x" style="width: 16px; height: 16px;"></i>
+                            Cancel
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Profile Grid -->
+                <div class="profile-grid">
+                    <!-- Profile Picture and Basic Info -->
+                    <div class="profile-card">
+                        <div class="avatar-section">
+                            <div class="avatar-container">
+                                <img src="{{ volunteer.profile_picture }}" alt="Profile Picture" class="avatar" id="avatarImg" />
+                                <div class="overlay" id="overlay">
+                                    <i data-lucide="camera" style="width: 24px; height: 24px;"></i> 
+                                    <form action="#" method="POST" enctype="multipart/form-data" id="profilePicForm">
+                                        <label for="profilePicInput">Change Picture</label>
+                                        <input type="file" id="profilePicInput" class="file-input custom-file-input" accept="image/*" onchange="this.form.submit()">
+                                    </form>
+                                </div>
+                            </div>
+                            <h2 class="profile-name" id="displayName">{{ volunteer.name }}</h2>
+                            <div class="donor-id">
+                                <span>ID: {{ volunteer.volunteer_id }}</span>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- Profile Details -->
+                    <div>
+                        <form action="" method="POST" id="profileForm" class ="profile-info">
+                        <div class="personal-details">
+                            <h3 class="card-title">Profile Information</h3>
+                            <div>
+                                <div>
+                                    <span>
+                                        <i data-lucide="user" style="width: 16px; height: 16px;"></i>
+                                    </span>
+                                    <span>Name:
+                                    <input type="text" name="name" value="{{volunteer.name}}" id="name" disabled></span>
+                                </div>
+                                <div>
+                                    <span>
+                                        <i data-lucide="phone" style="width: 16px; height: 16px;"></i>
+                                    </span>
+                                    <span>Phone Number:
+                                        <input type="text" name="phone" value="{{ volunteer.phone }}" id="phone" disabled>
+                                    </span>
+                                </div>
+                                <div>
+                                    <span>
+                                        <i data-lucide="mail" style="width: 16px; height: 16px;"></i>
+                                    </span>
+                                    <span>Email Address:
+                                        <input type="text" name="email" value="{{ volunteer.email }}" id="email" disabled>
+                                    </span>
+                                </div>
+                                <div>
+                                    <span>
+                                        <i data-lucide="cake" style="width: 16px; height: 16px;"></i>
+                                    </span>
+                                    <span>Date of Birth:
+                                        <input type="text" name="dob" value="{{ volunteer.dob }}" id="dob" disabled>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="personal-details">
+                            <h3 class="card-title left">Contact Information</h3>
+                            <div>
+                                <div>
+                                    <span>
+                                        <i data-lucide="map-pin" style="width: 16px; height: 16px;"></i>
+                                    </span>
+                                    <span>Address:
+                                        <input type="text" name="address" value="{{ volunteer.address }}" id="address" disabled>
+                                    </span>
+                                </div>
+                                <div>
+                                    <span>
+                                        <i data-lucide="map-pin" style="width: 16px; height: 16px;"></i>
+                                    </span>
+                                    <span>Preferable Address:
+                                        <input type="text" name="pref_address" value="{{ volunteer.pref_address }}" id="pref_address" disabled>
+                                    </span>
+                                </div>
+                                <div>
+                                    <span>
+                                        <i data-lucide="calendar" style="width: 16px; height: 16px;"></i>
+                                    </span>
+                                    <span>Join Time:
+                                        <input type="text" name="join_time" value="{{ volunteer.join_time }}" id="join_time" disabled>
+                                    </span>
+                                </div>
+                                <div>
+                                    <span>
+                                        <i data-lucide="cake" style="width: 16px; height: 16px;"></i>
+                                    </span>
+                                    <span>User Name:
+                                        <input type="text" name="user_name" value="{{ volunteer.user_name }}" id="user_name" disabled>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        </form>
+                    </div>
+
+                <!-- Account Information -->
+                <div class="profile-card account-card">
+                    <h3 class="card-title">NID Card</h3>
+                    <div class="nid-preview">
+                    {% if volunteer.nid %}
+                      <img src="{{volunteer.nid}}" alt="Volunteer Image" style="max-width:300px;">
+                    {% else %}
+                      <p>No image available.</p>
+                    {% endif %}
+                    </div>
+                </div>
+            </div>
+    </div>
+
+ <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <script>
+        lucide.createIcons();
+    </script>
+    <script>
+        
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        let isEditing = false;
+        let originalData = {};
+
+        function navigateTo(page) {
+            window.location.href = page;
+        }
+
+        function toggleEdit() {
+            isEditing = true;   
+            document.getElementById('editBtn').classList.add('hidden');
+            document.getElementById('saveBtn').classList.remove('hidden');
+            document.getElementById('cancelBtn').classList.remove('hidden');
+            lucide.createIcons();
+        }
+
+        function saveProfile() {
+            // Validate form data
+            const name = document.getElementById('name').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const accountName = document.getElementById('accountName').value.trim();
+            const address = document.getElementById('address').value.trim();
+
+            if (!name || !phone || !email || !accountName || !address) {
+                alert('Please fill in all required fields.');
+                return;
+            }
+
+            if (!isValidEmail(email)) {
+                alert('Please enter a valid email address.');
+                return;
+            }
+
+            // Simulate saving data
+            setTimeout(() => {
+                alert('Profile updated successfully!');
+                
+                // Update display name
+                document.getElementById('displayName').textContent = name;
+                
+                // Disable form fields
+                disableFormFields();
+                
+                // Toggle buttons
+                toggleButtons();
+                
+                isEditing = false;
+            }, 500);
+        }
+
+        function cancelEdit() {
+            // Restore original data
+            document.getElementById('name').value = originalData.name;
+            document.getElementById('phone').value = originalData.phone;
+            document.getElementById('email').value = originalData.email;
+            document.getElementById('accountName').value = originalData.accountName;
+            document.getElementById('address').value = originalData.address;
+
+            // Disable form fields
+            disableFormFields();
+            
+            // Toggle buttons
+            toggleButtons();
+            
+            isEditing = false;
+        }
+
+        function disableFormFields() {
+            document.getElementById('name').disabled = true;
+            document.getElementById('phone').disabled = true;
+            document.getElementById('email').disabled = true;
+            document.getElementById('accountName').disabled = true;
+            document.getElementById('address').disabled = true;
+        }
+
+        function toggleButtons() {
+            document.getElementById('editBtn').classList.remove('hidden');
+            document.getElementById('saveBtn').classList.add('hidden');
+            document.getElementById('cancelBtn').classList.add('hidden');
+            
+            // Re-initialize icons
+            lucide.createIcons();
+        }
+
+        function isValidEmail(email) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
+        }
+
+        // Prevent navigation away if editing
+        window.addEventListener('beforeunload', function(e) {
+            if (isEditing) {
+                e.preventDefault();
+                e.returnValue = '';
+            }
+        });
+    
+    </script> 
+</body>
+</html>

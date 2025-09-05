@@ -66,54 +66,7 @@
 
     <!-- Main Content -->
     <div class="main-container">
-      <div class ="navbar">
-        <div class="welcome">
-          <h2>Welcome, {{ volunteer.name }} to your volunteer dashboard</h2>
-            <p>Thank you for volunteering! Your dedication and compassion make a real difference in the lives of those in need.</p>
-        </div>
-        <div class="user-info">
-          <h3>{{ volunteer.name }}</h3>
-          <img src="{{ volunteer.profile_picture }}" alt="User Profile" class="user-profile-pic">
-        </div>
-      </div>
-      <!-- task card -->
-      <div class="content">
-        <h2>Your Ongoing Tasks</h2>
-        <div class="task-cards">
-          {% set tasks = [
-            {'id': 1, 'title': 'Distribute Food Supplies', 'description': 'Help distribute food supplies to families in need in the local community.', 'date': '2024-07-10', 'status': 'Pending'},
-            {'id': 2, 'title': 'Organize Clothing Drive', 'description': 'Collect and organize clothing donations for the upcoming winter season.', 'date': '2024-07-15', 'status': 'In Progress'},
-            {'id': 3, 'title': 'Community Clean-Up', 'description': 'Participate in a community clean-up event to improve local parks and public spaces.', 'date': '2024-07-20', 'status': 'Completed'}
-          ] %}
-          {% for task in tasks %}
-          <div class="task-card">
-            <h3>{{ task.title }}</h3>
-            <p>{{ task.description }}</p>
-            <p><strong>Date:</strong> {{ task.date }}</p>
-            <p><strong>Status:</strong> {{ task.status }}</p>
-            <button class="btn-complete" onclick="markAsCompleted({{ task.id }})">Mark as Completed</button>
-          </div>
-          {% else %}
-          <p>No tasks assigned yet.</p>
-          {% endfor %}
-      </div>
-      <div class="profile-info">
-                    <div class="personal-details">
-                            <h3 class="card-title">Total Events Participated</h3>
-                            <div>
-                               <h1>{{ event_count_result }}</h1>
-                            </div>
-                        </div>
-                        <div class="personal-details">
-                            <h3 class="card-title left">Total Feedback Given</h3>
-                            <div>
-                               <h1>{{ feedback_count_result }}</h1>
-                            </div>
-                        </div>
-                    </div>
 
-      <!-- finish of main container -->
-      </div>
     </div>
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
     <script>

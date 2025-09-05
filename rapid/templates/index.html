@@ -27,115 +27,13 @@
     </div>
   </header>
 
-  <!-- Donate Section
-  <section class="donate-section">
-    <div class="slider">
-      <div class="slideshow-container">
-
-        <div class="mySlides fade">
-          <div class="numbertext">1 / 3</div>
-          <img src="https://c0.wallpaperflare.com/preview/357/982/474/egypt-cairo-tower-cairo-sunset.jpg">
-          <div class="text">
-            <h1>Abraca Debra</h1>
-            <p>A flood is an overflow of water (or rarely other fluids) that submerges land that is usually dry.[1] In
-              the sense of "flowing water", the word may also be applied to the inflow of the tide. Floods are of
-              significant concern in agriculture, civil engineering and public health. Human changes to the
-              environment
-              often increase the intensity and frequency of flooding. Examples for human changes are land use changes
-              such as deforestation and removal of wetlands, changes in waterway course or flood controls such as with
-              levees. Global environmental issues also influence causes of floods, namely climate change which causes
-              an
-              intensification of the water cycle and sea level rise.[2]: 1517  For example, climate change makes
-              extreme
-              weather events more frequent and stronger.</p>
-            <button class="gradient-button">
-              <span class="gradient-button-inner">learn More</span>
-            </button>
-          </div>
-        </div>
-
-        <div class="mySlides fade">
-          <div class="numbertext">2 / 3</div>
-          <img
-            src="https://c4.wallpaperflare.com/wallpaper/125/887/712/historic-mosque-madrassa-of-sultan-hassan-city-mosque-wallpaper-preview.jpg">
-          <div class="text">
-            <h1>Flood</h1>
-            <p>A flood is an overflow of water (or rarely other fluids) that submerges land that is usually dry.[1] In
-              the sense of "flowing water", the word may also be applied to the inflow of the tide. Floods are of
-              significant concern in agriculture, civil engineering and public health. Human changes to the
-              environment
-              often increase the intensity and frequency of flooding. Examples for human changes are land use changes
-              such as deforestation and removal of wetlands, changes in waterway course or flood controls such as with
-              levees. Global environmental issues also influence causes of floods, namely climate change which causes
-              an
-              intensification of the water cycle and sea level rise.[2]: 1517  For example, climate change makes
-              extreme
-              weather events more frequent and stronger.</p>
-            <button class="gradient-button">
-              <span class="gradient-button-inner">learn More</span>
-            </button>
-          </div>
-        </div>
-
-        <div class="mySlides fade">
-          <div class="numbertext">3 / 3</div>
-          <img src="https://c1.wallpaperflare.com/preview/1019/166/561/stanley-bridge-alexandria-landmark-egypt.jpg">
-          <div class="text">
-            <h1>Flood</h1>
-            <p>A flood is an overflow of water (or rarely other fluids) that submerges land that is usually dry.[1] In
-              the sense of "flowing water", the word may also be applied to the inflow of the tide. Floods are of
-              significant concern in agriculture, civil engineering and public health. Human changes to the
-              environment
-              often increase the intensity and frequency of flooding. Examples for human changes are land use changes
-              such as deforestation and removal of wetlands, changes in waterway course or flood controls such as with
-              levees. Global environmental issues also influence causes of floods, namely climate change which causes
-              an
-              intensification of the water cycle and sea level rise.[2]: 1517  For example, climate change makes
-              extreme
-              weather events more frequent and stronger.</p>
-            <button class="gradient-button">
-              <span class="gradient-button-inner">learn More</span>
-            </button>
-          </div>
-        </div>
-
-      </div>
-      <br>
-      <div style="text-align:center">
-        <span class="dot"></span>
-        <span class="dot"></span>
-        <span class="dot"></span>
-      </div>
-    </div>
-
-
-    <div class="donate-content">
-      <h2>Make a Difference</h2>
-      <h2>DONATE NOW</h2>
-      <p>Your contribution helps us support those in need.Your donation supports our mission.<br>Choose an amount to
-        donate:</p>
-      <div class="amount-options">
-        <button>1000</button>
-        <button>2000</button>
-        <button>5000</button>
-        <button>1000</button>
-        <button>2000</button>
-        <button>5000</button>
-      </div>
-      <form class="form-box">
-        <input type="text" placeholder="1000" required>
-        <button class="donate-submit">Donate and Support</button>
-      </form>
-    </div>
-
-  </section> -->
-
 
   <!-- Hero Section -->
   <section class="hero">
     <div class="hero-content">
       <h1>Join Us in Making a Difference</h1>
       <h1>We are dedicated to helping those in need. Your support can change lives.</h1>
+      <a href="{{ url_for('auth.login') }}">
       <button class="super-button">
         <span>Get Involved</span>
         <svg fill="none" viewBox="0 0 24 24" class="arrow">
@@ -143,6 +41,7 @@
             d="M5 12h14M13 6l6 6-6 6"></path>
         </svg>
       </button>
+      </a>
     </div>
 
 
@@ -220,7 +119,6 @@
         <h2>Donation Trends</h2>
         <p>Track our donation trends over the past year to see how your contributions are making a difference.</p>
       </div>
-      <button class="donate-submit">Learn More</button>
     </div>
     <!-- Graph Section -->
     <div class="card-container">
@@ -435,102 +333,34 @@
         </svg>
       </button>
     </div>
-    <div class="formbold-main-wrapper">
-      <!-- Author: FormBold Team -->
-      <!-- Learn More: https://formbold.com -->
-      <div class="formbold-form-wrapper">
-        <form action="https://formbold.com/s/FORM_ID" method="POST">
-          <div class="formbold-input-flex">
-            <div>
-              <label for="firstname" class="formbold-form-label"> First name </label>
-              <input type="text" name="firstname" id="firstname" placeholder="Jane" class="formbold-form-input" />
-            </div>
-            <div>
-              <label for="lastname" class="formbold-form-label"> Last name </label>
-              <input type="text" name="lastname" id="lastname" placeholder="Cooper" class="formbold-form-input" />
-            </div>
-          </div>
-
-          <div class="formbold-input-flex">
-            <div>
-              <label for="email" class="formbold-form-label"> Mail </label>
-              <input type="email" name="email" id="email" placeholder="jhon@mail.com" class="formbold-form-input" />
-            </div>
-            <div>
-              <label for="phone" class="formbold-form-label"> Phone </label>
-              <input type="text" name="phone" id="phone" placeholder="(319) 555-0115" class="formbold-form-input" />
-            </div>
-          </div>
-
-          <div class="formbold-input-radio-wrapper">
-            <label for="jobtitle" class="formbold-form-label"> Giving feedback as ? </label>
-
-            <div class="formbold-radio-flex">
-              <div class="formbold-radio-group">
-                <label class="formbold-radio-label">
-                  <input class="formbold-input-radio" type="radio" name="jobtitle" id="jobtitle">
-                  Volunteer
-                  <span class="formbold-radio-checkmark"></span>
-                </label>
-              </div>
-
-              <div class="formbold-radio-group">
-                <label class="formbold-radio-label">
-                  <input class="formbold-input-radio" type="radio" name="jobtitle" id="jobtitle">
-                  Donor
-                  <span class="formbold-radio-checkmark"></span>
-                </label>
-              </div>
-
-              <div class="formbold-radio-group">
-                <label class="formbold-radio-label">
-                  <input class="formbold-input-radio" type="radio" name="jobtitle" id="jobtitle">
-                  Recipient
-                  <span class="formbold-radio-checkmark"></span>
-                </label>
-              </div>
-
-              <div class="formbold-radio-group">
-                <label class="formbold-radio-label">
-                  <input class="formbold-input-radio" type="radio" name="jobtitle" id="jobtitle">
-                  Others
-                  <span class="formbold-radio-checkmark"></span>
-                </label>
-              </div>
-            </div>
-          </div>
-
-          <div>
-            <label for="message" class="formbold-form-label"> Message </label>
-            <textarea rows="6" name="message" id="message" placeholder="Type your message"
-              class="formbold-form-input-textarea"></textarea>
-          </div>
-
-          <button class="donate-submit">
-            Send Message
-          </button>
-        </form>
-      </div>
-    </div>
   </section>
 
   <!-- Footer Menu -->
   <footer>
     <div class="footer-section">
-      <h4>Use cases</h4>
+      <h4>A Database and Management</h4>
       <ul>
-        <li>UI design</li>
-        <li>UX design</li>
-        <li>Wireframing</li>
+        <li>MIST</li>
+        <li><b>CSE-23</b></li>
+        <li>Section A</li>
       </ul>
     </div>
     <div class="footer-section">
-      <h4>Support</h4>
+      <h4>Created by</h4>
       <ul>
-        <li>Blog</li>
-        <li>Colors</li>
-        <li>Best practices</li>
+        <li>Fahim Morshed Ratul</li>
+        <li>Abdullah Shahriar</li>
+        <li>Nishat Tasnim Meem</li>
+        <li>Tamim Hoassain</li>
+        <li>Farzana Yasmin</li>
       </ul>
+    </div>
+    <div class="footer-section">
+      <h4>Get the Source Code</h4>
+      <ul>
+        <li><a href="">Github</a></li>
+      </ul>
+      <h4>All the credits are reserved for Group 3 @ 2025</h4>
     </div>
   </footer>
 

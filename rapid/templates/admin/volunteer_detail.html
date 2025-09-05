@@ -4,7 +4,7 @@
      <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - RAPID</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin/donor_details.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin/volunteer_profile.css') }}">
 </head>
 <body>
 
@@ -120,9 +120,9 @@
                 <!-- Account Information -->
                 <div class="profile-card account-card">
                     <h3 class="card-title">NID Card</h3>
-                    <div class="nid-preview"></div>
+                    <div class="nid-preview">
                     {% if volunteer.nid %}
-                      <img src={{volunteer.nid}} alt="Volunteer Image" style="max-width:300px;">
+                      <img src="{{volunteer.nid}}" alt="Volunteer Image" style="max-width:300px;">
                     {% else %}
                       <p>No image available.</p>
                     {% endif %}
