@@ -19,6 +19,13 @@
 -- CREATE TABLES
 -- ========================
 
+CREATE TABLE account (
+    account_id INT PRIMARY KEY AUTO_INCREMENT,
+    account_name VARCHAR(100) NOT NULL,
+    method_name VARCHAR(100) NOT NULL,
+    balance DECIMAL(10,2) CHECK (balance >= 0)
+);
+
 CREATE TABLE donor (
     donor_id INT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(100) NOT NULL,
@@ -90,13 +97,6 @@ CREATE TABLE donation (
     item_id_list TEXT,
     FOREIGN KEY (donor_id) REFERENCES donor(donor_id)
         ON UPDATE CASCADE ON DELETE CASCADE
-);
-
-CREATE TABLE account (
-    account_id INT PRIMARY KEY AUTO_INCREMENT,
-    account_name VARCHAR(100) NOT NULL,
-    method_name VARCHAR(100) NOT NULL,
-    balance DECIMAL(10,2) CHECK (balance >= 0)
 );
 
 CREATE TABLE money_transfer (

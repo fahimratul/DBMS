@@ -8,6 +8,7 @@ from mysql.connector import IntegrityError
 
 from rapid.auth import login_required
 from rapid.db import get_bd
+from flask import current_app
 
 from werkzeug.security import generate_password_hash, check_password_hash
 import json
@@ -143,7 +144,7 @@ def admin_dashboard():
     cursor = db.cursor(dictionary=True)
 
     cursor.execute('SELECT COUNT(volunteer_id) AS cnt FROM volunteer;')
-    volunteer_data = cursor.fetchone() #dictionary {'cnt':6}
+    volunteer_data = cursor.fetchone() #dictionary {'cnt':10}
     volunteer_cnt = volunteer_data['cnt'] if volunteer_data else 0  # type: ignore[reportGeneralTypeIssues]
 
     cursor.execute('SELECT COUNT(donor_id) AS cnt FROM donor;')
@@ -159,13 +160,13 @@ def admin_dashboard():
     available_balance = account_data['available_balance'] if account_data else 0  # type: ignore[reportGeneralTypeIssues]
 
     # Get donation counts per month for the past year
-    cursor.execute(
-        "SELECT DATE_FORMAT(date, '%Y-%m') AS month, COUNT(*) AS donation_count "
-        "FROM donation "
-        "WHERE date >= DATE_SUB(CURDATE(), INTERVAL 1 YEAR) "
-        "GROUP BY month "
-        "ORDER BY month ASC;"
-    )
+    cursor.execute("""
+        SELECT DATE_FORMAT(date, '%Y-%m') AS month, COUNT(*) AS donation_count
+        FROM donation 
+        WHERE date >= DATE_SUB(CURDATE(), INTERVAL 1 YEAR)
+        GROUP BY month 
+        ORDER BY month ASC;
+    """)
     raw_donations = cursor.fetchall()
 
     # Build a complete list of months (last 12, up to current)
@@ -195,7 +196,7 @@ def admin_dashboard():
         JOIN event_type 
         ON event_type.event_type_id = event.event_type_id
         LIMIT 5;
-        """)
+    """)
     events_data = cursor.fetchall() #{event_type:..., start_date:..., end_date:..., status:...}
 
     cursor.execute("""
@@ -211,19 +212,34 @@ def admin_dashboard():
     top_donors_data = cursor.fetchall() #{name:..., donation_count:...}
 
     #function to get available stock
-    # execute once to create the function in the database, 
-    # then can be called as needed
-#    CREATE FUNCTION get_available_quantity(item_id INT)
-#     RETURNS INT
-#     DETERMINISTIC
-#     BEGIN
-#         DECLARE qty INT;
-#         SELECT IFNULL(SUM(quantity), 0) INTO qty
-#         FROM stock
-#         WHERE stock.item_id = item_id
-#         AND stock.expire_date >= CURDATE();
-#         RETURN qty;
-#     END
+    # if the function exists,  no need to create another one
+    # Get the database name from the current app configuration
+    # cursor.execute("SHOW FUNCTION STATUS WHERE Name = 'get_available_quantity' AND Db = %s", (current_app.config['DATABASE']['database']))
+    # function_exists = cursor.fetchone()
+    # if not function_exists:
+    #     # Create the function if it doesn't exist
+    #     cursor.execute("DROP FUNCTION IF EXISTS get_available_quantity")
+        
+    #     # Change delimiter before creating function
+    #     # my sql throws error otherwise
+    #     cursor.execute("DELIMITER //")
+    #     cursor.execute("""
+        #     CREATE FUNCTION get_available_quantity(item_id INT)
+        #     RETURNS INT
+        #     DETERMINISTIC
+        #     READS SQL DATA
+        #     BEGIN
+        #         DECLARE qty INT;
+        #         SELECT IFNULL(SUM(quantity), 0) INTO qty
+        #         FROM stock
+        #         WHERE stock.item_id = item_id
+        #         AND stock.expire_date >= CURDATE();
+        #         RETURN qty;
+        #     END //
+        # """)
+    #     # Reset delimiter back to semicolon
+    #     cursor.execute("DELIMITER ;")
+    
     cursor.execute("""
         SELECT i.name, 
                get_available_quantity(i.item_id) AS available_quantity
@@ -231,23 +247,53 @@ def admin_dashboard():
         LIMIT 5;
     """)
     stock_data = cursor.fetchall() #{name:..., available_quantity:...}
+    
+    # cursor.execute("""
+    #     SELECT receiver.name AS receiver_name, item.name AS item_name
+    #     FROM donation_receiver
+    #     JOIN receiver ON donation_receiver.receiver_id = receiver.receiver_id
+    #     JOIN stock ON donation_receiver.stock_id = stock.stock_id
+    #     JOIN item ON stock.item_id = item.item_id
+    #     WHERE donation_receiver.date = (
+    #         SELECT MAX(donation_receiver2.date)
+    #         FROM donation_receiver donation_receiver2
+    #         WHERE donation_receiver2.receiver_id = donation_receiver.receiver_id
+    #     );
+    # """)
+    cursor.execute("""
+        SELECT receiver.name AS receiver_name,
+                donation_receiver.item_id_list AS item_ids
+                FROM donation_receiver
+                JOIN receiver
+                ON receiver.receiver_id = donation_receiver.receiver_id
+                ORDER BY donation_receiver.date
+                LIMIT 5;                
+    """) #
+    request_raw_data = cursor.fetchall() #[{receiver_name: ..., item_ids: ...}, ...]
+    request_data = []
+    for row in request_raw_data: #row is a dictionary
+        receiver_name = row['receiver_name']
+        item_ids_string = row['item_ids']
+        
+        if item_ids_string:
+            items = item_ids_string.split('$')
+            temp_dict = {
+                'receiver_name': receiver_name,
+                'items': [],
+                'quantities': []
+            }
+            for item in items:
+                if item.strip():  # Skip empty strings
+                    item_info = item.split('#')
+                    if len(item_info) >= 3:  # Make sure we have id#name#quantity
+                        item_name = item_info[1]
+                        item_quantity = item_info[2]
+                        temp_dict['items'].append(item_name)
+                        temp_dict['quantities'].append(item_quantity)
+            request_data.append(temp_dict)
 
     cursor.execute("""
-        SELECT receiver.name AS receiver_name, item.name AS item_name
-        FROM donation_receiver
-        JOIN receiver ON donation_receiver.receiver_id = receiver.receiver_id
-        JOIN stock ON donation_receiver.stock_id = stock.stock_id
-        JOIN item ON stock.item_id = item.item_id
-        WHERE donation_receiver.date = (
-            SELECT MAX(donation_receiver2.date)
-            FROM donation_receiver donation_receiver2
-            WHERE donation_receiver2.receiver_id = donation_receiver.receiver_id
-        );
-    """)
-    request_data = cursor.fetchall() #{receiver_name:..., item_name:...}
-
-    cursor.execute("""
-        SELECT volunteer_id, name, profile_picture FROM volunteer ORDER BY volunteer_id Desc limit 7;
+        SELECT volunteer_id, name, profile_picture FROM volunteer ORDER BY volunteer_id Desc limit 5;
     """)
     raw_volunteer_data = cursor.fetchall()
     

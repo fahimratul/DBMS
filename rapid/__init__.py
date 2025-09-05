@@ -10,7 +10,7 @@ def create_app(test_config=None):
             'host':'localhost',
             'user':'flaskuser',
             'password':'flask',
-            'database':'project' #the name of the database, do not get confused with DATABASE map
+            'database':'project2' #the name of the database, do not get confused with DATABASE map
         }
     )
 
@@ -34,6 +34,9 @@ def create_app(test_config=None):
     # TURN DEBUGING OFF BEFORE LAUNCING IN PRODUCTION
     #app.config['DEBUG'] = False
     app.config['DEBUG'] = True
+
+    # Add zip function to Jinja2 environment
+    app.jinja_env.globals.update(zip=zip)
 
     #register the databse connection
     from . import db
