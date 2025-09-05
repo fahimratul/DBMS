@@ -324,10 +324,21 @@ def admin_requests():
     db = get_bd()
     cursor = db.cursor(dictionary=True)
     cursor.execute('''
-        SELECT dr.donation_receiver_id, dr.date, dr.priority_message, dr.additional_item, r.name AS receiver_name
-        FROM donation_receiver dr
-        JOIN receiver r ON dr.receiver_id = r.receiver_id
-    ''')
+    SELECT dr.donation_receiver_id,
+           dr.receiver_id,
+           dr.date,
+           dr.priority_message,
+           dr.item_id_list,
+           dr.additional_item,
+           r.name AS receiver_name,
+           r.phone,
+           r.emergency_phone,
+           r.address
+           
+    FROM donation_receiver dr
+    JOIN receiver r ON dr.receiver_id = r.receiver_id
+''')
+
     requests = cursor.fetchall()
     return render_template('admin/requests.html', requests=requests)
 
