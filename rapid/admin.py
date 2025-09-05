@@ -431,21 +431,61 @@ def admin_requests():
     return render_template('admin/requests.html', requests=requests)
 
 
-@bp.route('/admin_stock')
+@bp.route('/admin_stock', methods=['GET', 'POST'])
 @login_required
 def admin_stock():
     db = get_bd()
     cursor = db.cursor(dictionary=True)
 
+    if request.method == 'POST':
+        data = request.get_json()
+        price = data.get('price')
+        quantity = data.get('quantity')
+        expire_date = data.get('expire_date')
+        item_id = data.get('item_id')
+        stock_date = data.get('stock_date')
+        purchase_date = data.get('purchase_date')
+        account_id = data.get('account_id')  # optional
+
+        cursor.execute("""
+            INSERT INTO stock (price, quantity, expire_date, item_id, account_id, stock_date, purchase_date)
+            VALUES (%s, %s, %s, %s, %s, %s, %s)
+        """, (price, quantity, expire_date, item_id, account_id, stock_date, purchase_date))
+
+        db.commit()
+        return jsonify({"status": "success"})
+
     cursor.execute('''
         SELECT s.stock_id, s.price, s.quantity, s.purchase_date, s.stock_date, s.expire_date,
-               s.item_id, i.name AS item_name, s.account_id
+               s.item_id, i.name AS item_name, t.type_name AS item_type, s.account_id
         FROM stock s
         LEFT JOIN item i ON s.item_id = i.item_id
+        LEFT JOIN type_list t ON i.type_id = t.type_id
     ''')
     stocks = cursor.fetchall()
 
-    return render_template('admin/stock.html', stocks=stocks)
+    cursor.execute("""
+        SELECT i.item_id, i.name, t.type_name
+        FROM item i
+        LEFT JOIN type_list t ON i.type_id = t.type_id
+    """)
+    items = cursor.fetchall()
+
+    cursor.execute("SELECT type_id, type_name FROM type_list")
+    types = cursor.fetchall()
+
+    cursor.execute("SELECT MAX(item_id) AS max_id FROM item")
+    max_id = cursor.fetchone()["max_id"] or 0
+    next_item_id = max_id + 1
+
+    return render_template(
+        'admin/stock.html',
+        stocks=stocks,
+        items=items,
+        types=types,
+        next_item_id=next_item_id
+    )
+
 
 
 @bp.route('/admin_create_event', methods=['GET', 'POST'])

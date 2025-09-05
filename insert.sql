@@ -195,7 +195,14 @@ SET location = CASE event_id
 END
 WHERE event_id BETWEEN 1 AND 10;
 
---Insert account ids in stock table
+--Insert account ids in stock table as stock is filled by accounts
+ALTER TABLE stock
+ADD COLUMN account_id INT NULL AFTER item_id,
+ADD CONSTRAINT fk_stock_account
+    FOREIGN KEY (account_id) REFERENCES account(account_id)
+    ON UPDATE CASCADE
+    ON DELETE RESTRICT;
+
 UPDATE stock
 SET account_id = CASE
     WHEN stock_id % 3 = 1 THEN 1

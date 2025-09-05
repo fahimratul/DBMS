@@ -219,7 +219,11 @@
                 <div class="input-group">
                     <input type="text" id="stock_search" placeholder="Search stock...">
                 </div>
-                <div><button class="add_stock-btn">Add Stock</button></div>
+                <div>
+                    <button id="openAddItemModal" class="add_stock-btn" style="background-color: #06bea6e1;">Add
+                        Item</button>
+                    <button id="openAddStockModal" class="add_stock-btn">Add Stock</button>
+                </div>
             </section>
 
             <section class="table__body">
@@ -252,7 +256,7 @@
             </section>
         </main>
 
-        <!-- MODAL -->
+        <!-- Stock Details Modal -->
         <div id="stockModal" class="modal">
             <div class="modal-content">
                 <span class="close">&times;</span>
@@ -269,6 +273,108 @@
                 </div>
             </div>
         </div>
+
+        <!-- Add Stock Modal -->
+        <div id="addStockModal" class="modal">
+            <div class="modal-content">
+                <span class="close" id="closeAddStock">&times;</span>
+                <h2>Add New Stock</h2>
+                <form id="addStockForm">
+                    <div class="form-group">
+                        <label for="newItemId">Item Name:</label>
+                        <select id="newItemId" required>
+                            <option value="">-- Select Item --</option>
+                            {% for item in items %}
+                            <option value="{{ item.item_id }}" data-type="{{ item.type_name }}">{{ item.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="autoItemId">Item ID:</label>
+                        <input type="text" id="autoItemId" readonly>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="autoItemType">Item Type:</label>
+                        <input type="text" id="autoItemType" readonly>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="newQuantity">Quantity:</label>
+                        <input type="number" id="newQuantity" min="0" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="newPrice">Price (BDT):</label>
+                        <input type="number" id="newPrice" min="0" required>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="newPurchaseDate">Purchase Date:</label>
+                        <input type="date" id="newPurchaseDate" value="{{ current_date }}" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="newExpireDate">Expiration Date:</label>
+                        <input type="date" id="newExpireDate">
+                    </div>
+
+                    <div style="text-align:right;">
+                        <button type="submit"
+                            style="background-color:#06bea6e1;color:white;padding:0.7rem 2rem;border:none;border-radius:0.4rem;cursor:pointer;">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!-- Add Item Modal -->
+        <div id="addItemModal" class="modal">
+            <div class="modal-content">
+                <span class="close" id="closeAddItem">&times;</span>
+                <h2>Add New Item</h2>
+                <form id="addItemForm" class="form-container">
+
+
+                    <div class="form-group">
+                        <label for="itemId">Item ID:</label>
+                        <input type="text" id="itemId" readonly value="{{ next_item_id }}">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="itemType">Item Type:</label>
+                        <select id="itemType" required>
+                            <option value="">-- Select Type --</option>
+                            {% for type in types %}
+                            <option value="{{ type.type_name }}">{{ type.type_name }}</option>
+                            {% endfor %}
+                            <option value="__new_type__">+ Add New Type</option>
+                        </select>
+                    </div>
+
+                    <!-- New Type Input (hidden until selected) -->
+                    <div class="form-group" id="newTypeContainer" style="display:none;">
+                        <label for="newTypeName">New Type Name:</label>
+                        <input type="text" id="newTypeName">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="itemName">Item Name:</label>
+                        <input type="text" id="itemName" required>
+                    </div>
+
+                    <div style="text-align:right; margin-top:20px;">
+                        <button type="submit"
+                            style="background-color:#06bea6e1;color:white;padding:0.7rem 2rem;border:none;border-radius:0.4rem;cursor:pointer;">Add
+                            Item</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+
+
+
     </main>
     <script>
 
