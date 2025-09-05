@@ -161,4 +161,22 @@ INSERT INTO feedback (receiver_id, volunteer_id, donor_id, message, picture) VAL
 INSERT INTO feedback (receiver_id, volunteer_id, donor_id, message, picture) VALUES (NULL, 9, NULL, 'Beneficial for the community.', NULL);
 INSERT INTO feedback (receiver_id, volunteer_id, donor_id, message, picture) VALUES (NULL, NULL, 10, 'Keep up the good work.', NULL);
 
+--In donor table, add email values for all columns
+UPDATE donor
+SET email = CASE donor_id
+    WHEN 1 THEN 'mohammad@example.com'
+    WHEN 2 THEN 'abdullah@example.com'
+    WHEN 3 THEN 'fatima@example.com'
+    WHEN 4 THEN 'ayesha@example.com'
+    WHEN 5 THEN 'rahman@example.com'
+    WHEN 6 THEN 'karim@example.com'
+    WHEN 7 THEN 'sultana@example.com'
+    WHEN 8 THEN 'hasan@example.com'
+    WHEN 9 THEN 'nadia@example.com'
+    WHEN 10 THEN 'jamal@example.com'
+END
+WHERE donor_id BETWEEN 1 AND 10;
+
+
+
 
