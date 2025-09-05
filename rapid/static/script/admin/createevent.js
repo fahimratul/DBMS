@@ -1,6 +1,8 @@
 const requesters = jsRequesters;
 const volunteers = jsVolunteers;
 const eventTypes = jsEventTypes;
+const allItems = jsAllItems; 
+
 
 const requesterSelect = document.getElementById('requesterSelect');
 const priorityField = document.getElementById('priority');
@@ -11,9 +13,9 @@ const contactField = document.getElementById('contact');
 const emergencyContactField = document.getElementById('emergencyContact');
 const volunteersSelect = document.getElementById('volunteersSelect');
 const leaderSelect = document.getElementById('leaderSelect');
-const stockContainer = document.getElementById('stockContainer');
+const itemContainer = document.getElementById('itemContainer');
 const eventTypeSelect = document.getElementById('eventType');
-const addStockBtn = document.getElementById('addStockBtn');
+const addItemBtn = document.getElementById('addItemBtn');
 
 function populateRequesterOptions() {
   requesters.forEach(r => {
@@ -66,25 +68,54 @@ function populateEventTypes() {
   });
 }
 
-function clearStockItems() {
-  stockContainer.innerHTML = '';
+function clearItems() {
+  itemContainer.innerHTML = '';
 }
 
-function addStockRow(stockItem = { stockId: '', item: '', quantity: '' }) {
+function addItemRow(item = { itemId: '', item: '', quantity: '', isFilled: false }) {
   const div = document.createElement('div');
-  div.classList.add('stock-row');
-  div.innerHTML = `
-    <input type="text" class="stock-id" placeholder="Stock ID" value="${stockItem.stockId}" />
-    <input type="text" class="stock-item" placeholder="Item Name" value="${stockItem.item}" />
-    <input type="number" class="stock-qty" placeholder="Quantity" value="${stockItem.quantity}" min="1" />
-    <button type="button" class="remove-stock-btn">Remove</button>
-  `;
-  stockContainer.appendChild(div);
+  div.classList.add('item-row');
 
-  div.querySelector('.remove-stock-btn').addEventListener('click', () => {
-    div.remove();
+  let options = `<option value="">-- Select an item --</option>`;
+  allItems.forEach(it => {
+    const selected = item.itemId == it.item_id ? 'selected' : '';
+    options += `<option value="${it.item_id}#${it.name}" ${selected}>${it.name}</option>`;
   });
+
+  div.innerHTML = `
+    <select class="item-select" ${item.isFilled ? 'disabled' : ''}>${options}</select>
+    <input type="number" class="item-qty" name="item-qty" placeholder="Quantity" value="${item.quantity}" min="1" ${item.isFilled ? 'readonly' : ''} />
+    <input type="hidden" class="item-id" name="item-id" value="${item.itemId}" />
+    <input type="hidden" class="item-name" name="item-name" value="${item.item}" />
+    <button type="button" class="remove-item-btn">Remove</button>
+  `;
+
+  itemContainer.appendChild(div);
+
+  const select = div.querySelector('.item-select');
+  const idInput = div.querySelector('.item-id');
+  const nameHidden = div.querySelector('.item-name');
+
+  if (!item.isFilled) {
+    select.addEventListener('change', () => {
+      const val = select.value;
+      if (val) {
+        const [id, name] = val.split('#');
+        idInput.value = id;
+        nameHidden.value = name;
+      } else {
+        idInput.value = '';
+        nameHidden.value = '';
+      }
+    });
+  }
+
+  div.querySelector('.remove-item-btn').addEventListener('click', () => div.remove());
 }
+
+
+
+
 
 function fillRequesterDetails(id) {
   if (!id) {
@@ -107,11 +138,10 @@ function fillRequesterDetails(id) {
     emergencyContactField.value = '';
     emergencyContactField.readOnly = false;
 
-    clearStockItems();
+    clearItems();
     return;
   }
 
-  // Convert select value to number before finding
   const requester = requesters.find(r => r.id === Number(id));
   if (!requester) return;
 
@@ -133,10 +163,10 @@ function fillRequesterDetails(id) {
   emergencyContactField.value = requester.emergencyContact;
   emergencyContactField.readOnly = true;
 
-  clearStockItems();
-  requester.stockItems.forEach(item => addStockRow(item));
-}
+  clearItems();
+  requester.items.forEach(item => addItemRow({...item, isFilled: true}));
 
+}
 
 function updateLeaderOptions() {
   const leaderSelect = document.getElementById('leaderSelect');
@@ -168,33 +198,65 @@ volunteersSelect.addEventListener('change', () => {
   updateLeaderOptions();
 });
 
-addStockBtn.addEventListener('click', () => {
-  addStockRow();
+addItemBtn.addEventListener('click', () => {
+  addItemRow();
 });
+
 
 populateRequesterOptions();
 populateVolunteers();
 populateEventTypes();
 
+function getSelectedVolunteers() {
+  const selected = [];
+  document.querySelectorAll('#volunteersSelect .volunteer-row').forEach(row => {
+    const btn = row.querySelector('.select-volunteer-btn');
+    if (btn.dataset.selected === 'true') {
+      const volunteer = volunteers.find(v => v.name === row.querySelector('span').textContent);
+      if (volunteer) selected.push(volunteer.id);
+    }
+  });
+  return selected;
+}
+
+
 const form = document.getElementById('createEventForm');
 
 form.addEventListener('submit', function(e) {
-    e.preventDefault();
+  e.preventDefault();
 
-    const formData = new FormData(form);
-    const data = new URLSearchParams();
-    for (const pair of formData) {
-      data.append(pair[0], pair[1]);
+  document.querySelectorAll('.item-row').forEach(row => {
+    const select = row.querySelector('.item-select');
+    const idInput = row.querySelector('.item-id');
+    const nameHidden = row.querySelector('.item-name');
+    const nameVisible = row.querySelector('.item-name-input');
+
+    if (select && select.value) {
+      const [id, name] = select.value.split('#');
+      idInput.value = id;
+      nameHidden.value = name;
+    } else {
+      // Manual item
+      idInput.value = ''; // no ID
+      nameHidden.value = nameVisible.value;
     }
-    fetch('/admin/admin_create_event', { method: 'POST', body: data })
-    .then(response => response.text()) 
+  });
+
+  const formData = new FormData(form);
+
+  getSelectedVolunteers().forEach(v => formData.append('volunteers', v));
+
+  const data = new URLSearchParams(formData);
+  console.log('Submitting data:', Array.from(data.entries()));
+
+  fetch('/admin/admin_create_event', { method: 'POST', body: data })
+    .then(res => res.text())
     .then(result => {
-        console.log('Success:', result);
-        alert('Event created successfully!');
-        window.location.reload(); 
+      alert('Event created successfully!');
+      window.location.reload();
     })
-    .catch(error => {
-        console.error('Error:', error);
-        alert('Error creating event.');
+    .catch(err => {
+      console.error(err);
+      alert('Error creating event.');
     });
 });

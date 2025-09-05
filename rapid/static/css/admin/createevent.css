@@ -80,18 +80,22 @@ select[multiple] {
   background-color: #0056b3;
 }
 
-#stockContainer {
+#itemContainer {
   margin-top: 10px;
 }
 
-.stock-row {
+/* Each row of item inputs */
+.item-row {
   display: flex;
   gap: 12px;
   margin-bottom: 12px;
   align-items: center;
+  flex-wrap: wrap; /* allows wrapping on small screens */
 }
 
-.stock-row input {
+/* Inputs inside the row */
+.item-row input,
+.item-row select {
   flex: 1;
   min-width: 0;
   padding: 8px 10px;
@@ -101,12 +105,15 @@ select[multiple] {
   transition: border-color 0.25s ease;
 }
 
-.stock-row input:focus {
+/* Focus effect for inputs and selects */
+.item-row input:focus,
+.item-row select:focus {
   border-color: #007bff;
   box-shadow: 0 0 5px rgba(0, 123, 255, 0.4);
 }
 
-.remove-stock-btn {
+/* Remove button styling */
+.remove-item-btn {
   background-color: #dc3545;
   color: white;
   border: none;
@@ -117,11 +124,12 @@ select[multiple] {
   transition: background-color 0.25s ease;
 }
 
-.remove-stock-btn:hover {
+.remove-item-btn:hover {
   background-color: #b02a37;
 }
 
-#addStockBtn {
+/* Add item button styling */
+#addItemBtn {
   margin-top: 8px;
   background-color: #28a745;
   color: white;
@@ -134,22 +142,20 @@ select[multiple] {
   transition: background-color 0.3s ease;
 }
 
-#addStockBtn:hover {
+#addItemBtn:hover {
   background-color: #1e7e34;
 }
 
-@media (max-width: 600px) {
-  .stock-row {
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .item-row {
     flex-direction: column;
     align-items: stretch;
   }
 
-  .remove-stock-btn {
+  .remove-item-btn {
     width: 100%;
     margin-top: 6px;
   }
-
-  select[multiple] {
-    height: 110px;
-  }
 }
+

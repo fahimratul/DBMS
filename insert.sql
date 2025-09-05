@@ -177,6 +177,24 @@ SET email = CASE donor_id
 END
 WHERE donor_id BETWEEN 1 AND 10;
 
+--In event table, add location as event can be manually created, also fill location values for all columns
+ALTER TABLE event ADD COLUMN location VARCHAR(255);
+UPDATE event
+SET location = CASE event_id
+    WHEN 1 THEN 'Dhaka City'
+    WHEN 2 THEN 'Chattogram Port'
+    WHEN 3 THEN 'Khulna District'
+    WHEN 4 THEN 'Rajshahi Division'
+    WHEN 5 THEN 'Barishal Sadar'
+    WHEN 6 THEN 'Sylhet City'
+    WHEN 7 THEN 'Rangpur District'
+    WHEN 8 THEN 'Mymensingh Town'
+    WHEN 9 THEN 'Cox’s Bazar Beach'
+    WHEN 10 THEN 'Comilla City'
+    ELSE location
+END
+WHERE event_id BETWEEN 1 AND 10;
+
 
 
 
