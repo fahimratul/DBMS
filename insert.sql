@@ -195,6 +195,16 @@ SET location = CASE event_id
 END
 WHERE event_id BETWEEN 1 AND 10;
 
+--Insert account ids in stock table
+UPDATE stock
+SET account_id = CASE
+    WHEN stock_id % 3 = 1 THEN 1
+    WHEN stock_id % 3 = 2 THEN 2
+    WHEN stock_id % 3 = 0 THEN 3
+END
+WHERE stock_id <= 10;
+
+
 
 
 

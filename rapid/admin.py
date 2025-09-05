@@ -434,7 +434,19 @@ def admin_requests():
 @bp.route('/admin_stock')
 @login_required
 def admin_stock():
-    return render_template('admin/stock.html')
+    db = get_bd()
+    cursor = db.cursor(dictionary=True)
+
+    cursor.execute('''
+        SELECT s.stock_id, s.price, s.quantity, s.purchase_date, s.stock_date, s.expire_date,
+               s.item_id, i.name AS item_name, s.account_id
+        FROM stock s
+        LEFT JOIN item i ON s.item_id = i.item_id
+    ''')
+    stocks = cursor.fetchall()
+
+    return render_template('admin/stock.html', stocks=stocks)
+
 
 @bp.route('/admin_create_event', methods=['GET', 'POST'])
 @login_required
