@@ -1,49 +1,13 @@
-const requesters = [
-  {
-    id: "R001",
-    name: "John Doe",
-    priority: "High Priority - Flood affected",
-    additionalItems: "Baby food, Medicine",
-    requestDate: "2023-08-01",
-    location: "Dhaka",
-    emergencyContact: "+880123456789",
-    stockItems: [
-      { stockId: "S001", item: "Water", quantity: 100 },
-      { stockId: "S002", item: "Food", quantity: 200 }
-    ]
-  },
-  {
-    id: "R002",
-    name: "Jane Smith",
-    priority: "Medium Priority - Medical Emergency",
-    additionalItems: "First Aid kits",
-    requestDate: "2023-08-05",
-    location: "Chittagong",
-    emergencyContact: "+880987654321",
-    stockItems: [
-      { stockId: "S003", item: "Medicine", quantity: 50 }
-    ]
-  }
-];
-
-const volunteers = [
-  { id: "V001", name: "Alice" },
-  { id: "V002", name: "Bob" },
-  { id: "V003", name: "Charlie" }
-];
-
-const eventTypes = [
-  "Flood",
-  "Earthquake",
-  "Cyclone",
-  "Medical Emergency"
-];
+const requesters = jsRequesters;
+const volunteers = jsVolunteers;
+const eventTypes = jsEventTypes;
 
 const requesterSelect = document.getElementById('requesterSelect');
 const priorityField = document.getElementById('priority');
 const additionalItemsField = document.getElementById('additionalItems');
 const requestDateField = document.getElementById('requestDate');
 const locationField = document.getElementById('location');
+const contactField = document.getElementById('contact');
 const emergencyContactField = document.getElementById('emergencyContact');
 const volunteersSelect = document.getElementById('volunteersSelect');
 const leaderSelect = document.getElementById('leaderSelect');
@@ -61,13 +25,37 @@ function populateRequesterOptions() {
 }
 
 function populateVolunteers() {
+  const container = document.getElementById('volunteersSelect');
+  container.innerHTML = '';
+
   volunteers.forEach(v => {
-    const opt = document.createElement('option');
-    opt.value = v.id;
-    opt.textContent = v.name;
-    volunteersSelect.appendChild(opt);
+    const div = document.createElement('div');
+    div.classList.add('volunteer-row');
+    div.style.marginBottom = '5px';
+    div.innerHTML = `
+      <span>${v.name}</span>
+      <button type="button" class="select-volunteer-btn" style="margin-left:10px;">Select</button>
+    `;
+    container.appendChild(div);
+
+    const button = div.querySelector('.select-volunteer-btn');
+
+    button.addEventListener('click', () => {
+      if (button.dataset.selected === 'true') {
+        button.dataset.selected = 'false';
+        button.textContent = 'Select';
+        div.style.backgroundColor = '';
+      } else {
+        button.dataset.selected = 'true';
+        button.textContent = 'Selected';
+        div.style.backgroundColor = '#d4edda';
+      }
+      updateLeaderOptions(); // update leader dropdown
+    });
   });
 }
+
+
 
 function populateEventTypes() {
   eventTypes.forEach(et => {
@@ -113,6 +101,9 @@ function fillRequesterDetails(id) {
     locationField.value = '';
     locationField.readOnly = false;
 
+    contactField.value = '';
+    contactField.readOnly = false;
+
     emergencyContactField.value = '';
     emergencyContactField.readOnly = false;
 
@@ -120,7 +111,8 @@ function fillRequesterDetails(id) {
     return;
   }
 
-  const requester = requesters.find(r => r.id === id);
+  // Convert select value to number before finding
+  const requester = requesters.find(r => r.id === Number(id));
   if (!requester) return;
 
   priorityField.value = requester.priority;
@@ -135,6 +127,9 @@ function fillRequesterDetails(id) {
   locationField.value = requester.location;
   locationField.readOnly = true;
 
+  contactField.value = requester.contact;
+  contactField.readOnly = true;
+
   emergencyContactField.value = requester.emergencyContact;
   emergencyContactField.readOnly = true;
 
@@ -142,21 +137,28 @@ function fillRequesterDetails(id) {
   requester.stockItems.forEach(item => addStockRow(item));
 }
 
+
 function updateLeaderOptions() {
+  const leaderSelect = document.getElementById('leaderSelect');
   leaderSelect.innerHTML = '<option value="">-- Select leader from volunteers --</option>';
 
-  const selectedVols = Array.from(volunteersSelect.selectedOptions);
-
-  selectedVols.forEach(opt => {
-    const v = volunteers.find(v => v.id === opt.value);
-    if (v) {
-      const option = document.createElement('option');
-      option.value = v.id;
-      option.textContent = v.name;
-      leaderSelect.appendChild(option);
+  const volunteerRows = document.querySelectorAll('#volunteersSelect .volunteer-row');
+  volunteerRows.forEach(row => {
+    const button = row.querySelector('.select-volunteer-btn');
+    if (button.dataset.selected === 'true') {
+      const name = row.querySelector('span').textContent;
+      const v = volunteers.find(v => v.name === name);
+      if (v) {
+        const option = document.createElement('option');
+        option.value = v.id;
+        option.textContent = v.name;
+        leaderSelect.appendChild(option);
+      }
     }
   });
 }
+
+
 
 requesterSelect.addEventListener('change', () => {
   fillRequesterDetails(requesterSelect.value);
@@ -173,3 +175,26 @@ addStockBtn.addEventListener('click', () => {
 populateRequesterOptions();
 populateVolunteers();
 populateEventTypes();
+
+const form = document.getElementById('createEventForm');
+
+form.addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const formData = new FormData(form);
+    const data = new URLSearchParams();
+    for (const pair of formData) {
+      data.append(pair[0], pair[1]);
+    }
+    fetch('/admin/admin_create_event', { method: 'POST', body: data })
+    .then(response => response.text()) 
+    .then(result => {
+        console.log('Success:', result);
+        alert('Event created successfully!');
+        window.location.reload(); 
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Error creating event.');
+    });
+});

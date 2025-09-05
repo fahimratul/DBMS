@@ -349,10 +349,21 @@ def admin_requests():
     db = get_bd()
     cursor = db.cursor(dictionary=True)
     cursor.execute('''
-        SELECT dr.donation_receiver_id, dr.date, dr.priority_message, dr.additional_item, r.name AS receiver_name
-        FROM donation_receiver dr
-        JOIN receiver r ON dr.receiver_id = r.receiver_id
-    ''')
+    SELECT dr.donation_receiver_id,
+           dr.receiver_id,
+           dr.date,
+           dr.priority_message,
+           dr.item_id_list,
+           dr.additional_item,
+           r.name AS receiver_name,
+           r.phone,
+           r.emergency_phone,
+           r.address
+           
+    FROM donation_receiver dr
+    JOIN receiver r ON dr.receiver_id = r.receiver_id
+''')
+
     requests = cursor.fetchall()
     return render_template('admin/requests.html', requests=requests)
 
@@ -365,4 +376,106 @@ def admin_stock():
 @bp.route('/admin_create_event', methods=['GET', 'POST'])
 @login_required
 def admin_create_event():
-    return render_template('admin/create_event.html')
+    db = get_bd()
+    cursor = db.cursor(dictionary=True)
+
+    if request.method == 'POST':
+        requester_id = request.form.get('requesterId')        
+        leader_id = request.form.get('teamLeader')           
+        event_type_name = request.form.get('eventType')       
+        status = 'Pending'                                   
+
+        # --- Get event_type_id ---
+        cursor.execute(
+            "SELECT event_type_id FROM event_type WHERE event_type = %s",
+            (event_type_name,)
+        )
+        row = cursor.fetchone()
+        event_type_id = row['event_type_id'] if row else None
+
+        # --- Collect volunteers ---
+        volunteer_ids = request.form.getlist("volunteers")  # ["2","3","5"]
+        # Ensure leader is first in the list
+        if leader_id not in volunteer_ids:
+            volunteer_ids.insert(0, leader_id)
+        volunteer_id_list = "$".join(volunteer_ids) + "$"   # "1$2$3$"
+
+        # --- Insert into event table ---
+        cursor.execute("""
+            INSERT INTO event (volunteer_id_list, event_type_id, donation_receiver_id, status, start_date)
+            VALUES (%s, %s, %s, %s, CURDATE())
+        """, (volunteer_id_list, event_type_id, requester_id, status))
+
+        db.commit()
+        flash("Event created successfully!", "success")
+        return redirect(url_for('admin.admin_create_event'))
+
+    # --- Calculate next event number ---
+    cursor.execute("SELECT COUNT(event_id) AS cnt FROM event;")
+    result = cursor.fetchone()
+    next_event_number = (result['cnt'] if result else 0) + 1  
+
+    # --- Requesters (latest requests per receiver) ---
+    cursor.execute("""
+    SELECT r.receiver_id, r.name AS receiver_name, r.phone, r.emergency_phone,
+           r.address, dr.date AS request_date, dr.priority_message,
+           dr.additional_item, dr.item_id_list
+    FROM receiver r
+    JOIN donation_receiver dr ON r.receiver_id = dr.receiver_id
+    WHERE dr.date = (
+        SELECT MAX(dr2.date)
+        FROM donation_receiver dr2
+        WHERE dr2.receiver_id = r.receiver_id
+    )
+    """)
+    rows = cursor.fetchall()
+
+    requesters = {}
+    for row in rows:
+        receiver_id = row['receiver_id']
+        if receiver_id not in requesters:
+            requesters[receiver_id] = {
+            'id': receiver_id,
+            'name': row['receiver_name'],
+            "priority": row['priority_message'],
+            "additionalItems": row['additional_item'],
+            "requestDate": row['request_date'].strftime("%Y-%m-%d"),
+            "location": row['address'],
+            'contact': row['phone'],
+            "emergencyContact": row['emergency_phone'],
+            "items": []
+        }
+
+    # Parse item_id_list into structured data
+    if row['item_id_list']:
+        items_raw = row['item_id_list'].split('$')
+        for item_str in items_raw:
+            if item_str.strip():
+                parts = item_str.split('#')
+                if len(parts) == 3:
+                    item_id, item_name, qty = parts
+                    requesters[receiver_id]['items'].append({
+                        'itemId': int(item_id),
+                        'item': item_name,
+                        'quantity': int(qty)
+                    })
+
+    requesters_list = list(requesters.values())
+
+
+    # --- Volunteers ---
+    cursor.execute("SELECT volunteer_id AS id, name FROM volunteer;")
+    volunteers = cursor.fetchall() or []
+
+    # --- Event types ---
+    cursor.execute("SELECT event_type FROM event_type;")
+    event_types = [row['event_type'] for row in cursor.fetchall()] or []
+
+    return render_template(
+        "admin/create_event.html",
+        event_id=next_event_number,
+        requesters=requesters_list,
+        volunteers=volunteers,
+        event_types=event_types
+    )
+
