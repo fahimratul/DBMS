@@ -1,62 +1,3 @@
-const eventsData = {
-  E00023: {
-    eventType: "Flood",
-    status: "Completed",
-    statusClass: "completed",
-    priority: "High",
-    requestDate: "17 Dec, 2022",
-    completionDate: "20 Dec, 2022",
-    location: "Dhaka",
-    teamLeader: "Alice",
-    teamMembers: [
-      { name: "Alice", volunteerId: "V001", contact: "+880100000001" },
-      { name: "Bob", volunteerId: "V002", contact: "+880100000002" },
-      { name: "Charlie", volunteerId: "V003", contact: "+880100000003" }
-    ],
-    allocatedItems: [
-      { item: "Water", quantity: 100, stockId: "S001" },
-      { item: "Food", quantity: 200, stockId: "S002" },
-      { item: "Blankets", quantity: 50, stockId: "S003" }
-    ],
-    requester: "John Doe",
-    requesterContact: "+880123456789",
-    additional: "Baby food, Medicine",
-    feedback: [
-      { giver: "Volunteer", text: "Very well organized." },
-      { giver: "Requester", text: "Help arrived quickly, much appreciated." },
-      { giver: "Donor", text: "Glad to contribute to this event." }
-    ]
-  },
-
-  E00032: {
-    eventType: "Flood",
-    status: "Completed",
-    statusClass: "completed",
-    priority: "High",
-    requestDate: "17 Dec, 2022",
-    completionDate: "20 Dec, 2022",
-    location: "Char Islampur, Ward-13, Kurigram, Rangpur, Bangladesh",
-    teamLeader: "Ayesha Siddiqua",
-    teamMembers: [
-      { name: "Rafiul Islam", volunteerId: "V123", contact: "017xxxxxxxx" },
-      { name: "Sadia Khatun", volunteerId: "V124", contact: "018xxxxxxxx" },
-      { name: "Tanvir Hasan", volunteerId: "V125", contact: "019xxxxxxxx" }
-    ],
-    allocatedItems: [
-      { item: "Rice Bags", quantity: 50, stockId: "S101" },
-      { item: "Water Bottles", quantity: 100, stockId: "S102" },
-      { item: "Blankets", quantity: 30, stockId: "S103" }
-    ],
-    requester: "Md. Nazmul Haque",
-    requesterContact: "016xxxxxxxx",
-    additional: "Elderly care kits",
-    feedback: [
-      { giver: "Volunteer", text: "Challenging but rewarding experience." },
-      { giver: "Requester", text: "Support helped my family a lot." }
-    ]
-  }
-};
-
 const modal = document.getElementById("eventModal");
 const closeBtn = modal.querySelector(".close");
 
@@ -65,77 +6,71 @@ function clearTableBody(tbody) {
 }
 
 function showModal(eventId) {
-  const data = eventsData[eventId];
-  if (!data) {
-    alert("No data found for event: " + eventId);
-    return;
-  }
+  
+  const data = eventsData.find(ev => ev.event_id == eventId);
+  if (!data) return alert("No data found for event: " + eventId);
 
-  document.getElementById("modalEventId").innerText = eventId;
-  document.getElementById("modalEventType").innerText = data.eventType;
-
+  document.getElementById("modalEventId").innerText = data.event_id;
+  document.getElementById("modalEventType").innerText = data.event_type || "N/A";
   const statusEl = document.getElementById("modalStatus");
-  statusEl.innerText = data.status;
-  statusEl.className = "status " + data.statusClass;
-
-  document.getElementById("modalPriority").innerText = data.priority;
-  document.getElementById("modalRequestDate").innerText = data.requestDate;
-  document.getElementById("modalCompletionDate").innerText = data.completionDate;
-  document.getElementById("modalLocation").innerText = data.location;
-  document.getElementById("modalLeader").innerText = data.teamLeader;
-  document.getElementById("modalRequester").innerText = data.requester;
-  document.getElementById("modalRequesterContact").innerText = data.requesterContact;
-  document.getElementById("modalAdditional").innerText = data.additional;
+  statusEl.innerText = data.status || "Unknown";
+  statusEl.className = "status " + (data.status ? data.status.toLowerCase() : "");
+  document.getElementById("modalPriority").innerText = data.priority_message || "—";
+  document.getElementById("modalRequestDate").innerText = data.request_date || "—";
+  document.getElementById("modalCompletionDate").innerText = data.end_date || "—";
+  document.getElementById("modalLocation").innerText = data.location || "—";
+  document.getElementById("modalRequester").innerText = data.requester_name || "—";
+  document.getElementById("modalRequesterContact").innerText = data.requester_contact || "—";
+  document.getElementById("modalAdditional").innerText = data.additional_item || "—";
 
   const teamTbody = document.getElementById("modalTeamMembers");
   clearTableBody(teamTbody);
-  data.teamMembers.forEach(member => {
-    const tr = document.createElement("tr");
-    tr.innerHTML = `
-      <td>${member.name}</td>
-      <td>${member.volunteerId}</td>
-      <td>${member.contact}</td>
-    `;
-    teamTbody.appendChild(tr);
-  });
 
+  if (data.volunteers && data.volunteers.length > 0) {
+    document.getElementById("modalLeader").innerText = data.volunteers[0].name || "—";
+
+    data.volunteers.forEach(vol => {
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td>${vol.name || "Unknown"}</td>
+        <td>${vol.volunteer_id || "—"}</td>
+        <td>${vol.phone || "—"}</td>
+      `;
+      teamTbody.appendChild(tr);
+    });
+  } else {
+    document.getElementById("modalLeader").innerText = "—";
+  }
 
   const itemsTbody = document.getElementById("modalAllocatedItems");
   clearTableBody(itemsTbody);
-  data.allocatedItems.forEach(item => {
-    const tr = document.createElement("tr");
-    tr.innerHTML = `
-      <td>${item.item}</td>
-      <td>${item.quantity}</td>
-      <td>${item.stockId}</td>
-    `;
-    itemsTbody.appendChild(tr);
-  });
 
-  const feedbackList = document.getElementById("modalFeedbackList");
-  feedbackList.innerHTML = ""; // clear previous feedback
-  if (data.feedback && data.feedback.length > 0) {
-    data.feedback.forEach(fb => {
-      const li = document.createElement("li");
-      li.innerHTML = `<strong>${fb.giver}:</strong> ${fb.text}`;
-      feedbackList.appendChild(li);
+  if (data.item_id_list) {
+    const itemTokens = data.item_id_list.split("$").filter(Boolean);
+    itemTokens.forEach(token => {
+      const [itemId, itemName, qty] = token.split("#");
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td>${itemName || "N/A"}</td>
+        <td>${qty || "0"}</td>
+        <td>${itemId || "—"}</td>
+      `;
+      itemsTbody.appendChild(tr);
     });
-  } else {
-    const li = document.createElement("li");
-    li.innerText = "No feedback available.";
-    feedbackList.appendChild(li);
   }
 
   modal.style.display = "block";
 }
 
+
+
 document.querySelectorAll(".details-btn").forEach(btn => {
-  btn.addEventListener("click", (e) => {
-    const row = e.target.closest("tr");
-    const eventId = row.querySelector("td").innerText.trim();
+  btn.addEventListener("click", () => {
+    const eventId = btn.dataset.eventId;  // safe and explicit
     showModal(eventId);
   });
 });
+
 
 closeBtn.onclick = () => modal.style.display = "none";
 
