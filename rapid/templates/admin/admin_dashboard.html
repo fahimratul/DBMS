@@ -358,8 +358,8 @@
         <h3>Donors</h3>
           <ul class="donor-list">
           {% for donor in admin_data['top_donors'] %}
-            <li class="recipient-item">
-              <h4>{{ donor.name }}</h4>
+            <li class="recipient-item" style="flex-direction: column; align-items: flex-start;">
+              <h4>{{ donor.name}}</h4>
               <p>Number of Donations: {{ donor.donation_count }}</p>
             </li>
           {% endfor %}
@@ -387,10 +387,19 @@
         <h3>Request list</h3>
         {% for request in admin_data['requests'] %}
         <div class="recipient-item">
-          <h4>{{request['receiver_name']}}</h4>
-          <p>Received: {{request['item_name']}}</p>
+          <h4>{{ request['receiver_name'] }}</h4>
+          <p>Received Items: 
+            {% for i in range(request['items']|length) %}
+              <br>- {{ request['items'][i] }}: {{ request['quantities'][i] }}
+            {% endfor %}
+          </p>
         </div>
         {% endfor %}
+
+        
+        <!-- {% for request in admin_data['requests'][key] %}
+          <p>- {{ request['request_type'] }}: {{ request['quantity'] }} ({{ request['status'] }})</p>
+        {% endfor %} -->
         <a href="{{ url_for('admin.admin_requests') }}" class="btn">>See all</a>
       </div>
 

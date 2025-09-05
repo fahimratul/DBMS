@@ -214,31 +214,31 @@ def admin_dashboard():
     #function to get available stock
     # if the function exists,  no need to create another one
     # Get the database name from the current app configuration
-    cursor.execute("SHOW FUNCTION STATUS WHERE Name = 'get_available_quantity' AND Db = %s", (current_app.config['DATABASE']['database']))
-    function_exists = cursor.fetchone()
-    if not function_exists:
-        # Create the function if it doesn't exist
-        cursor.execute("DROP FUNCTION IF EXISTS get_available_quantity")
+    # cursor.execute("SHOW FUNCTION STATUS WHERE Name = 'get_available_quantity' AND Db = %s", (current_app.config['DATABASE']['database']))
+    # function_exists = cursor.fetchone()
+    # if not function_exists:
+    #     # Create the function if it doesn't exist
+    #     cursor.execute("DROP FUNCTION IF EXISTS get_available_quantity")
         
-        # Change delimiter before creating function
-        # my sql throws error otherwise
-        cursor.execute("DELIMITER //")
-        cursor.execute("""
-            CREATE FUNCTION get_available_quantity(item_id INT)
-            RETURNS INT
-            DETERMINISTIC
-            READS SQL DATA
-            BEGIN
-                DECLARE qty INT;
-                SELECT IFNULL(SUM(quantity), 0) INTO qty
-                FROM stock
-                WHERE stock.item_id = item_id
-                AND stock.expire_date >= CURDATE();
-                RETURN qty;
-            END //
-        """)
-        # Reset delimiter back to semicolon
-        cursor.execute("DELIMITER ;")
+    #     # Change delimiter before creating function
+    #     # my sql throws error otherwise
+    #     cursor.execute("DELIMITER //")
+    #     cursor.execute("""
+        #     CREATE FUNCTION get_available_quantity(item_id INT)
+        #     RETURNS INT
+        #     DETERMINISTIC
+        #     READS SQL DATA
+        #     BEGIN
+        #         DECLARE qty INT;
+        #         SELECT IFNULL(SUM(quantity), 0) INTO qty
+        #         FROM stock
+        #         WHERE stock.item_id = item_id
+        #         AND stock.expire_date >= CURDATE();
+        #         RETURN qty;
+        #     END //
+        # """)
+    #     # Reset delimiter back to semicolon
+    #     cursor.execute("DELIMITER ;")
     
     cursor.execute("""
         SELECT i.name, 
@@ -269,10 +269,31 @@ def admin_dashboard():
                 ORDER BY donation_receiver.date
                 LIMIT 5;                
     """) #
-    request_data = cursor.fetchall() #{receiver_name:id#name#quantity $ id#name#quantity $ ...}
+    request_raw_data = cursor.fetchall() #[{receiver_name: ..., item_ids: ...}, ...]
+    request_data = []
+    for row in request_raw_data: #row is a dictionary
+        receiver_name = row['receiver_name']
+        item_ids_string = row['item_ids']
+        
+        if item_ids_string:
+            items = item_ids_string.split('$')
+            temp_dict = {
+                'receiver_name': receiver_name,
+                'items': [],
+                'quantities': []
+            }
+            for item in items:
+                if item.strip():  # Skip empty strings
+                    item_info = item.split('#')
+                    if len(item_info) >= 3:  # Make sure we have id#name#quantity
+                        item_name = item_info[1]
+                        item_quantity = item_info[2]
+                        temp_dict['items'].append(item_name)
+                        temp_dict['quantities'].append(item_quantity)
+            request_data.append(temp_dict)
 
     cursor.execute("""
-        SELECT volunteer_id, name, profile_picture FROM volunteer ORDER BY volunteer_id Desc limit 7;
+        SELECT volunteer_id, name, profile_picture FROM volunteer ORDER BY volunteer_id Desc limit 5;
     """)
     raw_volunteer_data = cursor.fetchall()
     
