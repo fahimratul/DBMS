@@ -84,8 +84,8 @@ function addItemRow(item = { itemId: '', item: '', quantity: '', isFilled: false
 
   div.innerHTML = `
     <select class="item-select" ${item.isFilled ? 'disabled' : ''}>${options}</select>
-    <input type="number" class="item-qty" placeholder="Quantity" value="${item.quantity}" min="1" ${item.isFilled ? 'readonly' : ''} />
-    <input type="hidden" class="item-id" value="${item.itemId}" />
+    <input type="number" class="item-qty" name="item-qty" placeholder="Quantity" value="${item.quantity}" min="1" ${item.isFilled ? 'readonly' : ''} />
+    <input type="hidden" class="item-id" name="item-id" value="${item.itemId}" />
     <button type="button" class="remove-item-btn">Remove</button>
   `;
 
@@ -108,10 +108,6 @@ function addItemRow(item = { itemId: '', item: '', quantity: '', isFilled: false
 
   div.querySelector('.remove-item-btn').addEventListener('click', () => div.remove());
 }
-
-
-
-
 
 
 function fillRequesterDetails(id) {
@@ -204,25 +200,31 @@ populateRequesterOptions();
 populateVolunteers();
 populateEventTypes();
 
+function getSelectedVolunteers() {
+  const selected = [];
+  document.querySelectorAll('#volunteersSelect .volunteer-row').forEach(row => {
+    const btn = row.querySelector('.select-volunteer-btn');
+    if (btn.dataset.selected === 'true') {
+      const volunteer = volunteers.find(v => v.name === row.querySelector('span').textContent);
+      if (volunteer) selected.push(volunteer.id);
+    }
+  });
+  return selected;
+}
+
+
 const form = document.getElementById('createEventForm');
 
 form.addEventListener('submit', function(e) {
-    e.preventDefault();
+  e.preventDefault();
 
-    const formData = new FormData(form);
-    const data = new URLSearchParams();
-    for (const pair of formData) {
-      data.append(pair[0], pair[1]);
-    }
-    fetch('/admin/admin_create_event', { method: 'POST', body: data })
-    .then(response => response.text()) 
-    .then(result => {
-        console.log('Success:', result);
-        alert('Event created successfully!');
-        window.location.reload(); 
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        alert('Error creating event.');
-    });
+  const formData = new FormData(form);
+  getSelectedVolunteers().forEach(v => formData.append('volunteers', v));
+
+  const data = new URLSearchParams(formData);
+
+  fetch('/admin/admin_create_event', { method: 'POST', body: data })
+    .then(res => res.text())
+    .then(result => { alert('Event created successfully!'); window.location.reload(); })
+    .catch(err => { console.error(err); alert('Error creating event.'); });
 });

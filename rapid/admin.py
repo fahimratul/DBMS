@@ -367,22 +367,32 @@ def admin_create_event():
         row = cursor.fetchone()
         event_type_id = row['event_type_id'] if row else None
 
-
         volunteer_ids = request.form.getlist("volunteers")  # ["2","3","5"]
-
         if leader_id not in volunteer_ids:
             volunteer_ids.insert(0, leader_id)
         volunteer_id_list = "$".join(volunteer_ids) + "$"   # "1$2$3$"
 
+        item_ids = request.form.getlist('item-id')          # ["1","2","5"]
+        item_quantities = request.form.getlist('item-qty')  # ["2","1","3"]
+
+        item_string_list = []
+        for item_id, qty in zip(item_ids, item_quantities):
+            cursor.execute("SELECT name FROM item WHERE item_id=%s", (item_id,))
+            item_row = cursor.fetchone()
+            if item_row:
+                item_name = item_row['name']
+                item_string_list.append(f"{item_id}#{item_name}#{qty}")
+        item_string = "$".join(item_string_list) + "$" if item_string_list else None
 
         cursor.execute("""
-            INSERT INTO event (volunteer_id_list, event_type_id, donation_receiver_id, status, start_date)
-            VALUES (%s, %s, %s, %s, CURDATE())
-        """, (volunteer_id_list, event_type_id, requester_id, status))
+            INSERT INTO event (volunteer_id_list, event_type_id, donation_receiver_id, status, start_date, item_id_list)
+            VALUES (%s, %s, %s, %s, CURDATE(), %s)
+        """, (volunteer_id_list, event_type_id, requester_id, status, item_string))
 
         db.commit()
         flash("Event created successfully!", "success")
         return redirect(url_for('admin.admin_create_event'))
+
 
 
     cursor.execute("SELECT COUNT(event_id) AS cnt FROM event;")
