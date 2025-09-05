@@ -1,6 +1,8 @@
 const requesters = jsRequesters;
 const volunteers = jsVolunteers;
 const eventTypes = jsEventTypes;
+const allItems = jsAllItems; 
+
 
 const requesterSelect = document.getElementById('requesterSelect');
 const priorityField = document.getElementById('priority');
@@ -70,21 +72,46 @@ function clearItems() {
   itemContainer.innerHTML = '';
 }
 
-function addItemRow(item = { itemId: '', item: '', quantity: '' }) {
+function addItemRow(item = { itemId: '', item: '', quantity: '', isFilled: false }) {
   const div = document.createElement('div');
   div.classList.add('item-row');
+
+  let options = `<option value="">-- Select an item --</option>`;
+  allItems.forEach(it => {
+    const selected = item.itemId == it.item_id ? 'selected' : '';
+    options += `<option value="${it.item_id}#${it.name}" ${selected}>${it.name}</option>`;
+  });
+
   div.innerHTML = `
-    <input type="text" class="item-id" placeholder="Item ID" value="${item.itemId}" />
-    <input type="text" class="item-name" placeholder="Item Name" value="${item.item}" />
-    <input type="number" class="item-qty" placeholder="Quantity" value="${item.quantity}" min="1" />
+    <select class="item-select" ${item.isFilled ? 'disabled' : ''}>${options}</select>
+    <input type="number" class="item-qty" placeholder="Quantity" value="${item.quantity}" min="1" ${item.isFilled ? 'readonly' : ''} />
+    <input type="hidden" class="item-id" value="${item.itemId}" />
     <button type="button" class="remove-item-btn">Remove</button>
   `;
+
   itemContainer.appendChild(div);
 
-  div.querySelector('.remove-item-btn').addEventListener('click', () => {
-    div.remove();
-  });
+  const select = div.querySelector('.item-select');
+  const idInput = div.querySelector('.item-id');
+
+  if (!item.isFilled) {
+    select.addEventListener('change', () => {
+      const val = select.value;
+      if (val) {
+        const [id, name] = val.split('#');
+        idInput.value = id;
+      } else {
+        idInput.value = '';
+      }
+    });
+  }
+
+  div.querySelector('.remove-item-btn').addEventListener('click', () => div.remove());
 }
+
+
+
+
 
 
 function fillRequesterDetails(id) {
@@ -112,7 +139,6 @@ function fillRequesterDetails(id) {
     return;
   }
 
-  // Convert select value to number before finding
   const requester = requesters.find(r => r.id === Number(id));
   if (!requester) return;
 
@@ -135,10 +161,9 @@ function fillRequesterDetails(id) {
   emergencyContactField.readOnly = true;
 
   clearItems();
-  requester.items.forEach(item => addItemRow(item));
+  requester.items.forEach(item => addItemRow({...item, isFilled: true}));
 
 }
-
 
 function updateLeaderOptions() {
   const leaderSelect = document.getElementById('leaderSelect');

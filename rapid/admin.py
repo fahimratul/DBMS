@@ -441,6 +441,8 @@ def admin_create_event():
     cursor.execute("SELECT volunteer_id AS id, name FROM volunteer;")
     volunteers = cursor.fetchall() or []
 
+    cursor.execute("SELECT item_id, name FROM item;")
+    all_items = cursor.fetchall()  or []
 
     cursor.execute("SELECT event_type FROM event_type;")
     event_types = [row['event_type'] for row in cursor.fetchall()] or []
@@ -450,6 +452,7 @@ def admin_create_event():
         event_id=next_event_number,
         requesters=requesters_list,
         volunteers=volunteers,
-        event_types=event_types
+        event_types=event_types,
+        all_items=all_items
     )
 

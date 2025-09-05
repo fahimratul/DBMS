@@ -301,6 +301,7 @@
     const jsRequesters = JSON.parse('{{ requesters | tojson | safe }}');
     const jsVolunteers = JSON.parse('{{ volunteers | tojson | safe }}');
     const jsEventTypes = JSON.parse('{{ event_types | tojson | safe }}');
+    const jsAllItems = JSON.parse('{{ all_items | tojson | safe }}');
   </script>
 
   <script src="{{ url_for('static', filename='script/admin/createevent.js') }}"></script>
