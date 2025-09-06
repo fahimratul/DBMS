@@ -1,134 +1,135 @@
-const stockTableData = {
-    S001: {
-        price: 1500,
-        quantity: 50,
-        purchaseDate: "10 Jan, 2025",
-        stockDate: "12 Jan, 2025",
-        expirationDate: "12 Jan, 2026",
-        itemIds: ["I001"],
-        itemTypes: ["Rice"],
-        accountId: "A001"
-    },
-    S002: {
-        price: 500,
-        quantity: 120,
-        purchaseDate: "15 Feb, 2025",
-        stockDate: "16 Feb, 2025",
-        expirationDate: "16 Feb, 2026",
-        itemIds: ["I002"],
-        itemTypes: ["Blankets"],
-        accountId: "A002"
-    },
-    S003: {
-        price: 300,
-        quantity: 200,
-        purchaseDate: "05 Mar, 2025",
-        stockDate: "06 Mar, 2025",
-        expirationDate: "06 Mar, 2026",
-        itemIds: ["I003"],
-        itemTypes: ["Cooking Oil"],
-        accountId: null
-    },
-    S004: {
-        price: 750,
-        quantity: 80,
-        purchaseDate: "20 Apr, 2025",
-        stockDate: "21 Apr, 2025",
-        expirationDate: "21 Apr, 2026",
-        itemIds: ["I004"],
-        itemTypes: ["Flour"],
-        accountId: "A004"
-    },
-    S005: {
-        price: 100,
-        quantity: 500,
-        purchaseDate: "01 May, 2025",
-        stockDate: "02 May, 2025",
-        expirationDate: "02 May, 2026",
-        itemIds: ["I005"],
-        itemTypes: ["Bottled Water"],
-        accountId: null
-    }
-};
-
-const stockBody = document.getElementById("stockTableBody");
-for (const stockId in stockTableData) {
-    const stock = stockTableData[stockId];
-    const tr = document.createElement("tr");
-    tr.innerHTML = `
-        <td>${stockId}</td>
-        <td>${stock.quantity}</td>
-        <td>${stock.stockDate}</td>
-        <td>${stock.expirationDate}</td>
-        <td>${stock.itemIds.join(", ")}</td>
-        <td>${stock.itemTypes.join(", ")}</td>
-        <td><button class="details-btn" data-id="${stockId}">Details</button></td>
-    `;
-    stockBody.appendChild(tr);
-}
-
-const modal = document.getElementById("stockModal");
-const closeBtn = modal.querySelector(".close");
+const stockTableData = jsStockTableData;
 
 function showStockModal(stockId) {
-    const data = stockTableData[stockId];
-    document.getElementById("modalStockId").innerText = stockId;
-    document.getElementById("modalPrice").innerText = `${data.price} BDT`;
-    document.getElementById("modalQuantity").value = data.quantity;
-    document.getElementById("modalPurchaseDate").innerText = data.purchaseDate;
-    document.getElementById("modalStockDate").innerText = data.stockDate;
-    document.getElementById("modalExpirationDate").innerText = data.expirationDate;
-    document.getElementById("modalItemIds").innerText = data.itemIds.join(", ");
-    document.getElementById("modalItemTypes").innerText = data.itemTypes.join(", ");
-    document.getElementById("modalAccountId").innerText = data.accountId ? data.accountId : "—";
-    modal.style.display = "block";
+    const data = stockTableData.find(s => s.stock_id == stockId);
+    if (!data) return;
+
+    document.getElementById("modalStockId").innerText = data.stock_id;
+    document.getElementById("modalPrice").innerText = data.price + " BDT";
+    document.getElementById("modalQuantity").innerText = data.quantity;
+    document.getElementById("modalPurchaseDate").innerText = data.purchase_date ? new Date(data.purchase_date).toLocaleDateString() : "—";
+    document.getElementById("modalStockDate").innerText = data.stock_date ? new Date(data.stock_date).toLocaleDateString() : "—";
+    document.getElementById("modalExpirationDate").innerText = data.expire_date ? new Date(data.expire_date).toLocaleDateString() : "—";
+    document.getElementById("modalItemIds").innerText = data.item_id || "—";
+    document.getElementById("modalItemTypes").innerText = data.item_type || "—";
+    document.getElementById("modalAccountId").innerText = data.account_id || "—";
+
+    document.getElementById("stockModal").style.display = "block";
 }
 
-document.getElementById("increaseQty").onclick = () => {
-    const qtyInput = document.getElementById("modalQuantity");
-    qtyInput.value = parseInt(qtyInput.value) + 1;
-};
-document.getElementById("decreaseQty").onclick = () => {
-    const qtyInput = document.getElementById("modalQuantity");
-    if (parseInt(qtyInput.value) > 0) qtyInput.value = parseInt(qtyInput.value) - 1;
-};
 
-document.addEventListener("click", (e) => {
-    if (e.target.matches(".details-btn")) {
-        const stockId = e.target.getAttribute("data-id");
-        showStockModal(stockId);
-    }
-});
-document.addEventListener("DOMContentLoaded", function () {
-    const searchInput = document.getElementById("stock_search");
-    const tableBody = document.getElementById("stockTableBody");
-
-    searchInput.addEventListener("keyup", function () {
-        const filter = searchInput.value.toLowerCase();
-        const rows = tableBody.getElementsByTagName("tr");
-
-        for (let i = 0; i < rows.length; i++) {
-            let rowText = rows[i].innerText.toLowerCase();
-            if (rowText.includes(filter)) {
-                rows[i].style.display = "";
-            } else {
-                rows[i].style.display = "none";
-            }
-        }
+document.getElementById("stock_search").addEventListener("keyup", function () {
+    const query = this.value.toLowerCase();
+    document.querySelectorAll("#stockTable tbody tr").forEach(row => {
+        row.style.display = Array.from(row.cells).some(td =>
+            td.innerText.toLowerCase().includes(query)
+        ) ? "" : "none";
     });
 });
 
-closeBtn.onclick = () => modal.style.display = "none";
+
+document.addEventListener("click", (e) => {
+    if (e.target.matches(".details-btn")) {
+        showStockModal(e.target.dataset.id);
+    }
+});
+
+const stockModal = document.getElementById("stockModal");
+const addStockModal = document.getElementById("addStockModal");
+const addItemModal = document.getElementById("addItemModal");
+
+stockModal.querySelector(".close").onclick = () => stockModal.style.display = "none";
+document.getElementById("closeAddStock").onclick = () => addStockModal.style.display = "none";
+document.getElementById("closeAddItem").onclick = () => addItemModal.style.display = "none";
+
+document.getElementById("openAddStockModal").onclick = () => addStockModal.style.display = "block";
+document.getElementById("openAddItemModal").onclick = () => addItemModal.style.display = "block";
+
 window.onclick = (e) => {
-    if (e.target === modal) modal.style.display = "none";
+    if (e.target === stockModal) stockModal.style.display = "none";
+    if (e.target === addStockModal) addStockModal.style.display = "none";
+    if (e.target === addItemModal) addItemModal.style.display = "none";
 };
 
-function searchTable(inputId, tableId) {
-  const input = document.getElementById(inputId);
-  if (!input) return;
-  const filter = input.value.trim().toLowerCase();
-  const rows = document.querySelectorAll(`#${tableId} tbody tr`);
-  rows.forEach(row => {
-    row.style.display = filter === '' || row.textContent.toLowerCase().includes(filter) ? '' : 'none';
-  });
-}
+const stockItemSelect = document.getElementById("newItemId");
+const stockItemTypeInput = document.getElementById("autoItemType");
+const stockItemIdInput = document.getElementById("autoItemId");
+
+stockItemSelect.addEventListener("change", () => {
+    const selectedOption = stockItemSelect.options[stockItemSelect.selectedIndex];
+    stockItemIdInput.value = selectedOption.value;
+    stockItemTypeInput.value = selectedOption.dataset.type || "";
+});
+
+document.getElementById("addStockForm").onsubmit = async (e) => {
+    e.preventDefault();
+    const data = {
+        price: parseFloat(document.getElementById("newPrice").value),
+        quantity: parseInt(document.getElementById("newQuantity").value),
+        expire_date: document.getElementById("newExpireDate").value || null,
+        item_id: parseInt(stockItemSelect.value),
+        purchase_date: document.getElementById("newPurchaseDate").value || null
+    };
+
+
+    const res = await fetch("/admin/admin_stock", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+    });
+
+    if (res.ok) {
+        alert("Stock added successfully!");
+        addStockModal.style.display = "none";
+        location.reload();
+    } else alert("Failed to add stock");
+};
+
+const itemIdInput = document.getElementById("itemId");
+const itemTypeSelect = document.getElementById("itemType");
+const newTypeContainer = document.getElementById("newTypeContainer");
+const newTypeInput = document.getElementById("newTypeName");
+
+itemTypeSelect.addEventListener("change", () => {
+    if (itemTypeSelect.value === "__new_type__") {
+        newTypeContainer.style.display = "block";
+        newTypeInput.required = true;
+    } else {
+        newTypeContainer.style.display = "none";
+        newTypeInput.required = false;
+    }
+});
+
+// --- Submit Add Item Form ---
+document.getElementById("addItemForm").onsubmit = async (e) => {
+    e.preventDefault();
+
+    const name = document.getElementById("itemName").value.trim();
+    const typeSelect = document.getElementById("itemType");
+    const type_id = typeSelect.value !== "__new_type__" ? parseInt(typeSelect.value) : null;
+    const new_type = typeSelect.value === "__new_type__"
+        ? document.getElementById("newTypeName").value.trim()
+        : null;
+
+    if (!name || (!type_id && !new_type)) {
+        return alert("Enter item name and either select existing type or provide a new type");
+    }
+
+    // ✅ match Flask keys
+    const res = await fetch("/admin/admin_stock", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ new_item: name, type_id, new_type })
+    });
+
+    if (res.ok) {
+        alert("Item added successfully!");
+        addItemModal.style.display = "none";
+        location.reload();
+    } else {
+        const err = await res.text();
+        alert("Failed to add item: " + err);
+    }
+    console.log("Submitting:", data);
+
+};

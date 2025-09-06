@@ -14,7 +14,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 import json
 import base64
 
-
+from datetime import datetime
 bp = Blueprint('admin', __name__, url_prefix='/admin')
 
 
@@ -336,7 +336,49 @@ def admin_dashboard():
 @bp.route('/admin_events')
 @login_required
 def admin_events():
-    return render_template('admin/events.html')
+    db = get_bd()
+    cursor = db.cursor(dictionary=True)
+
+    cursor.execute("""
+        SELECT 
+            e.event_id,
+            et.event_type,
+            e.status,
+            e.start_date,
+            e.end_date,
+            e.volunteer_id_list,
+            e.item_id_list,
+            e.donation_receiver_id,
+            dr.priority_message,
+            dr.additional_item,
+            dr.date AS request_date,
+            r.name AS requester_name,
+            r.phone AS requester_contact,
+            r.address AS location
+        FROM event e
+        LEFT JOIN event_type et ON e.event_type_id = et.event_type_id
+        LEFT JOIN donation_receiver dr ON e.donation_receiver_id = dr.donation_receiver_id
+        LEFT JOIN receiver r ON dr.receiver_id = r.receiver_id
+        ORDER BY e.event_id ASC
+    """)
+    events = cursor.fetchall()
+
+    cursor.execute("SELECT volunteer_id, name, phone FROM volunteer")
+    volunteers = cursor.fetchall()
+    volunteer_dict = {v['volunteer_id']: {'volunteer_id': v['volunteer_id'], 'name': v['name'], 'phone': v['phone']} for v in volunteers}
+
+
+    for ev in events:
+        vol_ids = [vid for vid in ev['volunteer_id_list'].split('$') if vid]  # remove empty strings
+    
+        ev['volunteers'] = [
+            volunteer_dict.get(int(vid), {'name': 'Unknown', 'phone': 'Unknown', 'volunteer_id': vid})
+            for vid in vol_ids
+        ]
+
+    cursor.close()
+    return render_template('admin/events.html', events=events)
+
 
 @bp.route('/volunteer_list')
 @login_required
@@ -389,10 +431,87 @@ def admin_requests():
     return render_template('admin/requests.html', requests=requests)
 
 
-@bp.route('/admin_stock')
+@bp.route('/admin_stock', methods=['GET', 'POST'])
 @login_required
 def admin_stock():
-    return render_template('admin/stock.html')
+    db = get_bd()
+    cursor = db.cursor(dictionary=True)
+
+    if request.method == 'POST':
+        data = request.get_json()
+
+        # -------------------------------
+        # Case 1: Add new item / type only
+        # -------------------------------
+        new_item_name = data.get('new_item')
+        type_id = data.get('type_id')
+        new_type_name = data.get('new_type')
+
+        if new_type_name:  # insert new type
+            cursor.execute("INSERT INTO type_list (type_name) VALUES (%s)", (new_type_name,))
+            db.commit()
+            type_id = cursor.lastrowid
+
+        if new_item_name:  # insert new item
+            cursor.execute("INSERT INTO item (name, type_id) VALUES (%s, %s)", (new_item_name, type_id))
+            db.commit()
+            return jsonify({"status": "success", "message": "Item added successfully"})
+
+        # -------------------------------
+        # Case 2: Add stock
+        # -------------------------------
+        price = data.get('price')
+        quantity = data.get('quantity')
+        expire_date = data.get('expire_date')
+        stock_date = data.get('stock_date') or datetime.now().date()
+        purchase_date = data.get('purchase_date')
+        account_id = data.get('account_id')
+        item_id = data.get('item_id')
+
+        cursor.execute("""
+            INSERT INTO stock (price, quantity, expire_date, item_id, account_id, stock_date, purchase_date)
+            VALUES (%s, %s, %s, %s, %s, %s, %s)
+        """, (price, quantity, expire_date, item_id, account_id, stock_date, purchase_date))
+        db.commit()
+
+        return jsonify({"status": "success", "message": "Stock added successfully"})
+
+    # -------------------------------
+    # GET request → load stock page
+    # -------------------------------
+    cursor.execute('''
+        SELECT s.stock_id, s.price, s.quantity, s.purchase_date, s.stock_date, s.expire_date,
+               s.item_id, i.name AS item_name, t.type_name AS item_type, s.account_id
+        FROM stock s
+        LEFT JOIN item i ON s.item_id = i.item_id
+        LEFT JOIN type_list t ON i.type_id = t.type_id
+    ''')
+    stocks = cursor.fetchall()
+
+    cursor.execute("""
+        SELECT i.item_id, i.name, t.type_name
+        FROM item i
+        LEFT JOIN type_list t ON i.type_id = t.type_id
+    """)
+    items = cursor.fetchall()
+
+    cursor.execute("SELECT type_id, type_name FROM type_list")
+    types = cursor.fetchall()
+
+    cursor.execute("SELECT MAX(item_id) AS max_id FROM item")
+    max_id = cursor.fetchone()["max_id"] or 0
+    next_item_id = max_id + 1
+
+    return render_template(
+        'admin/stock.html',
+        stocks=stocks,
+        items=items,
+        types=types,
+        next_item_id=next_item_id
+    )
+
+
+
 
 @bp.route('/admin_create_event', methods=['GET', 'POST'])
 @login_required
