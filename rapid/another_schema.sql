@@ -127,9 +127,13 @@ CREATE TABLE donation_receiver (
     donation_receiver_id INT PRIMARY KEY AUTO_INCREMENT,
     receiver_id INT,
     date DATE NOT NULL,
+    priority_level VARCHAR(20) DEFAULT 'medium',
     priority_message TEXT,
     item_id_list TEXT,
     additional_item TEXT,
+    latitude DECIMAL(10, 8),
+    longitude DECIMAL(11, 8),
+    status VARCHAR(30) DEFAULT 'submitted',
     FOREIGN KEY (receiver_id) REFERENCES receiver(receiver_id)
         ON UPDATE CASCADE ON DELETE CASCADE
 );
