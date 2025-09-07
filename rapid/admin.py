@@ -476,23 +476,13 @@ def admin_stock():
 
         return jsonify({"status": "success", "message": "Stock added successfully"})
 
-    # -------------------------------
-    # GET request → load stock page
-    # -------------------------------
+
     cursor.execute('''
-        SELECT stock.stock_id,
-            stock.price,
-            stock.quantity,
-            stock.purchase_date,
-            stock.stock_date,
-            stock.expire_date,
-            item.item_id,
-            item.name AS item_name,
-            type_list.type_name AS item_type
-            FROM stock
-            JOIN item ON stock.item_id = item.item_id
-            JOIN type_list ON item.type_id = type_list.type_id
-            ORDER BY item.name ASC, stock.expire_date DESC;
+        SELECT s.stock_id, s.price, s.quantity, s.purchase_date, s.stock_date, s.expire_date,
+               s.item_id, i.name AS item_name, t.type_name AS item_type, s.account_id
+        FROM stock s
+        LEFT JOIN item i ON s.item_id = i.item_id
+        LEFT JOIN type_list t ON i.type_id = t.type_id
     ''')
     stocks = cursor.fetchall()
 
