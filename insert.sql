@@ -138,17 +138,17 @@ INSERT INTO stock (price, quantity, purchase_date, stock_date, expire_date, item
 INSERT INTO stock (price, quantity, purchase_date, stock_date, expire_date, item_id) VALUES (60, 70, '2024-07-30', '2024-07-30', '2025-07-30', 10);
 
 -- Insert data into donation_receiver
-INSERT INTO donation_receiver (receiver_id, date, priority_message, item_id_list, additional_item) VALUES
-(1, '2024-10-01', 'High priority', '1#Food#20$2#Clothes#10$', 'Extra rice'),
-(2, '2024-11-15', 'Medium priority', '2#Clothes#15$3#Medicine#5$', 'Warm blanket'),
-(3, '2024-12-20', 'Urgent', '1#Food#25$3#Medicine#12$5#Water Bottle#30$', 'Pain relievers'),
-(4, '2024-01-25', 'Normal', '4#Tent#5$5#Water Bottle#10$', 'Clean water'),
-(5, '2024-02-28', 'High', '2#Clothes#20$4#Tent#2$', 'Tent accessories'),
-(6, '2024-03-15', 'Medium', '1#Food#10$3#Medicine#7$', 'Soap bars'),
-(7, '2024-04-10', 'Urgent', '2#Clothes#18$5#Water Bottle#25$', 'Nails'),
-(8, '2024-05-20', 'Normal', '1#Food#30$4#Tent#4$3#Medicine#9$', 'Fuel cans'),
-(9, '2024-06-25', 'High', '2#Clothes#12$5#Water Bottle#35$', 'Batteries'),
-(10, '2024-07-30', 'Medium', '1#Food#15$2#Clothes#8$3#Medicine#6$', 'Bandages');
+INSERT INTO donation_receiver (receiver_id, date, priority_message, item_id_list, additional_item, priority_level, latitude, longitude, status) VALUES
+(1, '2024-10-01', 'High priority', '1#Food#20$2#Clothes#10$', 'Extra rice', 'high', 23.8103, 90.4125, 'pending'),
+(2, '2024-11-15', 'Medium priority', '2#Clothes#15$3#Medicine#5$', 'Warm blanket', 'medium', 22.3569, 91.7832, 'approved'),
+(3, '2024-12-20', 'Urgent', '1#Food#25$3#Medicine#12$5#Water Bottle#30$', 'Pain relievers', 'critical', 23.2513, 90.3944, 'in_progress'),
+(4, '2024-01-25', 'Normal', '4#Tent#5$5#Water Bottle#10$', 'Clean water', 'low', 24.3636, 88.6241, 'completed'),
+(5, '2024-02-28', 'High', '2#Clothes#20$4#Tent#2$', 'Tent accessories', 'high', 22.7010, 90.3535, 'pending'),
+(6, '2024-03-15', 'Medium', '1#Food#10$3#Medicine#7$', 'Soap bars', 'medium', 24.8949, 91.8687, 'approved'),
+(7, '2024-04-10', 'Urgent', '2#Clothes#18$5#Water Bottle#25$', 'Nails', 'critical', 22.2637, 91.7159, 'in_progress'),
+(8, '2024-05-20', 'Normal', '1#Food#30$4#Tent#4$3#Medicine#9$', 'Fuel cans', 'low', 23.6850, 90.3563, 'completed'),
+(9, '2024-06-25', 'High', '2#Clothes#12$5#Water Bottle#35$', 'Batteries', 'high', 23.4607, 91.1809, 'pending'),
+(10, '2024-07-30', 'Medium', '1#Food#15$2#Clothes#8$3#Medicine#6$', 'Bandages', 'medium', 24.0023, 90.2561, 'approved');
 
 
 -- Insert data into event
