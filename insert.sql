@@ -248,7 +248,7 @@ ALTER TABLE donation_receiver
 ADD COLUMN priority_level VARCHAR(20) DEFAULT 'medium',
 ADD COLUMN latitude DECIMAL(10, 8),
 ADD COLUMN longitude DECIMAL(11, 8),
-ADD COLUMN status VARCHAR(30) DEFAULT 'submitted';
+ADD COLUMN status VARCHAR(30) DEFAULT 'pending';
 
 -- ========================
 -- VERIFICATION QUERY
