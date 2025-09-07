@@ -123,20 +123,36 @@ CREATE TABLE stock (
         ON UPDATE CASCADE ON DELETE CASCADE
 );
 
-CREATE TABLE donation_receiver (
-    donation_receiver_id INT PRIMARY KEY AUTO_INCREMENT,
-    receiver_id INT,
-    date DATE NOT NULL,
-    priority_level VARCHAR(20) DEFAULT 'medium',
-    priority_message TEXT,
-    item_id_list TEXT,
-    additional_item TEXT,
-    latitude DECIMAL(10, 8),
-    longitude DECIMAL(11, 8),
-    status VARCHAR(30) DEFAULT 'submitted',
-    FOREIGN KEY (receiver_id) REFERENCES receiver(receiver_id)
-        ON UPDATE CASCADE ON DELETE CASCADE
-);
+-- ========================
+-- ALTER TABLE COMMANDS FOR EXISTING donation_receiver TABLE
+-- ========================
+-- Use these commands to add the 4 new columns to existing donation_receiver table:
+
+ALTER TABLE donation_receiver 
+ADD COLUMN priority_level VARCHAR(20) DEFAULT 'medium',
+ADD COLUMN latitude DECIMAL(10, 8),
+ADD COLUMN longitude DECIMAL(11, 8),
+ADD COLUMN status VARCHAR(30) DEFAULT 'submitted';
+
+-- ========================
+-- VERIFICATION QUERY
+-- ========================
+-- Run this to verify the columns were added successfully:
+-- DESCRIBE donation_receiver;
+
+-- ========================
+-- ORIGINAL donation_receiver TABLE STRUCTURE (for reference)
+-- ========================
+-- CREATE TABLE donation_receiver (
+--     donation_receiver_id INT PRIMARY KEY AUTO_INCREMENT,
+--     receiver_id INT,
+--     date DATE NOT NULL,
+--     priority_message TEXT,
+--     item_id_list TEXT,
+--     additional_item TEXT,
+--     FOREIGN KEY (receiver_id) REFERENCES receiver(receiver_id)
+--         ON UPDATE CASCADE ON DELETE CASCADE
+-- );
 
 CREATE TABLE event (
     event_id INT PRIMARY KEY AUTO_INCREMENT,
