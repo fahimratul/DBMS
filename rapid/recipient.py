@@ -475,3 +475,18 @@ def update_profile():
         if db:
             db.rollback()
         return jsonify({'success': False, 'error': str(e)})
+    
+@bp.route('/feedback')
+@login_required
+def volunteer_feedback():
+    receiver_id = session.get('user_id')
+    db = get_bd()
+    cursor = db.cursor(dictionary=True)
+    cursor.execute(
+        "SELECT name FROM receiver WHERE receiver_id = %s",
+        (receiver_id,)
+    )
+    receiver = cursor.fetchone()
+    name = receiver['name'] if receiver else 'Receiver'
+    cursor.close()
+    return render_template('feedback.html', user_type='recipient', name=name)

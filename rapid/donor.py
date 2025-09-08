@@ -33,3 +33,18 @@ def donor_donate():
 @login_required
 def donor_history():
     return render_template('donor/history.html') 
+
+@bp.route('/feedback')
+@login_required
+def donor_feedback():
+    donor_id = session.get('user_id')
+    db = get_bd()
+    cursor = db.cursor(dictionary=True)
+    cursor.execute(
+        "SELECT name FROM donor WHERE donor_id = %s",
+        (donor_id,)
+    )
+    donor = cursor.fetchone()
+    name = donor['name'] if donor else 'Donor'
+    cursor.close()
+    return render_template('feedback.html', user_type='donor', name=name)
