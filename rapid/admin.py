@@ -502,6 +502,8 @@ def admin_stock():
         FROM stock s
         LEFT JOIN item i ON s.item_id = i.item_id
         LEFT JOIN type_list t ON i.type_id = t.type_id
+        WHERE s.quantity > 0 AND s.expire_date >= CURDATE()
+        ORDER BY s.expire_date ASC
     ''')
     stocks = cursor.fetchall()
 
