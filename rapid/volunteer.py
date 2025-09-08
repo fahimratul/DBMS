@@ -40,9 +40,12 @@ def volunteer_dashboard():
     else:
         volunteer['profile_picture'] = None
 
+    # Fetch all event rows and count how many times this volunteer_id appears in volunteer_id_list
+    id_start = f"{volunteer_id}$"
+    id_end = f"${volunteer_id}$"
     cursor.execute(
-        "SELECT volunteer_id, COUNT(*) AS event_count FROM event WHERE volunteer_id = %s GROUP BY volunteer_id;",
-        (volunteer_id,)
+        "SELECT COUNT(*) AS event_count FROM event WHERE volunteer_id_list LIKE %s or volunteer_id_list LIKE %s",
+        (f"{id_start}%", f"%{id_end}")
     )
     event_count_result = cursor.fetchone()
     cursor.execute(
@@ -50,12 +53,20 @@ def volunteer_dashboard():
         (volunteer_id,)
     )
     feedback_count_result = cursor.fetchone()
+
+    cursor.execute(
+        "SELECT event_id,event_type, start_date, item_id_list , status FROM event, event_type WHERE event.event_type_id = event_type.event_type_id AND (volunteer_id_list LIKE %s or volunteer_id_list LIKE %s)  AND status !='completed' ORDER BY start_date DESC",
+        (f"{id_start}%", f"%{id_end}" )
+    )
+    events = cursor.fetchall()
+    # Fetch the result to clear the unread result
+    cursor.fetchone()
     if not event_count_result:
         event_count_result = {'event_count': 0}
     if not feedback_count_result:
         feedback_count_result = {'feedback_count': 0}
     cursor.close()
-    return render_template('volunteer/volunteer_dashboard.html', event_count_result=event_count_result['event_count'], feedback_count_result=feedback_count_result['feedback_count'], volunteer=volunteer)
+    return render_template('volunteer/volunteer_dashboard.html', event_count_result=event_count_result['event_count'], feedback_count_result=feedback_count_result['feedback_count'], volunteer=volunteer, events=events)
 
 @bp.route('/profile')
 @login_required
