@@ -51,7 +51,7 @@ def load_logged_in_user():
                 g.user = None
 
 def registration_handler(role):
-    """Handle user registration. Ment to be called from 
+    """Handle user registration. Meant to be called from 
     particular register route(e.g., donor_signup,
     recipient_signup, volunteer_signup)"""
 
@@ -62,6 +62,10 @@ def registration_handler(role):
     db = get_bd()
     cursor = db.cursor()
     error = None
+
+    # Debug: Print all form data
+    print(f"DEBUG: All form data: {dict(request.form)}")
+    print(f"DEBUG: All files: {list(request.files.keys())}")
 
     if not username:
         error = 'Username is required.'
@@ -83,35 +87,113 @@ def registration_handler(role):
     if error is None:
         try:
             if role == 'donor':
-                name = request.form.get('name', '')
-                phone = request.form.get('phone', '')
-                account_name = request.form.get('account_name', '')
-                account_id = request.form.get('account_id', '')
-                address = request.form.get('address', '')
+                # Get all required fields from the form
+                name = request.form.get('name', '').strip()
+                email = request.form.get('email', '').strip()
+                phone = request.form.get('phone', '').strip()
+                address = request.form.get('address', '').strip()
+                account_name = request.form.get('account_name', '').strip()
+                account_id_str = request.form.get('account_id', '').strip()
 
-                cursor.execute('INSERT INTO donor (name, phone, user_name, password, account_name, account_id, address) VALUES (%s, %s, %s, %s, %s, %s, %s)', 
-                              (name, phone, username, generate_password_hash(password), account_name, account_id, address))
+                # Handle file uploads
+                profile_file = request.files.get('profile_img')
+                profile_picture = profile_file.read() if profile_file else None
+
+                # Validate required fields
+                if not name:
+                    error = 'Name is required.'
+                elif not phone:
+                    error = 'Phone number is required.'
+                elif not address:
+                    error = 'Address is required.'
+                elif not account_name:
+                    error = 'Account holder name is required.'
+                elif not account_id_str:
+                    error = 'Account ID is required.'
+                
+                if error:
+                    flash(error)
+                    return None
+
+                # Convert account_id to integer or create account entry
+                try:
+                    account_id = int(account_id_str)
+                    # Check if account exists
+                    cursor.execute('SELECT account_id FROM account WHERE account_id = %s', (account_id,))
+                    if not cursor.fetchone():
+                        # Create a default account entry
+                        cursor.execute('INSERT INTO account (account_id, account_name, method_name, balance) VALUES (%s, %s, %s, %s)', 
+                                     (account_id, account_name, 'Bank Transfer', 0.00))
+                except ValueError:
+                    error = 'Account ID must be a valid number.'
+                    flash(error)
+                    return None
+
+                # Debug: Print what we're about to insert
+                print(f"DEBUG: Inserting donor with data: name={name}, email={email}, phone={phone}, username={username}")
+
+                # Insert into database - Match your actual schema
+                cursor.execute('''INSERT INTO donor 
+                    (name, phone, user_name, email, password, account_name, account_id, address, profile_picture) 
+                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)''', 
+                    (name, phone, username, email, generate_password_hash(password), 
+                     account_name, account_id, address, profile_picture))
+
             elif role == 'recipient':
-                name = request.form.get('name', '')
-                phone = request.form.get('phone', '')
-                emergency_phone = request.form.get('emergency_phone', '')
-                address = request.form.get('address', '')
+                name = request.form.get('name', '').strip()
+                phone = request.form.get('phone', '').strip()
+                emergency_phone = request.form.get('emergency_phone', '').strip()
+                address = request.form.get('address', '').strip()
+                email = request.form.get('email', '').strip()
 
-                cursor.execute('INSERT INTO receiver (name, phone, user_name, password, emergency_phone, address) VALUES (%s, %s, %s, %s, %s, %s)', 
-                              (name, phone, username, generate_password_hash(password), emergency_phone, address))
+                # Handle file uploads
+                profile_file = request.files.get('profile_img')
+                profile_picture = profile_file.read() if profile_file else None
+
+                # Validate required fields
+                if not name:
+                    error = 'Name is required.'
+                elif not phone:
+                    error = 'Phone number is required.'
+                elif not address:
+                    error = 'Address is required.'
+                
+                if error:
+                    flash(error)
+                    return None
+
+                cursor.execute('INSERT INTO receiver (name, phone, user_name, password, emergency_phone, address, email, profile_picture) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)', 
+                              (name, phone, username, generate_password_hash(password), emergency_phone, address, email, profile_picture))
+
             elif role == 'volunteer':
                 from datetime import date
-                name = request.form.get('name', '')
-                phone = request.form.get('phone', '')
-                email = request.form.get('email', '')
-                dob = request.form.get('dob', '')
-                address = request.form.get('address', '')
-                pref_address = request.form.get('address_2', '')
+                name = request.form.get('name', '').strip()
+                phone = request.form.get('phone', '').strip()
+                email = request.form.get('email', '').strip()
+                dob = request.form.get('dob', '').strip()
+                address = request.form.get('address', '').strip()
+                pref_address = request.form.get('address_2', '').strip()
                 profile_file = request.files.get('profile_img')
-                profile_picture = profile_file.read() if profile_file else None  # <-- read as bytes
-                nid_file = request.files.get('nid_img')  # <-- get file from request.files
-                nid_birthcert = nid_file.read() if nid_file else None  # <-- read as bytes
+                profile_picture = profile_file.read() if profile_file else None
+                nid_file = request.files.get('nid_img')
+                nid_birthcert = nid_file.read() if nid_file else None
                 join_time = date.today()
+
+                # Validate required fields
+                if not name:
+                    error = 'Name is required.'
+                elif not phone:
+                    error = 'Phone number is required.'
+                elif not email:
+                    error = 'Email is required.'
+                elif not dob:
+                    error = 'Date of birth is required.'
+                elif not address:
+                    error = 'Address is required.'
+                
+                if error:
+                    flash(error)
+                    return None
 
                 cursor.execute(
                     'INSERT INTO volunteer (name, phone, email, dob, address, pref_address, join_time, user_name, password, profile_picture, nid_birthcert) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)',
@@ -119,11 +201,21 @@ def registration_handler(role):
                 )
             
             db.commit()
-        except IntegrityError:
-            error = f"User '{username}' already exists."
+            print(f"DEBUG: Successfully committed to database for role: {role}")
+            
+        except IntegrityError as e:
+            db.rollback()
+            print(f"DEBUG: IntegrityError occurred: {e}")
+            error = f"User '{username}' already exists or duplicate entry detected."
+        except Exception as e:
+            db.rollback()
+            print(f"DEBUG: Unexpected error occurred: {e}")
+            error = f"An error occurred during registration: {str(e)}"
         else:
             flash(f"User {username} registered successfully!")
             return redirect(url_for('auth.login'))
+        finally:
+            cursor.close()
     
     if error:
         flash(error)
@@ -147,16 +239,15 @@ def register():
     #if GET request send back to login page
     return redirect(url_for('auth.login'))
 
-
-
 @bp.route('/donor_signup', methods=('GET', 'POST'))
 def donor_signup():
     if request.method == 'POST':
+        print("DEBUG: POST request received in donor_signup")
+        print(f"DEBUG: Form data: {dict(request.form)}")
         result = registration_handler('donor')
         if result:  # If registration_handler returns a redirect
             return result
     return render_template('auth/donor_signup.html')
-
 
 @bp.route('/recipient_signup', methods=('GET', 'POST'))
 def recipient_signup():
@@ -167,7 +258,6 @@ def recipient_signup():
         if result:  # If registration_handler returns a redirect
             return result
     return render_template('auth/recipient_signup.html')
-
 
 @bp.route('/volunteer_signup', methods=('GET', 'POST'))
 def volunteer_signup():
@@ -183,7 +273,6 @@ def volunteer_signup():
             return render_template('auth/volunteer_signup.html', error=error)
     return render_template('auth/volunteer_signup.html', error=None)
 
-
 @bp.route('/login', methods=('GET', 'POST'))
 def login():
     if(request.method == 'POST'):
@@ -191,7 +280,7 @@ def login():
         password = request.form['password']
         role = request.form['role'].lower()
         db = get_bd()
-        cursor = db.cursor(dictionary=True)  # This returns dictionaries instead of tuples
+        cursor = db.cursor(dictionary=True)
         error = None
 
         if role == 'donor':
@@ -213,7 +302,6 @@ def login():
             )
             user = cursor.fetchone()
         elif role == 'admin':
-            # Generated hash for password 'Admin@12345'
             admin_password_hash = 'scrypt:32768:8:1$8TOWHYfPuOsTCtyR$076b7e2c1d79d9883e5533d282e880797a7ae1b3dfdc3326e466e205ddd835392cf67046492602154c2bc9822e7fe6874c6bcbc1f20a83d61b0e2e45577034db'
             if username == 'admin':
                 user = {
@@ -226,20 +314,17 @@ def login():
         else:
             user = None
         
-        # Debug: print type of user to see if dictionary cursor is working
         print(f"Debug: user type = {type(user)}, user = {user}")
 
         if user is None:
             error = "Invalid username"
         else:
-            # Now user is a dictionary: {'id': 1, 'username': 'john', 'password': 'hashed_password'}
-            if not check_password_hash(user['password'], password):  # type: ignore
+            if not check_password_hash(user['password'], password):
                 error = "Invalid password"
             else:
-                # Login successful - store user in session
                 session.clear()
-                session['user_id'] = user['id']  # type: ignore
-                session['user_role'] = role  # Store role in session
+                session['user_id'] = user['id']
+                session['user_role'] = role
                 if role == 'admin':
                     return redirect(url_for('admin.admin_dashboard'))
                 elif role == 'donor':
