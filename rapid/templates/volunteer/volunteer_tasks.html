@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - RAPID</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/volunteer/volunteer_dashboard.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/admin/eventdetails.css') }}" />
 </head>
 <body>
     <!-- Sidebar -->
@@ -65,13 +66,232 @@
     </aside>
 
     <!-- Main Content -->
-    <div class="main-container">
 
+  <main class="main-container">
+    <!-- Navbar -->
+    <nav class="navbar" navbar-main navbar-scroll="true">
+      <div class="navbar-div">
+        <nav>
+          <h2>RAPID</h2>
+        </nav>
+      </div>
+    </nav>
+
+    <!-- Table -->
+    <main class="table" id="events_table" style="box-shadow: none;">
+      <section class="table__header">
+        <h1>Events</h1>
+        <div class="input-group">
+          <input id="searchInput" type="search" placeholder="Search events..." />
+        </div>
+      </section>
+      <section class="table__body">
+        <table id="eventsTable">
+          <thead>
+            <tr>
+              <th>Event Id <span class="icon-arrow">&UpArrow;</span></th>
+              <th>Event Type <span class="icon-arrow">&UpArrow;</span></th>
+              <th>Status <span class="icon-arrow">&UpArrow;</span></th>
+              <th>Request Date <span class="icon-arrow">&UpArrow;</span></th>
+              <th>Completion Date <span class="icon-arrow">&UpArrow;</span></th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {%if not events %}
+            <tr>
+              <td colspan="6" style="text-align:center;">No events performed yet. Wait for upcoming event</td>
+            </tr>
+            {% else %}
+            {% for ev in events %}
+            <tr>
+              <td>{{ ev.event_id }}</td>
+              <td>{{ ev.event_type or "N/A" }}</td>
+              <td>
+                <p class="status {{ ev.status|lower }}">{{ ev.status }}</p>
+              </td>
+              <td>{{ ev.start_date or "—" }}</td>
+              <td>{{ ev.end_date or "—" }}</td>
+              <td><button class="details-btn" data-event-id="{{ ev.event_id }}">Details</button></td>
+            </tr>
+            {% endfor %}
+            {% endif %}
+          </tbody>
+
+        </table>
+      </section>
+    </main>
+    <div id="eventModal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+
+        <h2><strong>Event ID:</strong> <span id="modalEventId"></span></h2>
+
+        <div class="section">
+          <p><strong>Event Type:</strong> <span id="modalEventType"></span></p>
+          <p><strong>Status:</strong> <span id="modalStatus" class="status"></span></p>
+          <p><strong>Priority:</strong> <span id="modalPriority"></span></p>
+        </div>
+
+        <div class="section dates">
+          <p><strong>Requested On:</strong> <span id="modalRequestDate"></span></p>
+          <p><strong>Completed On:</strong> <span id="modalCompletionDate"></span></p>
+        </div>
+
+        <div class="section">
+          <p><strong>Location:</strong> <span id="modalLocation"></span></p>
+        </div>
+
+        <div class="section">
+          <h3>Team Members</h3>
+          <p><strong>Team Leader:</strong> <span id="modalLeader"></span></p>
+          <table class="info-table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Volunteer ID</th>
+                <th>Contact</th>
+              </tr>
+            </thead>
+            <tbody id="modalTeamMembers"></tbody>
+          </table>
+        </div>
+
+        <div class="section">
+          <h3>Allocated Items</h3>
+          <table class="info-table">
+            <thead>
+              <tr>
+                <th>Item</th>
+                <th>Quantity</th>
+                <th>Item ID</th>
+              </tr>
+            </thead>
+            <tbody id="modalAllocatedItems"></tbody>
+          </table>
+        </div>
+
+        <div class="section">
+          <h3>Requested By</h3>
+          <p><strong>Name:</strong> <span id="modalRequester"></span></p>
+          <p><strong>Contact:</strong> <span id="modalRequesterContact"></span></p>
+          <p><strong>Additional Requirements:</strong> <span id="modalAdditional"></span></p>
+        </div>
+
+      </div>
     </div>
+    <script>
+      const eventsData = JSON.parse('{{ events | tojson | safe }}');
+    </script>
+  </main>
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+        <script src="{{ url_for('static', filename='script/admin/detailsModal.js') }}"></script>
     <script>
       lucide.createIcons();
-    </script>
+      const searchInput = document.getElementById('searchInput');
+      const table = document.getElementById('eventsTable');
+      searchInput.addEventListener('input', function () {
+        const filter = searchInput.value.toLowerCase();
+        const rows = table.getElementsByTagName('tbody')[0].getElementsByTagName('tr');
+        for (let i = 0; i < rows.length; i++) {
+          let rowText = rows[i].textContent.toLowerCase();
+          if (rowText.includes(filter) || rows[i].querySelector('td[colspan]')) {
+            rows[i].style.display = '';
+          } else {
+            rows[i].style.display = 'none';
+          }
+        }
+      });
+      let sortAsc = true;
+      const eventIdHeader = table.querySelector('th');
+      const arrowSpan = eventIdHeader.querySelector('.icon-arrow');
+
+      eventIdHeader.style.cursor = 'pointer';
+
+      eventIdHeader.addEventListener('click', function () {
+        const tbody = table.querySelector('tbody');
+        const rows = Array.from(tbody.querySelectorAll('tr')).filter(
+          row => !row.querySelector('td[colspan]')
+        );
+        rows.sort((a, b) => {
+          const aId = a.children[0].textContent.trim();
+          const bId = b.children[0].textContent.trim();
+          // Try to compare as numbers, fallback to string
+          const aNum = Number(aId), bNum = Number(bId);
+          if (!isNaN(aNum) && !isNaN(bNum)) {
+            return sortAsc ? aNum - bNum : bNum - aNum;
+          }
+          return sortAsc ? aId.localeCompare(bId) : bId.localeCompare(aId);
+        });
+        // Remove all rows except "no events" row
+        Array.from(tbody.children).forEach(row => {
+          if (!row.querySelector('td[colspan]')) tbody.removeChild(row);
+        });
+        // Append sorted rows
+        rows.forEach(row => tbody.appendChild(row));
+        // Toggle arrow
+        arrowSpan.innerHTML = sortAsc ? '&DownArrow;' : '&UpArrow;';
+        sortAsc = !sortAsc;
+      });
+
+      const headers = table.querySelectorAll('th');
+      const arrowSpans = table.querySelectorAll('.icon-arrow');
+      const sortDirections = [true, true, true, true, true]; // For each sortable column
+
+      function sortTableByColumn(colIndex) {
+        const tbody = table.querySelector('tbody');
+        const rows = Array.from(tbody.querySelectorAll('tr')).filter(
+          row => !row.querySelector('td[colspan]')
+        );
+        rows.sort((a, b) => {
+          let aVal = a.children[colIndex].textContent.trim();
+          let bVal = b.children[colIndex].textContent.trim();
+
+          // For date columns (3 and 4), parse as Date
+          if (colIndex === 3 || colIndex === 4) {
+            const aDate = Date.parse(aVal) || 0;
+            const bDate = Date.parse(bVal) || 0;
+            return sortDirections[colIndex] ? aDate - bDate : bDate - aDate;
+          }
+
+          // For Event Id, try numeric sort
+          if (colIndex === 0) {
+            const aNum = Number(aVal), bNum = Number(bVal);
+            if (!isNaN(aNum) && !isNaN(bNum)) {
+              return sortDirections[colIndex] ? aNum - bNum : bNum - aNum;
+            }
+          }
+
+          // Default: string comparison
+          return sortDirections[colIndex]
+            ? aVal.localeCompare(bVal)
+            : bVal.localeCompare(aVal);
+        });
+
+        // Remove all rows except "no events" row
+        Array.from(tbody.children).forEach(row => {
+          if (!row.querySelector('td[colspan]')) tbody.removeChild(row);
+        });
+        // Append sorted rows
+        rows.forEach(row => tbody.appendChild(row));
+
+        // Toggle arrow
+        arrowSpans.forEach((span, idx) => {
+          span.innerHTML = idx === colIndex
+            ? (sortDirections[colIndex] ? '&DownArrow;' : '&UpArrow;')
+            : '&UpArrow;';
+        });
+        sortDirections[colIndex] = !sortDirections[colIndex];
+      }
+
+      // Add click listeners for columns 0-4
+      [0, 1, 2, 3, 4].forEach(idx => {
+        headers[idx].style.cursor = 'pointer';
+        headers[idx].addEventListener('click', () => sortTableByColumn(idx));
+      });
+
+
+</script>
     <script src="{{ url_for('static', filename='script/donor/donor.js') }}"></script>
   </body>
   </html>

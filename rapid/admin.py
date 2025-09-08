@@ -102,9 +102,11 @@ def get_volunteer(volunteer_id):
     else:
         volunteer['profile_picture'] = None
 
+    id_start = f"{volunteer_id}$"
+    id_end = f"${volunteer_id}$"
     cursor.execute(
-        "SELECT volunteer_id, COUNT(*) AS event_count FROM event WHERE volunteer_id = %s GROUP BY volunteer_id;",
-        (volunteer_id,)
+        "SELECT COUNT(*) AS event_count FROM event WHERE volunteer_id_list LIKE %s or volunteer_id_list LIKE %s",
+        (f"{id_start}%", f"%{id_end}")
     )
     event_count_result = cursor.fetchone()
     volunteer['event_count'] = event_count_result['event_count'] if event_count_result else 0

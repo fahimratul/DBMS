@@ -11,17 +11,41 @@
     <div class="main">
         <div class="feedback">
             <h1>Feedback Form</h1>
-            <form action="/submit_feedback" method="post">
+            <form id="feedbackForm" enctype="multipart/form-data" method='POST' action="{{ url_for('auth.submit_feedback', user_type=user_type) }}">
             <label for="name">Name:</label>
-            <input type="text" id="name" name="name" disabled value="{{ name }}" />
+            <input type="text" id="name" name="name" readonly value="{{ name }}" />
             <label for="message">Message:</label>
             <textarea id="message" name="message" rows="4" required></textarea>
             <label for="imageUpload">Image Upload:</label> 
-            <input type="file" id="imageUpload" name="imageUpload" accept="image/*" />
+            <input type="file" id="imageUpload" name="picture" accept="image/*" />
             <button type="button" onclick="window.history.back();">Go Back</button>
             <button type="submit">Submit</button>
         </form>
-
     </div>
+    <script>
+        document.getElementById('feedbackForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const form = e.target;
+            const formData = new FormData(form);
+
+            fetch(form.action, {
+                method: 'POST',
+                body: formData,
+                credentials: 'same-origin'
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    window.history.back();
+                } else {
+                    alert(data.error || 'Failed to submit feedback.');
+                }
+            })
+            .catch(() => {
+                alert('An error occurred while submitting feedback.');
+            });
+        });
+
+    </script>
 </body>
 </html>

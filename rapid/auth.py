@@ -3,7 +3,7 @@ import functools
 import re
 from urllib.robotparser import RequestRate
 from flask import(
-    Blueprint, get_flashed_messages, render_template, request, flash, redirect, url_for, session, g
+    Blueprint, get_flashed_messages, jsonify, render_template, request, flash, redirect, url_for, session, g
 )
 from mysql.connector import IntegrityError
 from rapid.db import get_bd
@@ -278,3 +278,44 @@ def login_required(view):
 @bp.route('/success')
 def signup_success():
     return render_template('auth/signup_successful.html')
+
+@bp.route('/submit_feedback/<string:user_type>', methods=['POST'])
+@login_required
+def submit_feedback(user_type):
+    db = get_bd()
+    cursor = db.cursor(dictionary=True)
+    user_id = session.get('user_id')
+    message = request.form.get('message', '').strip()
+    if not user_id:
+        return jsonify({'success': False, 'error': 'User not logged in'}), 401
+    if not message:
+        return jsonify({'success': False, 'error': 'Message is required'}), 400
+    picture_file = request.files.get('picture')
+    picture = picture_file.read() if picture_file else None  # Read as bytes if file
+
+    try:
+        if user_type == 'volunteer':
+            cursor.execute(
+                "INSERT INTO feedback (volunteer_id, message, picture) VALUES (%s, %s, %s)",
+                (user_id, message, picture)
+            )
+        elif user_type == 'donor':
+            cursor.execute(
+                "INSERT INTO feedback (donor_id, message, picture) VALUES (%s, %s, %s)",
+                (user_id, message, picture)
+            )
+        elif user_type == 'recipient':
+            cursor.execute(
+                "INSERT INTO feedback (receiver_id, message, picture) VALUES (%s, %s, %s)",
+                (user_id, message, picture)
+            )
+        else:
+            return jsonify({'success': False, 'error': 'Invalid user type'}), 400
+        db.commit()
+        return jsonify({'success': True}), 200
+    except Exception as e:
+        db.rollback()
+        return jsonify({'success': False, 'error': str(e)}), 500
+    finally:
+        cursor.close()
+    

@@ -55,8 +55,8 @@ def volunteer_dashboard():
     feedback_count_result = cursor.fetchone()
 
     cursor.execute(
-        "SELECT event_id,event_type, start_date, item_id_list , status FROM event, event_type WHERE event.event_type_id = event_type.event_type_id AND (volunteer_id_list LIKE %s or volunteer_id_list LIKE %s)  AND status !='completed' ORDER BY start_date DESC",
-        (f"{id_start}%", f"%{id_end}" )
+        "SELECT event_id,event_type, start_date, item_id_list , status FROM event, event_type WHERE event.event_type_id = event_type.event_type_id AND (volunteer_id_list LIKE %s or volunteer_id_list LIKE %s) AND status != 'completed' ORDER BY start_date DESC",
+        (f"{id_start}%", f"%{id_end}%")
     )
     events = cursor.fetchall()
     # Fetch the result to clear the unread result
@@ -116,7 +116,51 @@ def profile():
 @bp.route('/volunteer_tasks')
 @login_required
 def volunteer_tasks():
-    return render_template('volunteer/volunteer_tasks.html')
+    volunteer_id = session.get('user_id')
+    db = get_bd()
+    cursor = db.cursor(dictionary=True)
+    id_start = f"{volunteer_id}$"
+    id_end = f"${volunteer_id}$"
+    print(f"{id_start} {id_end}")
+    
+    cursor.execute("""SELECT 
+            e.event_id,
+            et.event_type,
+            e.status,
+            e.start_date,
+            e.end_date,
+            e.volunteer_id_list,
+            e.item_id_list,
+            e.donation_receiver_id,
+            dr.priority_message,
+            dr.additional_item,
+            dr.date AS request_date,
+            r.name AS requester_name,
+            r.phone AS requester_contact,
+            r.address AS location
+        FROM event e
+        LEFT JOIN event_type et ON e.event_type_id = et.event_type_id
+        LEFT JOIN donation_receiver dr ON e.donation_receiver_id = dr.donation_receiver_id
+        LEFT JOIN receiver r ON dr.receiver_id = r.receiver_id  where (e.volunteer_id_list LIKE %s or e.volunteer_id_list LIKE %s)
+        ORDER BY e.event_id ASC
+    """, (f"{id_start}%", f"%{id_end}%"))
+    events = cursor.fetchall()
+    cursor.execute("SELECT volunteer_id, name, phone FROM volunteer")
+    volunteers = cursor.fetchall()
+    volunteer_dict = {v['volunteer_id']: {'volunteer_id': v['volunteer_id'], 'name': v['name'], 'phone': v['phone']} for v in volunteers}
+
+
+    for ev in events:
+        vol_ids = [vid for vid in ev['volunteer_id_list'].split('$') if vid]  # remove empty strings
+    
+        ev['volunteers'] = [
+            volunteer_dict.get(int(vid), {'name': 'Unknown', 'phone': 'Unknown', 'volunteer_id': vid})
+            for vid in vol_ids
+        ]
+
+    cursor.close()
+    return render_template('volunteer/volunteer_tasks.html', events=events)
+
 
 @bp.route('/feedback')
 @login_required
