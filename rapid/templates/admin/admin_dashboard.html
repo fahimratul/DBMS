@@ -442,41 +442,18 @@
       <div class="stock-section" style="width:48%;">
         <h3>Account Transfers</h3>
         <div style="width:100%;">
-
-          <div class="card"
-            style="width:100%; max-width:100%; background: linear-gradient(to right, #d1f9e0, #a6f3c7);">
-            <h4 style="margin:0;">Transfer ID: 101</h4>
-            <p style="margin:0;">Donor Account: 12 | Admin Account: 1 | Amount: 500 BDT | Date: 2025-09-01 | Medium:
-              bKash</p>
-          </div>
-
-          <div class="card"
-            style="width:100%; max-width:100%; background: linear-gradient(to right, #d1f9e0, #a6f3c7);">
-            <h4 style="margin:0;">Transfer ID: 102</h4>
-            <p style="margin:0;">Donor Account: 15 | Admin Account: 1 | Amount: 1200 BDT | Date: 2025-09-02 | Medium:
-              Bank</p>
-          </div>
-
-          <div class="card"
-            style="width:100%; max-width:100%; background: linear-gradient(to right, #d1f9e0, #a6f3c7);">
-            <h4 style="margin:0;">Transfer ID: 103</h4>
-            <p style="margin:0;">Donor Account: N/A | Admin Account: 2 | Amount: 800 BDT | Date: 2025-09-03 | Medium:
-              Nagad</p>
-          </div>
-
-          <div class="card"
-            style="width:100%; max-width:100%; background: linear-gradient(to right, #d1f9e0, #a6f3c7);">
-            <h4 style="margin:0;">Transfer ID: 104</h4>
-            <p style="margin:0;">Donor Account: 19 | Admin Account: 2 | Amount: 2000 BDT | Date: 2025-09-04 | Medium:
-              Rocket</p>
-          </div>
-
-          <div class="card"
-            style="width:100%; max-width:100%; background: linear-gradient(to right, #d1f9e0, #a6f3c7);">
-            <h4 style="margin:0;">Transfer ID: 105</h4>
-            <p style="margin:0;">Donor Account: 20 | Admin Account: 1 | Amount: 1500 BDT | Date: 2025-09-05 | Medium:
-              Bank</p>
-          </div>
+          {% for transfer in admin_data['account_transfers'] %}
+            <div class="card"
+              style="width:100%; max-width:100%; background: linear-gradient(to right, #d1f9e0, #a6f3c7);">
+              <h4 style="margin:0;">Transfer ID: {{transfer['transfer_id']}}</h4>
+              <p style="margin:0;">Donor Account: {{transfer['donor_account_id']}} 
+                | Admin Account: {{transfer['admin_account_id']}} |
+                 Amount: {{transfer['amount']}} BDT |
+                  Date: {{transfer['donation_date']}} |
+                   Medium:{{transfer['medium']}}
+              </p>
+            </div>
+          {% endfor %}
 
         </div>
         <a href="#">See all</a>

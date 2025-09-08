@@ -314,6 +314,24 @@ def admin_dashboard():
             'name': volunteer['name'],  # type: ignore[reportGeneralTypeIssues]
             'image_src': image_src
         })
+    
+    cursor.execute("""
+        SELECT mt.money_transfer_id AS transfer_id,
+            mt.account_id AS admin_account_id,
+            mt.donation_id,
+            mt.amount,
+            mt.medium,
+            d.date AS donation_date,
+            don.account_id AS donor_account_id
+        FROM money_transfer mt
+        JOIN donation d
+        ON mt.donation_id = d.donation_id
+        JOIN donor don 
+        ON d.donor_id = don.donor_id
+        LIMIT 7;
+    """)
+    account_transfers = cursor.fetchall() # {transfer_id:, admin_account_id:, donation_id:, amount:, medium:, donation_date:, donor_account_id:}
+    print(account_transfers)
 
 
 
@@ -328,7 +346,8 @@ def admin_dashboard():
         'top_donors': top_donors_data,
         'stock_items': stock_data,
         'requests': request_data,
-        'volunteer_profile_pics': volunteer_profile_pics
+        'volunteer_profile_pics': volunteer_profile_pics,
+        'account_transfers': account_transfers
     }
     # Pass complete monthly data to template
     return render_template('admin/admin_dashboard.html', admin_data=data)  # type: ignore[reportGeneralTypeIssues]
