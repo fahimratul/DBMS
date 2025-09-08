@@ -47,7 +47,7 @@
                     </a>
                 </li>
                 <li>
-                    <a class="sidebar-link active" href="{{ url_for('admin.admin_events') }}">
+                    <a class="sidebar-link" href="{{ url_for('admin.admin_events') }}">
                         <span class="sidebar-icon">
                             <!-- Tables SVG -->
                             <svg width="60px" height="60px" viewBox="0 0 42 42" xmlns="http://www.w3.org/2000/svg">
@@ -154,7 +154,7 @@
                 </li>
 
                 <li>
-                    <a class="sidebar-link" href="{{ url_for('admin.money_transfer') }}">
+                    <a class="sidebar-link active" href="{{ url_for('admin.money_transfer') }}">
                         <span class="sidebar-icon">
                             <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
@@ -256,6 +256,86 @@
                 </nav>
             </div>
         </nav>
+        <main class="table" id="accounts_table">
+            <section class="table__header">
+                <h1>Accounts</h1>
+                <div class="input-group">
+                    <input id="account_search" style="height: 3rem;" type="search" placeholder="Search accounts..." />
+                </div>
+                <div>
+                    <button id="openAddAccountModal" class="create-event-btn">
+                        Add Account
+                    </button>
+                </div>
+            </section>
+
+            <section class="table__body">
+                <table id="accountTable">
+                    <thead>
+                        <tr>
+                            <th style="background-color: #06bea6; color: white;">Account ID</th>
+                            <th style="background-color: #06bea6; color: white;">Account Name</th>
+                            <th style="background-color: #06bea6; color: white;">Method</th>
+                            <th style="background-color: #06bea6; color: white;">Balance</th>
+                            <th style="background-color: #06bea6; color: white;">Actions</th>
+                        </tr>
+                    </thead>
+
+
+                    <tbody id="accountTableBody">
+                        {% for acc in accounts %}
+                        <tr>
+                            <td>{{ acc.account_id }}</td>
+                            <td>{{ acc.account_name }}</td>
+                            <td>{{ acc.method_name }}</td>
+                            <td>{{ "%.2f"|format(acc.balance) }}</td>
+                            <td>
+                                <button class="delete-btn"
+                                    style="background-color:#fc6563; color:white; padding:0.4rem 0.8rem; border:none; border-radius:0.3rem; cursor:pointer;"
+                                    data-id="{{ acc.account_id }}" style="background-color: #fc6563;">
+                                    Delete
+                                </button>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </section>
+        </main>
+
+        <!-- Add Account Modal -->
+        <div id="addAccountModal" class="modal">
+            <div class="modal-content">
+                <span class="close" id="closeAddAccount">&times;</span>
+                <h2>Add New Account</h2>
+                <form id="addAccountForm" class="form-container">
+
+                    <div class="form-group">
+                        <label for="accountId">Account ID:</label>
+                        <input type="text" id="accountId" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="accountName">Account Name:</label>
+                        <input type="text" id="accountName" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="methodName">Method:</label>
+                        <input type="text" id="methodName" required>
+                    </div>
+
+                    <div style="text-align:right; margin-top:20px;">
+                        <button type="submit"
+                            style="background-color:#06bea6e1;color:white;padding:0.7rem 2rem;border:none;border-radius:0.4rem;cursor:pointer;">
+                            Add Account
+                        </button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+
 
         <!-- Table -->
         <main class="table" id="transfers_table">
@@ -320,6 +400,9 @@
                 </div>
             </div>
         </div>
+        <script>
+            const moneyTransferUrl = "{{ url_for('admin.money_transfer') }}";
+        </script>
 
         <script src="{{ url_for('static', filename='script/admin/money_transfer.js') }}"></script>
 

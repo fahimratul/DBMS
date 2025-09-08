@@ -665,11 +665,52 @@ def admin_create_event():
         all_items=all_items
     )
 
-@bp.route('/money_transfer')
+@bp.route('/money_transfer', methods=["GET", "POST"])
 @login_required
 def money_transfer():
     db = get_bd()
     cursor = db.cursor(dictionary=True)
+
+    if request.method == "POST":
+        data = request.get_json()
+
+        if not data:
+            return jsonify({"error": "No data provided"}), 400
+        if "new_account" in data:
+            acc_id = data["new_account"].get("id")
+            name = data["new_account"].get("name", "").strip()
+            method = data["new_account"].get("method", "").strip().lower()
+
+            if not acc_id or not name or not method:
+                return jsonify({"error": "All fields are required"}), 400
+
+            cursor.execute("SELECT 1 FROM account WHERE account_id = %s", (acc_id,))
+            if cursor.fetchone():
+                return jsonify({"error": f"Account ID {acc_id} already exists!"}), 400
+
+            cursor.execute(
+                "INSERT INTO account (account_id, account_name, method_name, balance) VALUES (%s, %s, %s, 0)",
+                (acc_id, name, method)
+            )
+            db.commit()
+            return jsonify({"success": "Account added successfully!"}), 200
+
+        elif "delete_account_id" in data:
+            acc_id = data["delete_account_id"]
+
+            cursor.execute("SELECT 1 FROM account WHERE account_id = %s", (acc_id,))
+            if not cursor.fetchone():
+                return jsonify({"error": f"Account ID {acc_id} not found!"}), 404
+
+            cursor.execute("DELETE FROM account WHERE account_id = %s", (acc_id,))
+            db.commit()
+            return jsonify({"success": "Account deleted successfully!"}), 200
+
+        else:
+            return jsonify({"error": "Invalid request"}), 400
+
+    cursor.execute("SELECT * FROM account ORDER BY account_id ASC")
+    accounts = cursor.fetchall()
 
     cursor.execute("""
         SELECT 
@@ -684,16 +725,16 @@ def money_transfer():
             d.message AS donation_message,
             don.donor_id AS donor_id
         FROM money_transfer mt
-        JOIN account a 
-            ON mt.account_id = a.account_id
-        JOIN donation d 
-            ON mt.donation_id = d.donation_id
-        JOIN donor don 
-            ON d.donor_id = don.donor_id
+        JOIN account a ON mt.account_id = a.account_id
+        JOIN donation d ON mt.donation_id = d.donation_id
+        JOIN donor don ON d.donor_id = don.donor_id
         ORDER BY mt.money_transfer_id ASC
         LIMIT 20;
-                   
     """)
     transfers = cursor.fetchall()
 
-    return render_template('admin/money_transfer.html', transfers=transfers)
+    return render_template(
+        'admin/money_transfer.html',
+        accounts=accounts,
+        transfers=transfers
+    )

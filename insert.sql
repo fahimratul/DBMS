@@ -292,3 +292,13 @@ WHERE TABLE_NAME = 'donor'
     AND CONSTRAINT_SCHEMA = 'project2';  -- Replace with your DB name
 
 ALTER TABLE donor DROP FOREIGN KEY donor_ibfk_1; --replace with the constraint name from previous query
+
+--altered account_id column to be not auto increment as account id is like 0123456789 for mobile, EDG676876 for bank etc.
+
+ALTER TABLE stock DROP FOREIGN KEY fk_account;
+ALTER TABLE account MODIFY account_id INT NOT NULL;
+ALTER TABLE stock
+ADD CONSTRAINT fk_account FOREIGN KEY (account_id)
+REFERENCES account(account_id)
+ON UPDATE CASCADE ON DELETE CASCADE;
+

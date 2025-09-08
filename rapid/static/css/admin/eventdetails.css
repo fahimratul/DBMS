@@ -9,8 +9,8 @@
 @media print {
  .table, .table__body {
   overflow: visible;
-  height: auto !important;
-  width: auto !important;
+  height: auto ;
+  width: auto ;
  }
 }
 
@@ -150,7 +150,7 @@ tbody tr.hide {
 }
 
 tbody tr:hover {
-    background-color: #fff6 !important;
+    background-color: #fff6 ;
 }
 
 tbody tr td,
@@ -358,3 +358,83 @@ thead th.active,tbody td.active {
   color: #2c3e50;
   margin-right: 8px;
 }
+
+#accounts_table {
+  height: auto ;
+  max-height: none ;
+  overflow: visible ;
+  margin-bottom: 1.5rem;
+  background: linear-gradient(135deg, #93d6b6, #28d17c);
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+#accounts_table > .table__body {
+  height: auto ;
+  max-height: none ;
+  overflow: visible ;
+}
+
+#accounts_table table {
+  width: 100%;
+  table-layout: fixed;
+}
+
+#accounts_table th,
+#accounts_table td {
+  white-space: nowrap;     
+  overflow: hidden;
+  text-overflow: ellipsis;   
+  line-height: 1.2;        
+  padding: 0.75rem 1rem;  
+}
+
+#accounts_table td:last-child {
+  width: 120px;
+  white-space: nowrap;
+}
+
+@media (max-width: 600px) {
+  #accounts_table th, #accounts_table td {
+    white-space: normal;       
+  }
+}
+.form-container {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 25px 30px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #333;
+}
+
+.form-group {
+    margin-bottom: 18px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: #222;
+    font-size: 1rem;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 10px 12px;
+    font-size: 1rem;
+    border: 1.5px solid #ccc;
+    border-radius: 6px;
+    box-sizing: border-box;
+    transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 6px rgba(0, 123, 255, 0.3);
+}
+
