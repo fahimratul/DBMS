@@ -270,6 +270,31 @@ ADD COLUMN status VARCHAR(30) DEFAULT 'pending';
 --         ON UPDATE CASCADE ON DELETE CASCADE
 -- );
 
+--insertions so that previous entries are not null for latitude and longitude
+UPDATE donation_receiver SET latitude = 23.810331, longitude = 90.412521 WHERE donation_receiver_id = 1;
+UPDATE donation_receiver SET latitude = 22.356852, longitude = 91.783180 WHERE donation_receiver_id = 2;
+UPDATE donation_receiver SET latitude = 24.363588, longitude = 88.624135 WHERE donation_receiver_id = 3;
+UPDATE donation_receiver SET latitude = 23.460691, longitude = 91.180889 WHERE donation_receiver_id = 4;
+UPDATE donation_receiver SET latitude = 25.743892, longitude = 89.275227 WHERE donation_receiver_id = 5;
+UPDATE donation_receiver SET latitude = 24.899837, longitude = 91.871337 WHERE donation_receiver_id = 6;
+UPDATE donation_receiver SET latitude = 22.845641, longitude = 89.540328 WHERE donation_receiver_id = 7;
+UPDATE donation_receiver SET latitude = 21.433920, longitude = 92.005810 WHERE donation_receiver_id = 8;
+UPDATE donation_receiver SET latitude = 25.096773, longitude = 89.022770 WHERE donation_receiver_id = 9;
+UPDATE donation_receiver SET latitude = 23.177768, longitude = 89.180510 WHERE donation_receiver_id = 10;
+
+
+--Altering money_transfer table to add medium column 08-09-2025
+ALTER TABLE money_transfer
+ADD COLUMN medium VARCHAR(50) NOT NULL;
+--insertions so that prevoius entries are not null
+UPDATE money_transfer SET medium = 'bkash' WHERE money_transfer_id = 1;
+UPDATE money_transfer SET medium = 'bank'  WHERE money_transfer_id = 2;
+UPDATE money_transfer SET medium = 'nagad' WHERE money_transfer_id = 3;
+UPDATE money_transfer SET medium = 'bank'  WHERE money_transfer_id = 4;
+UPDATE money_transfer SET medium = 'bkash' WHERE money_transfer_id = 5;
+UPDATE money_transfer SET medium = 'nagad' WHERE money_transfer_id = 6;
+UPDATE money_transfer SET medium = 'bank'  WHERE money_transfer_id = 7;
+UPDATE money_transfer SET medium = 'bkash' WHERE money_transfer_id = 8;
 
 
 

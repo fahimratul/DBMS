@@ -101,8 +101,8 @@ CREATE TABLE donation (
 
 CREATE TABLE money_transfer (
     money_transfer_id INT PRIMARY KEY AUTO_INCREMENT,
-    account_id INT,
-    donation_id INT,
+    account_id INT, --this is for admin's account
+    donation_id INT, --this contains donor id(containing donor's account) and date
     amount DECIMAL CHECK (amount > 0),
     FOREIGN KEY (account_id) REFERENCES account(account_id)
         ON UPDATE CASCADE ON DELETE CASCADE,
