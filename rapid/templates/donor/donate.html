@@ -67,7 +67,7 @@
                         <input type="text" placeholder="Type here..." />
                     </div>
                     <ul class="menu-list">
-                        <li><i data-lucide="user" style="margin-right: 4px;"></i><span>John Doe</span></li>
+                        <li><i data-lucide="user" style="margin-right: 4px;"></i><span><span>{{ donor_info.name if donor_info else 'User' }}</span></span></li>
                     </ul>
                 </div>
             </div>
@@ -140,48 +140,38 @@
 
                     <!-- Item Donation Fields -->
                     <div id="itemFields" style="display: none;">
-                        <div class="form-group mb-6">
-                            <label class="form-label">Item Category</label>
-                            <select class="form-select" id="itemCategory" required>
-                                <option value="">Select item category</option>
-                                {% for category in categories %}
-                                    <option value="{{ category.type_id }}">{{ category.type_name }}</option>
-                                {% endfor %}
-                            </select>
+                        <div id="itemRows">
+                            <div class="item-row form-row mb-4" style="display: flex; gap: 1rem; align-items: flex-end;">
+                                <div class="form-group" style="flex:1;">
+                                    <label class="form-label">Item Category</label>
+                                    <select class="form-select item-category" required>
+                                        <option value="">Select item category</option>
+                                        {% for category in item_types %}
+                                            <option value="{{ category.type_id }}">{{ category.type_name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="form-group" style="flex:2;">
+                                    <label class="form-label">Select Item</label>
+                                    <select class="form-select item-name" required>
+                                        <option value="">Select item</option>
+                                        {% for item in items %}
+                                            <option value="{{ item.item_id }}" data-type="{{ item.type_name }}">
+                                                {{ item.name }} ({{ item.type_name }})
+                                            </option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="form-group" style="width:100px;">
+                                    <label class="form-label">Qty</label>
+                                    <input type="number" class="form-input item-qty" min="1" value="1" required />
+                                </div>
+                                <button type="button" class="remove-item-btn" style="background:#ef4444;color:#fff;border:none;border-radius:4px;padding:0.5rem 0.75rem;display:none;">Remove</button>
+                            </div>
                         </div>
+                        <button type="button" id="addItemBtn" style="margin-bottom:1rem;background:#10b981;color:#fff;border:none;border-radius:4px;padding:0.5rem 1.5rem;font-weight:600;">+ Add Item</button>
 
-                        <div class="form-group mb-6">
-                            <label class="form-label">Select Item</label>
-                            <select class="form-select" id="itemName" required>
-                                <option value="">Select item</option>
-                                {% for item in items %}
-                                    <option value="{{ item.item_id }}" data-type="{{ item.type_name }}">
-                                        {{ item.item_name }} ({{ item.type_name }})
-                                    </option>
-                                {% endfor %}
-                            </select>
-                        </div>
-
-                        <div class="form-group mb-6">
-                            <label class="form-label">Item Description</label>
-                            <textarea class="form-textarea"
-                                placeholder="Please describe the items you want to donate (condition, quantity, etc.)"
-                                required></textarea>
-                        </div>
-
-                        <div class="form-group mb-6">
-                            <label class="form-label">Estimated Value (Optional)</label>
-                            <input type="number" class="form-input" placeholder="Enter estimated value in USD">
-                        </div>
-
-                        <div class="form-group mb-6">
-                            <label class="form-label">Delivery Method</label>
-                            <select class="form-select" required>
-                                <option value="">How will you deliver the items?</option>
-                                <option value="pickup">Schedule Pickup</option>
-                                <option value="drop-off">Drop-off at Center</option>
-                            </select>
-                        </div>
+     
                     </div>
 
                     <!-- Common Fields -->
@@ -191,10 +181,7 @@
                     </div>
 
                     <div class="form-group mb-6">
-                        <div class="flex items-center gap-3 mb-6">
-                            <input type="checkbox" id="terms" required>
-                            <label for="terms" class="text-gray-600">I agree to the terms and conditions and privacy policy</label>
-                        </div>
+                     
                         <button type="submit" class="submit-btn">
                             <i data-lucide="heart" class="mr-2"></i>
                             Complete Donation
@@ -234,19 +221,46 @@
             lucide.createIcons();
         }
 
-        // Filter items based on category
+        // Dynamic item rows logic
         document.addEventListener('DOMContentLoaded', () => {
-            const categorySelect = document.getElementById('itemCategory');
-            const itemSelect = document.getElementById('itemName');
-
-            categorySelect.addEventListener('change', () => {
+            function updateItemOptions(row) {
+                const categorySelect = row.querySelector('.item-category');
+                const itemSelect = row.querySelector('.item-name');
                 const selectedCategory = categorySelect.options[categorySelect.selectedIndex].text;
                 for (let option of itemSelect.options) {
                     if (option.value === "") continue;
                     option.style.display = (option.dataset.type === selectedCategory) ? "block" : "none";
                 }
                 itemSelect.value = "";
+            }
+
+            function addItemRow() {
+                const itemRows = document.getElementById('itemRows');
+                const firstRow = itemRows.querySelector('.item-row');
+                const newRow = firstRow.cloneNode(true);
+                // Reset values
+                newRow.querySelector('.item-category').selectedIndex = 0;
+                newRow.querySelector('.item-name').selectedIndex = 0;
+                newRow.querySelector('.item-qty').value = 1;
+                // Show remove button
+                newRow.querySelector('.remove-item-btn').style.display = 'inline-block';
+                itemRows.appendChild(newRow);
+                // Add event listeners
+                newRow.querySelector('.item-category').addEventListener('change', function() {
+                    updateItemOptions(newRow);
+                });
+                newRow.querySelector('.remove-item-btn').addEventListener('click', function() {
+                    newRow.remove();
+                });
+            }
+
+            // Initial row listeners
+            const firstRow = document.querySelector('.item-row');
+            firstRow.querySelector('.item-category').addEventListener('change', function() {
+                updateItemOptions(firstRow);
             });
+            // Add item button
+            document.getElementById('addItemBtn').addEventListener('click', addItemRow);
         });
     </script>
     <script src="{{ url_for('static', filename='script/donor/donate.js') }}"></script>

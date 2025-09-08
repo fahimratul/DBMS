@@ -94,7 +94,7 @@
                     <ul class="menu-list">
                         <li>
                             <i data-lucide="user" style="width: 16px; height: 16px; margin-right: 4px;"></i>
-                            <span>{{ g.user.name if g.user else 'User' }}</span>
+                            <span>{{ donor_info.name if donor_info else (g.user.name if g.user else 'User') }}</span>
                         </li>
                     </ul>
                 </div>
