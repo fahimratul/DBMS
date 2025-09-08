@@ -283,20 +283,6 @@ UPDATE donation_receiver SET latitude = 25.096773, longitude = 89.022770 WHERE d
 UPDATE donation_receiver SET latitude = 23.177768, longitude = 89.180510 WHERE donation_receiver_id = 10;
 
 
---Altering money_transfer table to add medium column 08-09-2025
-ALTER TABLE money_transfer
-ADD COLUMN medium VARCHAR(50) NOT NULL;
---insertions so that prevoius entries are not null
-UPDATE money_transfer SET medium = 'bkash' WHERE money_transfer_id = 1;
-UPDATE money_transfer SET medium = 'bank'  WHERE money_transfer_id = 2;
-UPDATE money_transfer SET medium = 'nagad' WHERE money_transfer_id = 3;
-UPDATE money_transfer SET medium = 'bank'  WHERE money_transfer_id = 4;
-UPDATE money_transfer SET medium = 'bkash' WHERE money_transfer_id = 5;
-UPDATE money_transfer SET medium = 'nagad' WHERE money_transfer_id = 6;
-UPDATE money_transfer SET medium = 'bank'  WHERE money_transfer_id = 7;
-UPDATE money_transfer SET medium = 'bkash' WHERE money_transfer_id = 8;
-
-
 -- Altering donor table to drop account_id foreign key
 SELECT CONSTRAINT_NAME
 FROM information_schema.KEY_COLUMN_USAGE
@@ -306,3 +292,13 @@ WHERE TABLE_NAME = 'donor'
     AND CONSTRAINT_SCHEMA = 'project2';  -- Replace with your DB name
 
 ALTER TABLE donor DROP FOREIGN KEY donor_ibfk_1; --replace with the constraint name from previous query
+
+--altered account_id column to be not auto increment as account id is like 0123456789 for mobile, EDG676876 for bank etc.
+
+ALTER TABLE stock DROP FOREIGN KEY fk_account;
+ALTER TABLE account MODIFY account_id INT NOT NULL;
+ALTER TABLE stock
+ADD CONSTRAINT fk_account FOREIGN KEY (account_id)
+REFERENCES account(account_id)
+ON UPDATE CASCADE ON DELETE CASCADE;
+
