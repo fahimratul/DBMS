@@ -668,4 +668,32 @@ def admin_create_event():
 @bp.route('/money_transfer')
 @login_required
 def money_transfer():
-    return render_template('admin/money_transfer.html')
+    db = get_bd()
+    cursor = db.cursor(dictionary=True)
+
+    cursor.execute("""
+        SELECT 
+            mt.money_transfer_id AS transfer_id,
+            mt.account_id AS admin_account_id,
+            a.method_name AS medium,
+            mt.donation_id,
+            mt.amount,
+            d.date AS donation_date,
+            don.account_id AS donor_account_id,
+            don.name AS donor_name,
+            d.message AS donation_message,
+            don.donor_id AS donor_id
+        FROM money_transfer mt
+        JOIN account a 
+            ON mt.account_id = a.account_id
+        JOIN donation d 
+            ON mt.donation_id = d.donation_id
+        JOIN donor don 
+            ON d.donor_id = don.donor_id
+        ORDER BY mt.money_transfer_id ASC
+        LIMIT 20;
+                   
+    """)
+    transfers = cursor.fetchall()
+
+    return render_template('admin/money_transfer.html', transfers=transfers)

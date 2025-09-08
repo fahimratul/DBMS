@@ -258,7 +258,7 @@
         </nav>
 
         <!-- Table -->
-        <main class="table" id="events_table">
+        <main class="table" id="transfers_table">
             <section class="table__header">
                 <h1>Transactions</h1>
                 <div class="input-group">
@@ -267,7 +267,7 @@
 
             </section>
             <section class="table__body">
-                <table id="eventsTable">
+                <table id="transfers_table">
                     <thead>
                         <tr>
                             <th>ID<span class="icon-arrow">&UpArrow;</span></th>
@@ -279,14 +279,49 @@
                             <th>Show Message</th> <!--This will have donor name and message-->
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="transferTableBody">
+                        {% for t in transfers %}
+                        <tr>
+                            <td>{{ t.transfer_id }}</td>
+                            <td>{{ t.medium }}</td>
+                            <td>{{ t.admin_account_id }}</td>
+                            <td>{{ t.donor_account_id }}</td>
+                            <td>{{ "%.2f"|format(t.amount) }}</td>
+                            <td>{{ t.donation_date.strftime('%d %b, %Y') }}</td>
+                            <td>
+                                <button class="details-btn" data-id="{{ t.transfer_id }}"
+                                    data-donorid="{{ t.donor_id }}" data-name="{{ t.donor_name }}"
+                                    data-message="{{ t.donation_message }}">
+                                    Show
+                                </button>
+                            </td>
+
+
+                        </tr>
+                        {% endfor %}
                     </tbody>
+
                 </table>
             </section>
         </main>
+        <!-- Transfer Details Modal -->
+        <div id="transferModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2 class="modal-title">Donation Message</h2>
+                <div class="modal-body">
+                    <p><strong>Transaction ID:</strong> <span id="modalTransactionId"></span></p>
+                    <p><strong>Donor ID:</strong> <span id="modalDonorId"></span></p>
+                    <p><strong>Donor Name:</strong> <span id="modalDonorName"></span></p>
+                    <p><strong>Message:</strong></p>
+                    <div class="message-box">
+                        <span id="modalDonationMessage"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-        <script src="{{ url_for('static', filename='script/admin/detailsModal.js') }}"></script>
-        <script src="{{ url_for('static', filename='script/admin/searchFilter.js') }}"></script>
+        <script src="{{ url_for('static', filename='script/admin/money_transfer.js') }}"></script>
 
     </main>
 
