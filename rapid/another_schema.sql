@@ -101,8 +101,8 @@ CREATE TABLE donation (
 
 CREATE TABLE money_transfer (
     money_transfer_id INT PRIMARY KEY AUTO_INCREMENT,
-    account_id INT,
-    donation_id INT,
+    account_id INT, --this is for admin's account
+    donation_id INT, --this contains donor id(containing donor's account) and date
     amount DECIMAL CHECK (amount > 0),
     FOREIGN KEY (account_id) REFERENCES account(account_id)
         ON UPDATE CASCADE ON DELETE CASCADE,
@@ -123,16 +123,17 @@ CREATE TABLE stock (
         ON UPDATE CASCADE ON DELETE CASCADE
 );
 
-CREATE TABLE donation_receiver (
+
+ CREATE TABLE donation_receiver (
     donation_receiver_id INT PRIMARY KEY AUTO_INCREMENT,
-    receiver_id INT,
-    date DATE NOT NULL,
-    priority_message TEXT,
-    item_id_list TEXT,
-    additional_item TEXT,
-    FOREIGN KEY (receiver_id) REFERENCES receiver(receiver_id)
-        ON UPDATE CASCADE ON DELETE CASCADE
-);
+     receiver_id INT,
+     date DATE NOT NULL,
+     priority_message TEXT,
+     item_id_list TEXT,
+     additional_item TEXT,
+     FOREIGN KEY (receiver_id) REFERENCES receiver(receiver_id)
+         ON UPDATE CASCADE ON DELETE CASCADE
+ );
 
 CREATE TABLE event (
     event_id INT PRIMARY KEY AUTO_INCREMENT,
