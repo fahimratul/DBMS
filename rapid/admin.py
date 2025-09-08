@@ -641,3 +641,7 @@ def admin_create_event():
         all_items=all_items
     )
 
+@bp.route('/money_transfer')
+@login_required
+def money_transfer():
+    return render_template('admin/money_transfer.html')
