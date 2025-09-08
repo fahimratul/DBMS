@@ -1,68 +1,42 @@
 // Initialize Lucide icons
 lucide.createIcons();
 
-// Sample donations data
-const donationsData = [
-    {
-        id: "1",
-        date: "2024-01-15",
-        amount: 250,
-        cause: "Hurricane Relief Fund",
-        status: "completed",
-        receiptId: "RC-2024-001"
-    },
-    {
-        id: "2",
-        date: "2024-01-01",
-        amount: 100,
-        cause: "Food Bank Support",
-        status: "completed",
-        receiptId: "RC-2024-002"
-    },
-    {
-        id: "3",
-        date: "2023-12-25",
-        amount: 500,
-        cause: "Holiday Toy Drive",
-        status: "completed",
-        receiptId: "RC-2023-125"
-    },
-    {
-        id: "4",
-        date: "2023-12-15",
-        amount: 75,
-        cause: "Winter Clothing Drive",
-        status: "completed",
-        receiptId: "RC-2023-115"
-    },
-    {
-        id: "5",
-        date: "2023-11-30",
-        amount: 200,
-        cause: "Education Support Fund",
-        status: "completed",
-        receiptId: "RC-2023-098"
-    }
-];
-
-// Handle logout functionality
-function handleLogout() {
-    if (confirm('Are you sure you want to log out?')) {
-        console.log("User logged out");
-        alert("You have been logged out successfully!");
-    }
-}
-
 // DOM elements
+const searchInput = document.getElementById('searchInput');
 const downloadAllBtn = document.querySelector('.download-all-btn');
 const loadMoreBtn = document.querySelector('.load-more-btn');
 const donationsList = document.querySelector('.donations-list');
+const donationModal = document.getElementById('donationModal');
 
 // Event listeners
-downloadAllBtn.addEventListener('click', downloadAllReceipts);
-loadMoreBtn.addEventListener('click', loadMoreDonations);
+if (downloadAllBtn) {
+    downloadAllBtn.addEventListener('click', downloadAllReceipts);
+}
 
-// Add event listeners to all action buttons
+if (loadMoreBtn) {
+    loadMoreBtn.addEventListener('click', loadMoreDonations);
+}
+
+// Search functionality - works with the existing HTML
+if (searchInput) {
+    searchInput.addEventListener('input', function() {
+        const searchTerm = this.value.toLowerCase();
+        const donationItems = document.querySelectorAll('.donation-item');
+        
+        donationItems.forEach(item => {
+            const title = item.querySelector('h4').textContent.toLowerCase();
+            const date = item.querySelector('.donation-date').textContent.toLowerCase();
+            
+            if (title.includes(searchTerm) || date.includes(searchTerm)) {
+                item.style.display = 'flex';
+            } else {
+                item.style.display = 'none';
+            }
+        });
+    });
+}
+
+// Handle action button clicks
 document.addEventListener('click', function(e) {
     if (e.target.closest('.action-btn')) {
         handleActionClick(e);
@@ -72,7 +46,7 @@ document.addEventListener('click', function(e) {
 function handleActionClick(e) {
     const actionBtn = e.target.closest('.action-btn');
     const donationItem = actionBtn.closest('.donation-item');
-    const donationId = getDonationIdFromItem(donationItem);
+    const donationId = donationItem.getAttribute('data-donation-id');
     
     const isViewBtn = actionBtn.querySelector('[data-lucide="eye"]');
     const isDownloadBtn = actionBtn.querySelector('[data-lucide="download"]');
@@ -84,64 +58,101 @@ function handleActionClick(e) {
     }
 }
 
-function getDonationIdFromItem(donationItem) {
-    const items = Array.from(donationsList.querySelectorAll('.donation-item'));
-    const index = items.indexOf(donationItem);
-    return donationsData[index]?.id || '1';
+function viewDonationDetails(donationId) {
+    const donationElement = document.querySelector(`[data-donation-id="${donationId}"]`);
+    if (!donationElement) return;
+    
+    const title = donationElement.querySelector('h4').textContent;
+    const date = donationElement.querySelector('.donation-date').textContent;
+    const amount = donationElement.querySelector('.amount').textContent;
+    const itemsElement = donationElement.querySelector('.donation-items');
+    const paymentMethodElement = donationElement.querySelector('.payment-method');
+    
+    let modalContent = `
+        <div style="margin-bottom: 1rem;">
+            <strong>Donation:</strong> ${title}
+        </div>
+        <div style="margin-bottom: 1rem;">
+            <strong>Date:</strong> ${date.replace(/📅|calendar/gi, '').trim()}
+        </div>
+        <div style="margin-bottom: 1rem;">
+            <strong>Amount:</strong> ${amount}
+        </div>
+    `;
+    
+    if (itemsElement) {
+        const itemsText = itemsElement.textContent.replace(/📦|package|Items:/gi, '').trim();
+        modalContent += `
+            <div style="margin-bottom: 1rem;">
+                <strong>Items:</strong> ${itemsText}
+            </div>
+        `;
+    }
+    
+    if (paymentMethodElement) {
+        const methodText = paymentMethodElement.textContent.replace(/💳|credit-card|Via:/gi, '').trim();
+        modalContent += `
+            <div style="margin-bottom: 1rem;">
+                <strong>Payment Method:</strong> ${methodText}
+            </div>
+        `;
+    }
+    
+    modalContent += `
+        <div style="margin-bottom: 1rem;">
+            <strong>Status:</strong> <span style="color: #10b981;">Completed</span>
+        </div>
+        <div style="margin-bottom: 1rem;">
+            <strong>Donation ID:</strong> ${donationId}
+        </div>
+    `;
+    
+    document.getElementById('modalBody').innerHTML = modalContent;
+    donationModal.classList.remove('hidden');
 }
 
-function viewDonationDetails(donationId) {
-    const donation = donationsData.find(d => d.id === donationId);
-    if (donation) {
-        showModal('Donation Details', `
-            <div class="modal-content">
-                <h3>${donation.cause}</h3>
-                <p><strong>Amount:</strong> ${donation.amount}</p>
-                <p><strong>Date:</strong> ${formatDate(donation.date)}</p>
-                <p><strong>Receipt ID:</strong> ${donation.receiptId}</p>
-                <p><strong>Status:</strong> ${donation.status}</p>
-            </div>
-        `);
+function closeDonationModal() {
+    if (donationModal) {
+        donationModal.classList.add('hidden');
     }
 }
 
 function downloadReceipt(donationId) {
-    const donation = donationsData.find(d => d.id === donationId);
-    if (donation) {
-        showNotification(`Downloading receipt for ${donation.cause}...`, 'info');
-        
-        setTimeout(() => {
-            showNotification(`Receipt ${donation.receiptId} downloaded successfully!`, 'success');
-        }, 1500);
-    }
+    showNotification(`Downloading receipt for donation #${donationId}...`, 'info');
+    
+    // Redirect to the actual download route
+    setTimeout(() => {
+        window.location.href = `/donor/download_receipt/${donationId}`;
+    }, 1000);
 }
 
 function downloadAllReceipts() {
     showNotification('Preparing all receipts for download...', 'info');
     
+    // In a real implementation, you would make an AJAX call to your backend
     setTimeout(() => {
-        showNotification('All receipts downloaded successfully!', 'success');
+        showNotification('Feature coming soon! Individual receipts are available.', 'info');
     }, 2000);
 }
 
 function loadMoreDonations() {
+    const currentUrl = new URL(window.location);
+    const page = parseInt(currentUrl.searchParams.get('page') || '1');
+    
     showNotification('Loading more donations...', 'info');
     
+    // Add page parameter and reload
+    currentUrl.searchParams.set('page', page + 1);
+    
+    // For now, just show a message since pagination isn't fully implemented
     setTimeout(() => {
-        showNotification('No more donations to load.', 'info');
-        loadMoreBtn.disabled = true;
-        loadMoreBtn.textContent = 'All donations loaded';
-        loadMoreBtn.style.opacity = '0.6';
+        showNotification('Pagination feature coming soon!', 'info');
+        if (loadMoreBtn) {
+            loadMoreBtn.disabled = true;
+            loadMoreBtn.textContent = 'No more donations';
+            loadMoreBtn.style.opacity = '0.6';
+        }
     }, 1000);
-}
-
-function formatDate(dateString) {
-    const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric'
-    });
 }
 
 function showNotification(message, type = 'info') {
@@ -166,6 +177,7 @@ function showNotification(message, type = 'info') {
         z-index: 1000;
         animation: slideIn 0.3s ease-out;
         max-width: 300px;
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
     `;
     
     if (!document.querySelector('#notification-styles')) {
@@ -205,109 +217,60 @@ function getNotificationColor(type) {
     }
 }
 
-function showModal(title, content) {
-    const overlay = document.createElement('div');
-    overlay.className = 'modal-overlay';
-    overlay.style.cssText = `
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.5);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        z-index: 1000;
-        animation: fadeIn 0.2s ease-out;
-    `;
-    
-    const modal = document.createElement('div');
-    modal.className = 'modal';
-    modal.style.cssText = `
-        background: white;
-        border-radius: 1rem;
-        padding: 2rem;
-        max-width: 500px;
-        width: 90%;
-        max-height: 80%;
-        overflow-y: auto;
-        animation: scaleIn 0.2s ease-out;
-    `;
-    
-    modal.innerHTML = `
-        <div class="modal-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
-            <h2 style="font-size: 1.5rem; font-weight: 600;">${title}</h2>
-            <button class="modal-close" style="background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #6b7280;">×</button>
-        </div>
-        <div class="modal-body">
-            ${content}
-        </div>
-    `;
-    
-    if (!document.querySelector('#modal-styles')) {
-        const style = document.createElement('style');
-        style.id = 'modal-styles';
-        style.textContent = `
-            @keyframes fadeIn {
-                from { opacity: 0; }
-                to { opacity: 1; }
-            }
-            @keyframes scaleIn {
-                from { transform: scale(0.9); opacity: 0; }
-                to { transform: scale(1); opacity: 1; }
-            }
-            .modal-content h3 {
-                font-size: 1.25rem;
-                font-weight: 600;
-                margin-bottom: 1rem;
-                color: #111827;
-            }
-            .modal-content p {
-                margin-bottom: 0.5rem;
-                font-size: 1rem;
-                color: #374151;
-            }
-        `;
-        document.head.appendChild(style);
-    }
-    
-    overlay.appendChild(modal);
-    document.body.appendChild(overlay);
-    
-    const closeBtn = modal.querySelector('.modal-close');
-    closeBtn.addEventListener('click', closeModal);
-    overlay.addEventListener('click', function(e) {
-        if (e.target === overlay) {
-            closeModal();
+// Close modal when clicking outside or on close button
+if (donationModal) {
+    donationModal.addEventListener('click', function(e) {
+        if (e.target === this) {
+            closeDonationModal();
         }
     });
     
-    function closeModal() {
-        overlay.style.animation = 'fadeIn 0.2s ease-in reverse';
-        setTimeout(() => {
-            if (overlay.parentNode) {
-                overlay.parentNode.removeChild(overlay);
-            }
-        }, 200);
+    const closeBtn = donationModal.querySelector('.modal-close');
+    if (closeBtn) {
+        closeBtn.addEventListener('click', closeDonationModal);
     }
-    
-    document.addEventListener('keydown', function handleEscape(e) {
-        if (e.key === 'Escape') {
-            closeModal();
-            document.removeEventListener('keydown', handleEscape);
-        }
-    });
 }
+
+// Handle escape key to close modal
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && donationModal && !donationModal.classList.contains('hidden')) {
+        closeDonationModal();
+    }
+});
+
+// Handle logout functionality
+function handleLogout() {
+    if (confirm('Are you sure you want to log out?')) {
+        window.location.href = '/auth/logout';
+    }
+}
+
+// Add logout handler to logout links
+document.addEventListener('click', function(e) {
+    const logoutLink = e.target.closest('a[href*="logout"]');
+    if (logoutLink) {
+        e.preventDefault();
+        handleLogout();
+    }
+});
 
 // Initialize the page
 document.addEventListener('DOMContentLoaded', function() {
     console.log('History page loaded');
     
-    // Calculate and update summary stats
-    const totalAmount = donationsData.reduce((sum, donation) => sum + donation.amount, 0);
-    const summaryCards = document.querySelectorAll('.summary-card h3');
-    if (summaryCards[0]) {
-        summaryCards[0].textContent = `${totalAmount.toLocaleString()}`;
+    // Add any initialization code here
+    const donationItems = document.querySelectorAll('.donation-item');
+    console.log(`Found ${donationItems.length} donation items`);
+    
+    // Check if there are no donations and hide load more button
+    if (donationItems.length === 0) {
+        if (loadMoreBtn) {
+            loadMoreBtn.style.display = 'none';
+        }
+    }
+    
+    // If there are fewer than 10 donations, hide the load more button
+    if (donationItems.length < 10 && loadMoreBtn) {
+        loadMoreBtn.style.display = 'none';
     }
 });

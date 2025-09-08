@@ -3,78 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - RAPID</title>
+    <title>Donate - RAPID</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/donor/donate.css') }}">
 </head>
 <body>
     <!-- Sidebar -->
-     <aside class="sidebar">
-   <div class="sidebar-header">
-      <img src="{{ url_for('static', filename='images/logo/logo_icon.png') }}" class="sidebar-logo-img"
-        alt="main_logo" />
-      <span class="sidebar-logo-text">Rapid</span>
-    </div>
-    <nav class="sidebar-nav">
-      <ul class="sidebar-list">
- <!-- Dashboard SVG -->
-        <li>
-          <a href="{{ url_for('donor.donor_dashboard') }}" class="sidebar-link active">
-                        <span class="sidebar-icon">
-                            <i data-lucide="bar-chart-3"></i>
-                        </span>
-            <span class="sidebar-label">Dashboard</span>
-          </a>
-        </li>
-        <!-- History SVG -->
-        <li>
-          <a href="{{ url_for('donor.donor_history') }}" class="sidebar-link">
-                        <span class="sidebar-icon">
-                            <i data-lucide="history"></i>
-            </span>
-            <span class="sidebar-label">History</span>
-          </a>
-        </li>
- <!-- Profile SVG -->
-        <li>
-         <a href="{{ url_for('donor.donor_profile') }}" class="sidebar-link">
-                        <span class="sidebar-icon">
-                            <i data-lucide="user"></i>
-                        </span>
-           
-            <span class="sidebar-label">Profile</span>
-          </a>
-        </li>
-
-            <!-- Donate SVG -->
-        <li>
-           <a href="{{ url_for('donor.donor_donate') }}" class="sidebar-link">
-                        <span class="sidebar-icon">
-                            <i data-lucide="plus"></i>
-                        </span>
-            <span class="sidebar-label">Donate</span>
-          </a>
-        </li>
- <!-- Feedback SVG --> 
-        <li>
-         <a href="#" class="sidebar-link">
-                        <span class="sidebar-icon">
-                            <i data-lucide="message-square"></i>
-            </span>
-            <span class="sidebar-label">Feedback</span>
-          </a>
-        </li>
-   <!-- Sign In SVG -->
-        <li style="margin-top: 2rem;">
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <img src="{{ url_for('static', filename='images/logo/logo_icon.png') }}" class="sidebar-logo-img" alt="main_logo" />
+            <span class="sidebar-logo-text">Rapid</span>
+        </div>
+        <nav class="sidebar-nav">
+            <ul class="sidebar-list">
+                <li>
+                    <a href="{{ url_for('donor.donor_dashboard') }}" class="sidebar-link">
+                        <span class="sidebar-icon"><i data-lucide="bar-chart-3"></i></span>
+                        <span class="sidebar-label">Dashboard</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ url_for('donor.donor_history') }}" class="sidebar-link">
+                        <span class="sidebar-icon"><i data-lucide="history"></i></span>
+                        <span class="sidebar-label">History</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ url_for('donor.donor_profile') }}" class="sidebar-link">
+                        <span class="sidebar-icon"><i data-lucide="user"></i></span>
+                        <span class="sidebar-label">Profile</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ url_for('donor.donor_donate') }}" class="sidebar-link active">
+                        <span class="sidebar-icon"><i data-lucide="plus"></i></span>
+                        <span class="sidebar-label">Donate</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="sidebar-link">
+                        <span class="sidebar-icon"><i data-lucide="message-square"></i></span>
+                        <span class="sidebar-label">Feedback</span>
+                    </a>
+                </li>
+                <li style="margin-top: 2rem;">
                     <a href="{{ url_for('auth.logout') }}" class="sidebar-link" style="color: #ef4444;">
-                        <span class="sidebar-icon">
-                            <i data-lucide="log-out"></i>
-                        </span>
+                        <span class="sidebar-icon"><i data-lucide="log-out"></i></span>
                         <span class="sidebar-label">Log Out</span>
                     </a>
                 </li>
-      </ul>
-    </nav>
-  </aside>
+            </ul>
+        </nav>
+    </aside>
+
     <!-- Main Content -->
     <div class="main-container">
         <!-- Top Navbar -->
@@ -126,7 +106,7 @@
                     <i data-lucide="dollar-sign" id="formIcon" class="mr-3"></i>
                     Monetary Donation Form
                 </h2>
-                
+
                 <form id="donationForm" class="form-grid">
                     <!-- Monetary Donation Fields -->
                     <div id="moneyFields">
@@ -146,7 +126,6 @@
                             </div>
                         </div>
 
-
                         <div class="form-group mb-6">
                             <label class="form-label">Payment Method</label>
                             <select class="form-select" required>
@@ -163,20 +142,31 @@
                     <div id="itemFields" style="display: none;">
                         <div class="form-group mb-6">
                             <label class="form-label">Item Category</label>
-                            <select class="form-select" required>
+                            <select class="form-select" id="itemCategory" required>
                                 <option value="">Select item category</option>
-                                <option value="clothing">Clothing</option>
-                                <option value="food">Food Supplies</option>
-                                <option value="medical">Medical Supplies</option>
-                                <option value="educational">Educational Materials</option>
-                                <option value="household">Household Items</option>
-                                <option value="electronics">Electronics</option>
+                                {% for category in categories %}
+                                    <option value="{{ category.type_id }}">{{ category.type_name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="form-group mb-6">
+                            <label class="form-label">Select Item</label>
+                            <select class="form-select" id="itemName" required>
+                                <option value="">Select item</option>
+                                {% for item in items %}
+                                    <option value="{{ item.item_id }}" data-type="{{ item.type_name }}">
+                                        {{ item.item_name }} ({{ item.type_name }})
+                                    </option>
+                                {% endfor %}
                             </select>
                         </div>
 
                         <div class="form-group mb-6">
                             <label class="form-label">Item Description</label>
-                            <textarea class="form-textarea" placeholder="Please describe the items you want to donate (condition, quantity, etc.)" required></textarea>
+                            <textarea class="form-textarea"
+                                placeholder="Please describe the items you want to donate (condition, quantity, etc.)"
+                                required></textarea>
                         </div>
 
                         <div class="form-group mb-6">
@@ -205,7 +195,6 @@
                             <input type="checkbox" id="terms" required>
                             <label for="terms" class="text-gray-600">I agree to the terms and conditions and privacy policy</label>
                         </div>
-                        
                         <button type="submit" class="submit-btn">
                             <i data-lucide="heart" class="mr-2"></i>
                             Complete Donation
@@ -219,6 +208,46 @@
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
     <script>
         lucide.createIcons();
+
+        // Donation Type Toggle
+        function selectDonationType(type) {
+            const moneyFields = document.getElementById('moneyFields');
+            const itemFields = document.getElementById('itemFields');
+            const moneyBtn = document.getElementById('moneyBtn');
+            const itemsBtn = document.getElementById('itemsBtn');
+            const formTitle = document.getElementById('formTitle');
+            const formIcon = document.getElementById('formIcon');
+
+            if(type === 'money') {
+                moneyFields.style.display = 'block';
+                itemFields.style.display = 'none';
+                moneyBtn.classList.add('active');
+                itemsBtn.classList.remove('active');
+                formTitle.innerHTML = '<i data-lucide="dollar-sign" id="formIcon" class="mr-3"></i> Monetary Donation Form';
+            } else {
+                moneyFields.style.display = 'none';
+                itemFields.style.display = 'block';
+                moneyBtn.classList.remove('active');
+                itemsBtn.classList.add('active');
+                formTitle.innerHTML = '<i data-lucide="package" id="formIcon" class="mr-3"></i> Item Donation Form';
+            }
+            lucide.createIcons();
+        }
+
+        // Filter items based on category
+        document.addEventListener('DOMContentLoaded', () => {
+            const categorySelect = document.getElementById('itemCategory');
+            const itemSelect = document.getElementById('itemName');
+
+            categorySelect.addEventListener('change', () => {
+                const selectedCategory = categorySelect.options[categorySelect.selectedIndex].text;
+                for (let option of itemSelect.options) {
+                    if (option.value === "") continue;
+                    option.style.display = (option.dataset.type === selectedCategory) ? "block" : "none";
+                }
+                itemSelect.value = "";
+            });
+        });
     </script>
     <script src="{{ url_for('static', filename='script/donor/donate.js') }}"></script>
 </body>

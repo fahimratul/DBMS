@@ -3,7 +3,7 @@
 <head>
      <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - RAPID</title>
+    <title>Profile - RAPID</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/donor/profile.css') }}">
 </head>
 <body>
@@ -16,65 +16,57 @@
     </div>
     <nav class="sidebar-nav">
       <ul class="sidebar-list">
- <!-- Dashboard SVG -->
         <li>
-          <a href="{{ url_for('donor.donor_dashboard') }}" class="sidebar-link active">
-                        <span class="sidebar-icon">
-                            <i data-lucide="bar-chart-3"></i>
-                        </span>
+          <a href="{{ url_for('donor.donor_dashboard') }}" class="sidebar-link">
+            <span class="sidebar-icon">
+                <i data-lucide="bar-chart-3"></i>
+            </span>
             <span class="sidebar-label">Dashboard</span>
           </a>
         </li>
-        <!-- History SVG -->
         <li>
           <a href="{{ url_for('donor.donor_history') }}" class="sidebar-link">
-                        <span class="sidebar-icon">
-                            <i data-lucide="history"></i>
+            <span class="sidebar-icon">
+                <i data-lucide="history"></i>
             </span>
             <span class="sidebar-label">History</span>
           </a>
         </li>
- <!-- Profile SVG -->
         <li>
-         <a href="{{ url_for('donor.donor_profile') }}" class="sidebar-link">
-                        <span class="sidebar-icon">
-                            <i data-lucide="user"></i>
-                        </span>
-           
+         <a href="{{ url_for('donor.donor_profile') }}" class="sidebar-link active">
+            <span class="sidebar-icon">
+                <i data-lucide="user"></i>
+            </span>
             <span class="sidebar-label">Profile</span>
           </a>
         </li>
-
-            <!-- Donate SVG -->
         <li>
            <a href="{{ url_for('donor.donor_donate') }}" class="sidebar-link">
-                        <span class="sidebar-icon">
-                            <i data-lucide="plus"></i>
-                        </span>
+            <span class="sidebar-icon">
+                <i data-lucide="plus"></i>
+            </span>
             <span class="sidebar-label">Donate</span>
           </a>
         </li>
- <!-- Feedback SVG --> 
         <li>
          <a href="#" class="sidebar-link">
-                        <span class="sidebar-icon">
-                            <i data-lucide="message-square"></i>
+            <span class="sidebar-icon">
+                <i data-lucide="message-square"></i>
             </span>
             <span class="sidebar-label">Feedback</span>
           </a>
         </li>
-   <!-- Sign In SVG -->
         <li style="margin-top: 2rem;">
-                    <a href="{{ url_for('auth.logout') }}" class="sidebar-link" style="color: #ef4444;">
-                            <i data-lucide="log-out"></i>
-                        </span>
-                        <span class="sidebar-label">Log Out</span>
-                    </a>
-                </li>
+            <a href="{{ url_for('auth.logout') }}" class="sidebar-link" style="color: #ef4444;">
+                <span class="sidebar-icon">
+                    <i data-lucide="log-out"></i>
+                </span>
+                <span class="sidebar-label">Log Out</span>
+            </a>
+        </li>
       </ul>
     </nav>
   </aside>
-
 
     <!-- Main Content -->
     <div class="main-container">
@@ -94,7 +86,7 @@
                     <ul class="menu-list">
                         <li>
                             <i data-lucide="user" style="width: 16px; height: 16px; margin-right: 4px;"></i>
-                            <span>John Doe</span>
+                            <span>{{ donor_info.name if donor_info else 'User' }}</span>
                         </li>
                     </ul>
                 </div>
@@ -103,6 +95,19 @@
 
         <!-- Page Content -->
         <main style="flex: 1; overflow: auto;">
+            <!-- Flash Messages -->
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    <div style="padding: 1rem;">
+                        {% for message in messages %}
+                            <div style="background: #10b981; color: white; padding: 0.75rem 1rem; border-radius: 0.5rem; margin-bottom: 0.5rem;">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endwith %}
+
             <div class="profile-container">
                 <!-- Profile Header -->
                 <div class="profile-header">
@@ -129,13 +134,17 @@
                     <div class="profile-card">
                         <div class="avatar-section">
                             <div class="avatar-container">
-                                <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200&h=200&fit=crop&crop=face" 
-                                     alt="Profile Picture" class="avatar" id="avatarImg" />
+                                {% if donor_info and donor_info.profile_picture %}
+                                    <img src="{{ donor_info.profile_picture }}" alt="Profile Picture" class="avatar" id="avatarImg" />
+                                {% else %}
+                                    <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200&h=200&fit=crop&crop=face" 
+                                         alt="Profile Picture" class="avatar" id="avatarImg" />
+                                {% endif %}
                             </div>
-                            <h2 class="profile-name" id="displayName">John Doe</h2>
+                            <h2 class="profile-name" id="displayName">{{ donor_info.name if donor_info else 'Unknown User' }}</h2>
                             <div class="donor-id">
                                 <i data-lucide="hash" style="width: 16px; height: 16px;"></i>
-                                <span>DN-2023-001</span>
+                                <span>DN-{{ g.user.id if g.user else '000' }}</span>
                             </div>
                         </div>
                     </div>
@@ -143,101 +152,137 @@
                     <!-- Profile Details -->
                     <div class="profile-card">
                         <h3 class="card-title">Profile Information</h3>
-                        <form class="form-grid" id="profileForm">
+                        <form class="form-grid" id="profileForm" method="POST" action="{{ url_for('donor.donor_profile') }}">
                             <!-- Donor ID (Non-editable) -->
                             <div class="form-group">
                                 <label class="form-label">
                                     <i data-lucide="hash" style="width: 16px; height: 16px;"></i>
                                     Donor ID
                                 </label>
-                                <input type="text" class="form-input" value="DN-2023-001" disabled />
+                                <input type="text" class="form-input" value="DN-{{ g.user.id if g.user else '000' }}" disabled />
                             </div>
 
                             <!-- Name -->
                             <div class="form-group">
                                 <label class="form-label">
                                     <i data-lucide="user" style="width: 16px; height: 16px;"></i>
-                                    Full Name
+                                    Full Name *
                                 </label>
-                                <input type="text" class="form-input" id="name" value="John Doe" disabled />
+                                <input type="text" class="form-input" id="name" name="name" 
+                                       value="{{ donor_info.name if donor_info else '' }}" 
+                                       disabled required />
                             </div>
 
                             <!-- Phone -->
                             <div class="form-group">
                                 <label class="form-label">
                                     <i data-lucide="phone" style="width: 16px; height: 16px;"></i>
-                                    Phone Number
+                                    Phone Number *
                                 </label>
-                                <input type="tel" class="form-input" id="phone" value="+1 (555) 123-4567" disabled />
+                                <input type="tel" class="form-input" id="phone" name="phone" 
+                                       value="{{ donor_info.phone if donor_info else '' }}" 
+                                       disabled required />
                             </div>
 
                             <!-- Email -->
                             <div class="form-group">
                                 <label class="form-label">
                                     <i data-lucide="mail" style="width: 16px; height: 16px;"></i>
-                                    Email Address
+                                    Email Address *
                                 </label>
-                                <input type="email" class="form-input" id="email" value="john@example.com" disabled />
+                                <input type="email" class="form-input" id="email" name="email" 
+                                       value="{{ donor_info.email if donor_info else '' }}" 
+                                       disabled required />
+                            </div>
+
+                            <!-- Account Name -->
+                            <div class="form-group">
+                                <label class="form-label">
+                                    <i data-lucide="credit-card" style="width: 16px; height: 16px;"></i>
+                                    Account Name
+                                </label>
+                                <input type="text" class="form-input" id="accountName" name="account_name" 
+                                       value="{{ donor_info.account_display_name if donor_info and donor_info.account_display_name else donor_info.account_name if donor_info else '' }}" 
+                                       disabled />
+                            </div>
+                            <!-- Account ID -->
+                            <div class="form-group">
+                                <label class="form-label">
+                                    <i data-lucide="hash" style="width: 16px; height: 16px;"></i>
+                                    Account ID
+                                </label>
+                                <input type="text" class="form-input" id="accountId" 
+                                    name="account_id"
+                                    value="{{ donor_info.account_id if donor_info and donor_info.account_id else '' }}" disabled />
+                            </div>
+
+
+                            <!-- Address -->
+                            <div class="form-group">
+                                <label class="form-label">
+                                    <i data-lucide="map-pin" style="width: 16px; height: 16px;"></i>
+                                    Address
+                                </label>
+                                <input type="text" class="form-input" id="address" name="address" 
+                                       value="{{ donor_info.address if donor_info else '' }}" 
+                                       disabled />
                             </div>
                         </form>
                     </div>
-                </div>
 
-                <!-- Account Information -->
-                <div class="profile-card account-card">
-                    <h3 class="card-title">Account Information</h3>
-                    <div class="form-row">
-                        <!-- Account Name -->
-                        <div class="form-group">
-                            <label class="form-label">
-                                <i data-lucide="credit-card" style="width: 16px; height: 16px;"></i>
-                                Account Name
-                            </label>
-                            <input type="text" class="form-input" id="accountName" value="John Doe Charitable Account" disabled />
-                        </div>
-
-                        <!-- Account ID -->
-                        <div class="form-group">
-                            <label class="form-label">
-                                <i data-lucide="hash" style="width: 16px; height: 16px;"></i>
-                                Account ID
-                            </label>
-                            <input type="text" class="form-input" value="ACC-789456123" disabled style="background: #f9fafb !important;" />
+                    <!-- Donation Summary -->
+                    {% if stats %}
+                    <div class="profile-card summary-section">
+                        <h3 class="card-title">Donation Summary</h3>
+                        <div class="summary-grid">
+                            <div class="summary-item summary-green">
+                                <div class="summary-value">{{ "%.2f"|format(stats.total_donated) }}</div>
+                                <div class="summary-label">Total Donated</div>
+                            </div>
+                            <div class="summary-item summary-blue">
+                                <div class="summary-value">{{ stats.donation_count }}</div>
+                                <div class="summary-label">Donations Made</div>
+                            </div>
+                            <div class="summary-item summary-purple">
+                                <div class="summary-value">{{ stats.member_since }}</div>
+                                <div class="summary-label">Member Since</div>
+                            </div>
                         </div>
                     </div>
-
-                    <!-- Address -->
-                    <div class="form-group" style="margin-top: 1.5rem;">
-                        <label class="form-label">
-                            <i data-lucide="map-pin" style="width: 16px; height: 16px;"></i>
-                            Address
-                        </label>
-                        <input type="text" class="form-input" id="address" value="123 Main Street, New York, NY 10001, USA" disabled />
-                    </div>
-                </div>
-
-                <!-- Donation Summary -->
-                <div class="profile-card summary-section">
-                    <h3 class="card-title">Donation Summary</h3>
-                    <div class="summary-grid">
-                        <div class="summary-item summary-green">
-                            <div class="summary-value">$2,450</div>
-                            <div class="summary-label">Total Donated</div>
-                        </div>
-                        <div class="summary-item summary-blue">
-                            <div class="summary-value">12</div>
-                            <div class="summary-label">Donations Made</div>
-                        </div>
-    
-                    </div>
+                    {% endif %}
                 </div>
             </div>
         </main>
     </div>
 
- <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
     <script>
         lucide.createIcons();
+
+        function toggleEdit() {
+            const editBtn = document.getElementById('editBtn');
+            const saveBtn = document.getElementById('saveBtn');
+            const cancelBtn = document.getElementById('cancelBtn');
+
+            editBtn.classList.add('hidden');
+            saveBtn.classList.remove('hidden');
+            cancelBtn.classList.remove('hidden');
+
+            const inputs = document.querySelectorAll('#profileForm input');
+            inputs.forEach(input => {
+                if (!input.value.startsWith('DN-')) {
+                    input.disabled = false;
+                }
+            });
+        }
+
+        function cancelEdit() {
+            location.reload();
+        }
+
+        function saveProfile() {
+            document.getElementById('profileForm').submit();
+        }
     </script>
     <script src="{{ url_for('static', filename='script/donor/profile.js') }}"></script> 
 </body>

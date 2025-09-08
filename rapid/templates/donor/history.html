@@ -3,7 +3,7 @@
 <head>
       <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - RAPID</title>
+    <title>History - RAPID</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/donor/history.css') }}">
 </head>
 <body>
@@ -18,7 +18,7 @@
       <ul class="sidebar-list">
  <!-- Dashboard SVG -->
         <li>
-          <a href="{{ url_for('donor.donor_dashboard') }}" class="sidebar-link active">
+          <a href="{{ url_for('donor.donor_dashboard') }}" class="sidebar-link">
                         <span class="sidebar-icon">
                             <i data-lucide="bar-chart-3"></i>
                         </span>
@@ -27,7 +27,7 @@
         </li>
         <!-- History SVG -->
         <li>
-          <a href="{{ url_for('donor.donor_history') }}" class="sidebar-link">
+          <a href="{{ url_for('donor.donor_history') }}" class="sidebar-link active">
                         <span class="sidebar-icon">
                             <i data-lucide="history"></i>
             </span>
@@ -65,7 +65,7 @@
         </li>
    <!-- Sign In SVG -->
         <li style="margin-top: 2rem;">
-            <a href="{{ url_for('auth.logout') }}" class="sidebar-link" style="color: #ef4444;"></a>
+            <a href="{{ url_for('auth.logout') }}" class="sidebar-link" style="color: #ef4444;">
                         <span class="sidebar-icon">
                             <i data-lucide="log-out"></i>
                         </span>
@@ -89,23 +89,24 @@
                         <span class="search-box-icon">
                             <i data-lucide="search" style="width: 16px; height: 16px;"></i>
                         </span>
-                        <input type="text" placeholder="Type here..." />
+                        <input type="text" placeholder="Search donations..." id="searchInput" />
                     </div>
                     <ul class="menu-list">
                         <li>
                             <i data-lucide="user" style="width: 16px; height: 16px; margin-right: 4px;"></i>
-                            <span>John Doe</span>
+                            <span>{{ g.user.name if g.user else 'User' }}</span>
                         </li>
                     </ul>
                 </div>
             </div>
         </nav>
+        
         <!-- Page Content -->
         <div class="donations-container">
             <!-- Header -->
             <div class="donations-header">
                 <h1>My Donations</h1>
-                <button class="download-all-btn">
+                <button class="download-all-btn" onclick="downloadAllReceipts()">
                     <i data-lucide="download"></i>
                     Download All Receipts
                 </button>
@@ -114,141 +115,185 @@
             <!-- Summary Cards -->
             <div class="summary-cards">
                 <div class="summary-card">
-                    <h3>1,125</h3>
+                    <h3>Tk {{ "%.0f"|format(total_donated if total_donated else 0) }}</h3>
                     <p>Total Donated</p>
                 </div>
                 <div class="summary-card">
-                    <h3>5</h3>
-                    <p>Donations This Year</p>
+                    <h3>{{ donation_count if donation_count else 0 }}</h3>
+                    <p>Total Donations</p>
                 </div>
             </div>
 
             <!-- Donations History -->
             <div class="donations-history-card">
                 <h2>Donation History</h2>
+                
+                {% if history %}
                 <div class="donations-list">
-                    <div class="donation-item">
+                    {% for donation in history %}
+                    <div class="donation-item" data-donation-id="{{ donation.donation_id }}">
                         <div class="donation-info">
-                            <h4>Hurricane Relief Fund</h4>
+                            <h4>{{ donation.message if donation.message else 'Donation #' + donation.donation_id|string }}</h4>
                             <p class="donation-date">
                                 <i data-lucide="calendar"></i>
-                                January 15, 2024
+                                {{ donation.date.strftime('%B %d, %Y') if donation.date else 'Unknown Date' }}
                             </p>
+                            {% if donation.item_id_list %}
+                            <p class="donation-items">
+                                <i data-lucide="package"></i>
+                                Items: {{ donation.item_id_list }}
+                            </p>
+                            {% endif %}
+                            {% if donation.method_name %}
+                            <p class="payment-method">
+                                <i data-lucide="credit-card"></i>
+                                Via: {{ donation.method_name }}
+                            </p>
+                            {% endif %}
                         </div>
                         <div class="donation-amount">
-                            <div class="amount">250</div>
+                            {% if donation.amount %}
+                                <div class="amount">${{ "%.2f"|format(donation.amount) }}</div>
+                            {% else %}
+                                <div class="amount">Items Only</div>
+                            {% endif %}
                             <span class="status completed">completed</span>
                         </div>
                         <div class="donation-actions">
-                            <button class="action-btn" title="View Details">
+                            <button class="action-btn" title="View Details" onclick="viewDonationDetails('{{ donation.donation_id }}')">
                                 <i data-lucide="eye"></i>
                             </button>
-                            <button class="action-btn" title="Download Receipt">
+                            <button class="action-btn" title="Download Receipt" onclick="downloadReceipt('{{ donation.donation_id }}')">
                                 <i data-lucide="download"></i>
                             </button>
                         </div>
                     </div>
-
-                    <div class="donation-item">
-                        <div class="donation-info">
-                            <h4>Food Bank Support</h4>
-                            <p class="donation-date">
-                                <i data-lucide="calendar"></i>
-                                January 1, 2024
-                            </p>
-                        </div>
-                        <div class="donation-amount">
-                            <div class="amount">100</div>
-                            <span class="status completed">completed</span>
-                        </div>
-                        <div class="donation-actions">
-                            <button class="action-btn" title="View Details">
-                                <i data-lucide="eye"></i>
-                            </button>
-                            <button class="action-btn" title="Download Receipt">
-                                <i data-lucide="download"></i>
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="donation-item">
-                        <div class="donation-info">
-                            <h4>Holiday Toy Drive</h4>
-                            <p class="donation-date">
-                                <i data-lucide="calendar"></i>
-                                December 25, 2023
-                            </p>
-                        </div>
-                        <div class="donation-amount">
-                            <div class="amount">500</div>
-                            <span class="status completed">completed</span>
-                        </div>
-                        <div class="donation-actions">
-                            <button class="action-btn" title="View Details">
-                                <i data-lucide="eye"></i>
-                            </button>
-                            <button class="action-btn" title="Download Receipt">
-                                <i data-lucide="download"></i>
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="donation-item">
-                        <div class="donation-info">
-                            <h4>Winter Clothing Drive</h4>
-                            <p class="donation-date">
-                                <i data-lucide="calendar"></i>
-                                December 15, 2023
-                            </p>
-                        </div>
-                        <div class="donation-amount">
-                            <div class="amount">75</div>
-                            <span class="status completed">completed</span>
-                        </div>
-                        <div class="donation-actions">
-                            <button class="action-btn" title="View Details">
-                                <i data-lucide="eye"></i>
-                            </button>
-                            <button class="action-btn" title="Download Receipt">
-                                <i data-lucide="download"></i>
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="donation-item">
-                        <div class="donation-info">
-                            <h4>Education Support Fund</h4>
-                            <p class="donation-date">
-                                <i data-lucide="calendar"></i>
-                                November 30, 2023
-                            </p>
-                        </div>
-                        <div class="donation-amount">
-                            <div class="amount">200</div>
-                            <span class="status completed">completed</span>
-                        </div>
-                        <div class="donation-actions">
-                            <button class="action-btn" title="View Details">
-                                <i data-lucide="eye"></i>
-                            </button>
-                            <button class="action-btn" title="Download Receipt">
-                                <i data-lucide="download"></i>
-                            </button>
-                        </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <div class="no-donations">
+                    <div style="text-align: center; padding: 3rem; color: #6b7280;">
+                        <i data-lucide="heart" style="width: 48px; height: 48px; margin-bottom: 1rem; stroke: #d1d5db;"></i>
+                        <h3 style="margin-bottom: 0.5rem; color: #374151;">No donations yet</h3>
+                        <p style="margin-bottom: 1.5rem;">Start making a difference by creating your first donation.</p>
+                        <a href="{{ url_for('donor.donor_donate') }}" class="btn-primary" style="text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.5rem; background: #10b981; color: white; border-radius: 0.5rem;">
+                            <i data-lucide="plus" style="width: 16px; height: 16px;"></i>
+                            Make Your First Donation
+                        </a>
                     </div>
                 </div>
+                {% endif %}
 
+                {% if history and history|length >= 10 %}
                 <div class="load-more-section">
-                    <button class="load-more-btn">Load More Donations</button>
+                    <button class="load-more-btn" onclick="loadMoreDonations()">Load More Donations</button>
                 </div>
+                {% endif %}
             </div>
         </div>
     </div>
 
+
+
       <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
     <script>
         lucide.createIcons();
+        
+        // Search functionality
+        document.getElementById('searchInput').addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            const donationItems = document.querySelectorAll('.donation-item');
+            
+            donationItems.forEach(item => {
+                const title = item.querySelector('h4').textContent.toLowerCase();
+                const date = item.querySelector('.donation-date').textContent.toLowerCase();
+                
+                if (title.includes(searchTerm) || date.includes(searchTerm)) {
+                    item.style.display = 'flex';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        });
+        
+        function viewDonationDetails(donationId) {
+            // Find the donation data
+            const donationElement = document.querySelector(`[data-donation-id="${donationId}"]`);
+            const title = donationElement.querySelector('h4').textContent;
+            const date = donationElement.querySelector('.donation-date').textContent;
+            const amount = donationElement.querySelector('.amount').textContent;
+            const items = donationElement.querySelector('.donation-items');
+            const paymentMethod = donationElement.querySelector('.payment-method');
+            
+            let modalContent = `
+                <div style="margin-bottom: 1rem;">
+                    <strong>Donation:</strong> ${title}
+                </div>
+                <div style="margin-bottom: 1rem;">
+                    <strong>Date:</strong> ${date.replace('📅', '').trim()}
+                </div>
+                <div style="margin-bottom: 1rem;">
+                    <strong>Amount:</strong> ${amount}
+                </div>
+            `;
+            
+            if (items) {
+                modalContent += `
+                    <div style="margin-bottom: 1rem;">
+                        <strong>Items:</strong> ${items.textContent.replace('📦', '').replace('Items:', '').trim()}
+                    </div>
+                `;
+            }
+            
+            if (paymentMethod) {
+                modalContent += `
+                    <div style="margin-bottom: 1rem;">
+                        <strong>Payment Method:</strong> ${paymentMethod.textContent.replace('💳', '').replace('Via:', '').trim()}
+                    </div>
+                `;
+            }
+            
+            modalContent += `
+                <div style="margin-bottom: 1rem;">
+                    <strong>Status:</strong> <span style="color: #10b981;">Completed</span>
+                </div>
+                <div style="margin-bottom: 1rem;">
+                    <strong>Donation ID:</strong> ${donationId}
+                </div>
+            `;
+            
+            document.getElementById('modalBody').innerHTML = modalContent;
+            document.getElementById('donationModal').classList.remove('hidden');
+        }
+        
+        function closeDonationModal() {
+            document.getElementById('donationModal').classList.add('hidden');
+        }
+        
+        function downloadReceipt(donationId) {
+            // In a real implementation, this would trigger a download
+            alert(`Downloading receipt for donation #${donationId}...`);
+            // You can implement actual receipt generation here
+        }
+        
+        function downloadAllReceipts() {
+            alert('Downloading all receipts...');
+            // Implement bulk receipt download
+        }
+        
+        function loadMoreDonations() {
+            // Implement pagination
+            alert('Loading more donations...');
+        }
+        
+        // Close modal when clicking outside
+        document.getElementById('donationModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeDonationModal();
+            }
+        });
     </script>
     <script src="{{ url_for('static', filename='script/donor/history.js') }}"></script>
 </body>
 </html>
+
