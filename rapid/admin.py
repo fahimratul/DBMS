@@ -74,31 +74,31 @@ def get_volunteer(volunteer_id):
     )
     volunteer = cursor.fetchone()
     
-    if volunteer and volunteer.get('nid_birthcert'):
-        image_blob = volunteer['nid_birthcert']
+    if volunteer and volunteer.get('nid_birthcert'): # type: ignore[reportGeneralTypeIssues]
+        image_blob = volunteer['nid_birthcert'] # type: ignore[reportGeneralTypeIssues]
         # Try to detect image type (basic check for PNG/JPEG headers)
-        if image_blob.startswith(b'\x89PNG\r\n\x1a\n'):
+        if image_blob.startswith(b'\x89PNG\r\n\x1a\n'): # type: ignore[reportGeneralTypeIssues]
             mime_type = 'image/png'
-        elif image_blob.startswith(b'\xff\xd8'):
+        elif image_blob.startswith(b'\xff\xd8'): # type: ignore[reportGeneralTypeIssues]
             mime_type = 'image/jpeg'
         else:
             mime_type = 'application/octet-stream'
-        volunteer['nid'] = f"data:{mime_type};base64,{base64.b64encode(image_blob).decode('utf-8')}"
-        print(volunteer['nid'][:30])
+        volunteer['nid'] = f"data:{mime_type};base64,{base64.b64encode(image_blob).decode('utf-8')}" # type: ignore[reportGeneralTypeIssues]
+        print(volunteer['nid'][:30]) # type: ignore[reportGeneralTypeIssues]
     else:
-        volunteer['nid'] = None
+        volunteer['nid'] = None # type: ignore[reportGeneralTypeIssues]
 
-    if volunteer and volunteer.get('profile_picture'):
-        image_blob = volunteer['profile_picture']
+    if volunteer and volunteer.get('profile_picture'): # type: ignore[reportGeneralTypeIssues]
+        image_blob = volunteer['profile_picture'] # type: ignore[reportGeneralTypeIssues]
         # Try to detect image type (basic check for PNG/JPEG headers)
-        if image_blob.startswith(b'\x89PNG\r\n\x1a\n'):
+        if image_blob.startswith(b'\x89PNG\r\n\x1a\n'): # type: ignore[reportGeneralTypeIssues]
             mime_type = 'image/png'
-        elif image_blob.startswith(b'\xff\xd8'):
+        elif image_blob.startswith(b'\xff\xd8'): # type: ignore[reportGeneralTypeIssues]
             mime_type = 'image/jpeg'
         else:
             mime_type = 'application/octet-stream'
-        volunteer['profile_picture'] = f"data:{mime_type};base64,{base64.b64encode(image_blob).decode('utf-8')}"
-        print(volunteer['profile_picture'][:30])
+        volunteer['profile_picture'] = f"data:{mime_type};base64,{base64.b64encode(image_blob).decode('utf-8')}" # type: ignore[reportGeneralTypeIssues]
+        print(volunteer['profile_picture'][:30]) # type: ignore[reportGeneralTypeIssues]
     else:
         volunteer['profile_picture'] = None
 
@@ -116,7 +116,7 @@ def get_volunteer(volunteer_id):
         (volunteer_id,)
     )
     feedback_count_result = cursor.fetchone()
-    volunteer['feedback_count'] = feedback_count_result['feedback_count'] if feedback_count_result else 0
+    volunteer['feedback_count'] = feedback_count_result['feedback_count'] if feedback_count_result else 0 # type: ignore[reportGeneralTypeIssues]
 
     cursor.close()
     if volunteer:
@@ -274,11 +274,11 @@ def admin_dashboard():
     request_raw_data = cursor.fetchall() #[{receiver_name: ..., item_ids: ...}, ...]
     request_data = []
     for row in request_raw_data: #row is a dictionary
-        receiver_name = row['receiver_name']
-        item_ids_string = row['item_ids']
+        receiver_name = row['receiver_name'] # type: ignore[reportGeneralTypeIssues]
+        item_ids_string = row['item_ids'] # type: ignore[reportGeneralTypeIssues]
         
         if item_ids_string:
-            items = item_ids_string.split('$')
+            items = item_ids_string.split('$') # type: ignore[reportGeneralTypeIssues]
             temp_dict = {
                 'receiver_name': receiver_name,
                 'items': [],
@@ -286,7 +286,7 @@ def admin_dashboard():
             }
             for item in items:
                 if item.strip():  # Skip empty strings
-                    item_info = item.split('#')
+                    item_info = item.split('#') # type: ignore[reportGeneralTypeIssues]
                     if len(item_info) >= 3:  # Make sure we have id#name#quantity
                         item_name = item_info[1]
                         item_quantity = item_info[2]
@@ -316,6 +316,24 @@ def admin_dashboard():
             'name': volunteer['name'],  # type: ignore[reportGeneralTypeIssues]
             'image_src': image_src
         })
+    
+    cursor.execute("""
+        SELECT mt.money_transfer_id AS transfer_id,
+            mt.account_id AS admin_account_id,
+            mt.donation_id,
+            mt.amount,
+            mt.medium,
+            d.date AS donation_date,
+            don.account_id AS donor_account_id
+        FROM money_transfer mt
+        JOIN donation d
+        ON mt.donation_id = d.donation_id
+        JOIN donor don 
+        ON d.donor_id = don.donor_id
+        LIMIT 7;
+    """)
+    account_transfers = cursor.fetchall() # {transfer_id:, admin_account_id:, donation_id:, amount:, medium:, donation_date:, donor_account_id:}
+    print(account_transfers)
 
 
 
@@ -330,7 +348,8 @@ def admin_dashboard():
         'top_donors': top_donors_data,
         'stock_items': stock_data,
         'requests': request_data,
-        'volunteer_profile_pics': volunteer_profile_pics
+        'volunteer_profile_pics': volunteer_profile_pics,
+        'account_transfers': account_transfers
     }
     # Pass complete monthly data to template
     return render_template('admin/admin_dashboard.html', admin_data=data)  # type: ignore[reportGeneralTypeIssues]
@@ -367,16 +386,17 @@ def admin_events():
 
     cursor.execute("SELECT volunteer_id, name, phone FROM volunteer")
     volunteers = cursor.fetchall()
-    volunteer_dict = {v['volunteer_id']: {'volunteer_id': v['volunteer_id'], 'name': v['name'], 'phone': v['phone']} for v in volunteers}
+    volunteer_dict = {v['volunteer_id']: {'volunteer_id': v['volunteer_id'], 'name': v['name'], 'phone': v['phone']} for v in volunteers} # type: ignore[reportGeneralTypeIssues]
 
 
     for ev in events:
-        vol_ids = [vid for vid in ev['volunteer_id_list'].split('$') if vid]  # remove empty strings
+        vol_ids = [vid for vid in ev['volunteer_id_list'].split('$') if vid]  # remove empty strings # type: ignore[reportGeneralTypeIssues]
     
-        ev['volunteers'] = [
+        ev['volunteers'] = [ # type: ignore[reportGeneralTypeIssues] 
             volunteer_dict.get(int(vid), {'name': 'Unknown', 'phone': 'Unknown', 'volunteer_id': vid})
             for vid in vol_ids
         ]
+        
 
     cursor.close()
     return render_template('admin/events.html', events=events)
@@ -467,26 +487,25 @@ def admin_stock():
         expire_date = data.get('expire_date')
         stock_date = data.get('stock_date') or datetime.now().date()
         purchase_date = data.get('purchase_date')
-        account_id = data.get('account_id')
         item_id = data.get('item_id')
 
         cursor.execute("""
-            INSERT INTO stock (price, quantity, expire_date, item_id, account_id, stock_date, purchase_date)
-            VALUES (%s, %s, %s, %s, %s, %s, %s)
-        """, (price, quantity, expire_date, item_id, account_id, stock_date, purchase_date))
+            INSERT INTO stock (price, quantity, expire_date, item_id, stock_date, purchase_date)
+            VALUES (%s, %s, %s, %s, %s, %s)
+        """, (price, quantity, expire_date, item_id, stock_date, purchase_date))
         db.commit()
 
         return jsonify({"status": "success", "message": "Stock added successfully"})
 
-    # -------------------------------
-    # GET request → load stock page
-    # -------------------------------
+
     cursor.execute('''
         SELECT s.stock_id, s.price, s.quantity, s.purchase_date, s.stock_date, s.expire_date,
                s.item_id, i.name AS item_name, t.type_name AS item_type, s.account_id
         FROM stock s
         LEFT JOIN item i ON s.item_id = i.item_id
         LEFT JOIN type_list t ON i.type_id = t.type_id
+        WHERE s.quantity > 0 AND s.expire_date >= CURDATE()
+        ORDER BY s.expire_date ASC
     ''')
     stocks = cursor.fetchall()
 
@@ -501,8 +520,8 @@ def admin_stock():
     types = cursor.fetchall()
 
     cursor.execute("SELECT MAX(item_id) AS max_id FROM item")
-    max_id = cursor.fetchone()["max_id"] or 0
-    next_item_id = max_id + 1
+    max_id = cursor.fetchone()["max_id"] or 0 # type: ignore[reportGeneralTypeIssues]
+    next_item_id = max_id + 1 # type: ignore[reportGeneralTypeIssues]
 
     return render_template(
         'admin/stock.html',
@@ -532,7 +551,7 @@ def admin_create_event():
     
         cursor.execute("SELECT event_type_id FROM event_type WHERE event_type = %s", (event_type_name,))
         row = cursor.fetchone()
-        event_type_id = row['event_type_id'] if row else None
+        event_type_id = row['event_type_id'] if row else None # type: ignore[reportGeneralTypeIssues]
 
    
         volunteer_ids = request.form.getlist("volunteers")  # ["2","3","5"]
@@ -553,7 +572,7 @@ def admin_create_event():
                 cursor.execute("SELECT name FROM item WHERE item_id=%s", (item_id,))
                 item_row = cursor.fetchone()
                 if item_row:
-                    item_name_db = item_row['name']
+                    item_name_db = item_row['name'] # type: ignore[reportGeneralTypeIssues]
                     item_string_list.append(f"{item_id}#{item_name_db}#{qty}")
 
         item_string = "$".join(item_string_list) + "$" if item_string_list else None
@@ -561,7 +580,7 @@ def admin_create_event():
         cursor.execute("""
             INSERT INTO event (volunteer_id_list, event_type_id, donation_receiver_id, status, start_date, item_id_list, location)
         VALUES (%s, %s, %s, %s, CURDATE(), %s, %s)
-        """, (volunteer_id_list, event_type_id, requester_id if requester_id else None, status, item_string,location))
+        """, (volunteer_id_list, event_type_id, requester_id if requester_id else None, status, item_string,location)) # type: ignore[reportGeneralTypeIssues]
         
     
         db.commit()
@@ -574,7 +593,7 @@ def admin_create_event():
 
     cursor.execute("SELECT COUNT(event_id) AS cnt FROM event;")
     result = cursor.fetchone()
-    next_event_number = (result['cnt'] if result else 0) + 1  
+    next_event_number = (result['cnt'] if result else 0) + 1  # type: ignore[reportGeneralTypeIssues]
 
 
     cursor.execute("""
@@ -593,7 +612,7 @@ def admin_create_event():
 
     requesters = {}
     for row in rows:
-        receiver_id = row['receiver_id']
+        receiver_id = row['receiver_id'] 
         if receiver_id not in requesters:
             requesters[receiver_id] = {
             'id': receiver_id,
@@ -643,3 +662,7 @@ def admin_create_event():
         all_items=all_items
     )
 
+@bp.route('/money_transfer')
+@login_required
+def money_transfer():
+    return render_template('admin/money_transfer.html')
