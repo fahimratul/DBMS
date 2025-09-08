@@ -316,21 +316,26 @@ def admin_dashboard():
         })
     
     cursor.execute("""
-        SELECT mt.money_transfer_id AS transfer_id,
+        SELECT 
+            mt.money_transfer_id AS transfer_id,
             mt.account_id AS admin_account_id,
+            a.method_name AS medium,
             mt.donation_id,
             mt.amount,
-            mt.medium,
             d.date AS donation_date,
             don.account_id AS donor_account_id
         FROM money_transfer mt
-        JOIN donation d
-        ON mt.donation_id = d.donation_id
+        JOIN account a 
+            ON mt.account_id = a.account_id
+        JOIN donation d 
+            ON mt.donation_id = d.donation_id
         JOIN donor don 
-        ON d.donor_id = don.donor_id
-        LIMIT 7;
+            ON d.donor_id = don.donor_id
+    LIMIT 7;
     """)
-    account_transfers = cursor.fetchall() # {transfer_id:, admin_account_id:, donation_id:, amount:, medium:, donation_date:, donor_account_id:}
+
+    account_transfers = cursor.fetchall()
+        # {transfer_id:, admin_account_id:, medium:, donation_id:, amount:, donation_date:, donor_account_id:}
     print(account_transfers)
 
 
