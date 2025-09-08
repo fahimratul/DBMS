@@ -100,14 +100,16 @@ def get_volunteer(volunteer_id):
         volunteer['profile_picture'] = f"data:{mime_type};base64,{base64.b64encode(image_blob).decode('utf-8')}" # type: ignore[reportGeneralTypeIssues]
         print(volunteer['profile_picture'][:30]) # type: ignore[reportGeneralTypeIssues]
     else:
-        volunteer['profile_picture'] = None # type: ignore[reportGeneralTypeIssues]
+        volunteer['profile_picture'] = None
 
-    # cursor.execute(
-    #     "SELECT volunteer_id, COUNT(*) AS event_count FROM event WHERE volunteer_id = %s GROUP BY volunteer_id;",
-    #     (volunteer_id,)
-    # )
-    # event_count_result = cursor.fetchone()
-    # volunteer['event_count'] = event_count_result['event_count'] if event_count_result else 0 # type: ignore[reportGeneralTypeIssues]
+    id_start = f"{volunteer_id}$"
+    id_end = f"${volunteer_id}$"
+    cursor.execute(
+        "SELECT COUNT(*) AS event_count FROM event WHERE volunteer_id_list LIKE %s or volunteer_id_list LIKE %s",
+        (f"{id_start}%", f"%{id_end}")
+    )
+    event_count_result = cursor.fetchone()
+    volunteer['event_count'] = event_count_result['event_count'] if event_count_result else 0
     
     cursor.execute(
         "SELECT volunteer_id, COUNT(*) AS feedback_count FROM feedback WHERE volunteer_id = %s GROUP BY volunteer_id;",
