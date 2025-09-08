@@ -297,5 +297,12 @@ UPDATE money_transfer SET medium = 'bank'  WHERE money_transfer_id = 7;
 UPDATE money_transfer SET medium = 'bkash' WHERE money_transfer_id = 8;
 
 
+-- Altering donor table to drop account_id foreign key
+SELECT CONSTRAINT_NAME
+FROM information_schema.KEY_COLUMN_USAGE
+WHERE TABLE_NAME = 'donor'
+    AND COLUMN_NAME = 'account_id'
+    AND REFERENCED_TABLE_NAME = 'account'
+    AND CONSTRAINT_SCHEMA = 'project2';  -- Replace with your DB name
 
-
+ALTER TABLE donor DROP FOREIGN KEY donor_ibfk_1; --replace with the constraint name from previous query
