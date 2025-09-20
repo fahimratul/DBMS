@@ -244,6 +244,7 @@ Thank you for your generosity!
         return Response('Error generating receipt.', status=500)
     finally:
         cursor.close()
+
 @bp.route('/download_all_receipts')
 @login_required
 def download_all_receipts():
@@ -367,7 +368,7 @@ def donor_profile():
         account_id = request.form.get('account_id', '').strip()
 
         # Email validation
-        email_regex = r'^[^\s@]+@[^\s@]+\.[^\s@]+$'
+        email_regex = r'^[^\s@]+@[^\s@]+\.[^\s@]+
         if email and not re.match(email_regex, email):
             flash('Please enter a valid email address.', 'error')
             return redirect(url_for('donor.donor_profile'))
@@ -548,8 +549,8 @@ def submit_donation():
                 flash('No valid items were selected. Please try again.', 'error')
                 return redirect(url_for('donor.donor_donate'))
             
-            # Join all item strings with '$' separator
-            item_id_list = '$'.join(item_id_list_parts) + '$'  # Add trailing $ as per your format
+            # Join all item strings with ' separator
+            item_id_list = '.join(item_id_list_parts) + '  # Add trailing $ as per your format
             
             # Insert into donation table with item_id_list
             cursor.execute(
@@ -671,7 +672,7 @@ def get_donation_details(donation_id):
 @bp.route('/feedback')
 @login_required
 def donor_feedback():
-    """Donor feedback page - no donor name displayed here as requested"""
+    """Donor feedback page"""
     donor_id = g.user['id']
     db = get_bd()
     cursor = db.cursor(dictionary=True)

@@ -80,18 +80,12 @@
       <div class="content">
         <h2>Your Ongoing Tasks</h2>
         <div class="task-cards">
-          {% set tasks = [
-            {'id': 1, 'title': 'Distribute Food Supplies', 'description': 'Help distribute food supplies to families in need in the local community.', 'date': '2024-07-10', 'status': 'Pending'},
-            {'id': 2, 'title': 'Organize Clothing Drive', 'description': 'Collect and organize clothing donations for the upcoming winter season.', 'date': '2024-07-15', 'status': 'In Progress'},
-            {'id': 3, 'title': 'Community Clean-Up', 'description': 'Participate in a community clean-up event to improve local parks and public spaces.', 'date': '2024-07-20', 'status': 'Completed'}
-          ] %}
-          {% for task in tasks %}
+          {% for event in events %}
           <div class="task-card">
-            <h3>{{ task.title }}</h3>
-            <p>{{ task.description }}</p>
-            <p><strong>Date:</strong> {{ task.date }}</p>
-            <p><strong>Status:</strong> {{ task.status }}</p>
-            <button class="btn-complete" onclick="markAsCompleted({{ task.id }})">Mark as Completed</button>
+            <h3>{{ event.event_type }}</h3>
+            <p><strong>Date:</strong> {{ event.start_date }}</p>
+            <p><strong>Status:</strong> {{ event.status }}</p>
+            <button class="btn-complete" onclick="markAsCompleted({{ event.event_id }})">Mark as Completed</button>
           </div>
           {% else %}
           <p>No tasks assigned yet.</p>

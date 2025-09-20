@@ -1,15 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Rapid</title>
-    <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/tailwind/soft-ui-dashboard-tailwind.css') }}"/>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin/volunteer_list.css') }}"/>
-  </head>
 
-  <body>
+<head>
+  <meta charset="UTF-8" />
+  <title>Rapid</title>
+  <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/tailwind/soft-ui-dashboard-tailwind.css') }}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/admin/volunteer_list.css') }}" />
+</head>
+
+<body>
   <aside class="sidebar">
     <div class="sidebar-header">
       <img src="{{ url_for('static', filename='images/logo/logo_icon.png') }}" class="sidebar-logo-img"
@@ -75,15 +76,19 @@
         <li>
           <a class="sidebar-link active" href="{{ url_for('admin.volunteer_list') }}">
             <span class="sidebar-icon">
-                <!-- User Friends SVG -->
-                <svg xmlns="http://www.w3.org/2000/svg" width="60px" height="60px" viewBox="0 0 64 64" fill="#000000" style="display: block; margin: 0 auto;">
-                  <g>
-                    <path fill="#394240" d="M32,0C14.328,0,0,14.328,0,32s14.328,32,32,32s32-14.328,32-32S49.672,0,32,0z M20.418,53.016 C21.75,47.844,26.406,44,32,44s10.25,3.844,11.582,9.016C40.145,54.914,36.203,56,32,56S23.855,54.914,20.418,53.016z M32,32 c-2.211,0-4-1.789-4-4s1.789-4,4-4s4,1.789,4,4S34.211,32,32,32z M50.129,47.695c-2.141-4.668-5.992-8.367-10.789-10.266 C42.156,35.234,44,31.848,44,28c0-6.625-5.371-12-12-12s-12,5.375-12,12c0,3.848,1.844,7.234,4.66,9.43 c-4.797,1.898-8.648,5.598-10.789,10.266C10.223,43.484,8,38.008,8,32C8,18.746,18.746,8,32,8s24,10.746,24,24 C56,38.008,53.777,43.484,50.129,47.695z"/>
-                    <path fill="#ffffff" d="M20.418,53.016C21.75,47.844,26.406,44,32,44s10.25,3.844,11.582,9.016C40.145,54.914,36.203,56,32,56 S23.855,54.914,20.418,53.016z"/>
-                    <circle fill="#ffffff" cx="32" cy="28" r="4"/>
-                    <path fill="#afb1af" d="M50.129,47.695c-2.141-4.668-5.992-8.367-10.789-10.266C42.156,35.234,44,31.848,44,28 c0-6.625-5.371-12-12-12s-12,5.375-12,12c0,3.848,1.844,7.234,4.66,9.43c-4.797,1.898-8.648,5.598-10.789,10.266 C10.223,43.484,8,38.008,8,32C8,18.746,18.746,8,32,8s24,10.746,24,24C56,38.008,53.777,43.484,50.129,47.695z"/>
-                  </g>
-                </svg>
+              <!-- User Friends SVG -->
+              <svg xmlns="http://www.w3.org/2000/svg" width="60px" height="60px" viewBox="0 0 64 64" fill="#000000"
+                style="display: block; margin: 0 auto;">
+                <g>
+                  <path fill="#394240"
+                    d="M32,0C14.328,0,0,14.328,0,32s14.328,32,32,32s32-14.328,32-32S49.672,0,32,0z M20.418,53.016 C21.75,47.844,26.406,44,32,44s10.25,3.844,11.582,9.016C40.145,54.914,36.203,56,32,56S23.855,54.914,20.418,53.016z M32,32 c-2.211,0-4-1.789-4-4s1.789-4,4-4s4,1.789,4,4S34.211,32,32,32z M50.129,47.695c-2.141-4.668-5.992-8.367-10.789-10.266 C42.156,35.234,44,31.848,44,28c0-6.625-5.371-12-12-12s-12,5.375-12,12c0,3.848,1.844,7.234,4.66,9.43 c-4.797,1.898-8.648,5.598-10.789,10.266C10.223,43.484,8,38.008,8,32C8,18.746,18.746,8,32,8s24,10.746,24,24 C56,38.008,53.777,43.484,50.129,47.695z" />
+                  <path fill="#ffffff"
+                    d="M20.418,53.016C21.75,47.844,26.406,44,32,44s10.25,3.844,11.582,9.016C40.145,54.914,36.203,56,32,56 S23.855,54.914,20.418,53.016z" />
+                  <circle fill="#ffffff" cx="32" cy="28" r="4" />
+                  <path fill="#afb1af"
+                    d="M50.129,47.695c-2.141-4.668-5.992-8.367-10.789-10.266C42.156,35.234,44,31.848,44,28 c0-6.625-5.371-12-12-12s-12,5.375-12,12c0,3.848,1.844,7.234,4.66,9.43c-4.797,1.898-8.648,5.598-10.789,10.266 C10.223,43.484,8,38.008,8,32C8,18.746,18.746,8,32,8s24,10.746,24,24C56,38.008,53.777,43.484,50.129,47.695z" />
+                </g>
+              </svg>
             </span>
             <span class="sidebar-label">Volunteer List</span>
           </a>
@@ -92,13 +97,18 @@
         <li>
           <a class="sidebar-link" href="{{ url_for('admin.admin_donors') }}">
             <span class="sidebar-icon">
-              <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#000000" height="64px" width="64px" version="1.2" baseProfile="tiny" id="inventory" viewBox="0 0 256 230" xml:space="preserve">
+              <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#000000"
+                height="64px" width="64px" version="1.2" baseProfile="tiny" id="inventory" viewBox="0 0 256 230"
+                xml:space="preserve">
 
-                <g id="SVGRepo_bgCarrier" stroke-width="0"/>
+                <g id="SVGRepo_bgCarrier" stroke-width="0" />
 
-               <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"/>
+                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" />
 
-                <g id="SVGRepo_iconCarrier"> <path d="M180,26.6c-40.4,0-72.8,32.8-72.8,73.2c0,40.2,32.6,72.8,72.8,72.8c40.2,0,73-32.6,73-73C253,59.2,220.4,26.6,180,26.6z M185.5,139.5v11.4h-10.1v-11.1c-8.7,0-17.5-2.3-21.7-4.7l3.7-14.8c4.7,2.3,12,5,19.8,5c8.4,0,12.5-3.7,12.5-8.7 c0-5-4-7.1-13.6-10.9c-13.4-4.7-21.7-11.4-21.7-23.5c0-11.1,7.3-19.8,20.8-22.5v-12h10.1v11.4c8.4,0,14.4,1.7,18.9,4.1l-4.1,14.4 c-3.3-1.4-8.7-3.7-16.1-3.7s-11.4,3.7-11.4,7.3c0,5,4.7,7,14.8,11.1c13.8,5,20.2,12,20.2,23.5C207.2,127.4,200.2,136.1,185.5,139.5z M205.7,213c0,7-5.7,12.6-12.6,12.6h-85.8C97,225.9,85.9,222,78,214.2l-32.3-32.3c-4.1-4.1-9.4-6.2-14.7-6.2H2v-50h54v-0.1 c10,0,20,3.9,27.8,11.5l46.3,46.3c4.9,4.9,4.9,12.8,0,17.7s-12.8,4.9-17.7,0L75,163.9c-1.5-1.7-4.1-1.7-5.7,0 c-1.7,1.7-1.7,4.3,0,5.9l37.2,37.2c3.9,4.1,9.2,6.2,14.7,6.2s10.9-2.3,14.7-6.2c1.9-1.7,3.4-4.1,4.5-6.4H193 C200,200.6,205.7,206.2,205.7,213z"/> </g>
+                <g id="SVGRepo_iconCarrier">
+                  <path
+                    d="M180,26.6c-40.4,0-72.8,32.8-72.8,73.2c0,40.2,32.6,72.8,72.8,72.8c40.2,0,73-32.6,73-73C253,59.2,220.4,26.6,180,26.6z M185.5,139.5v11.4h-10.1v-11.1c-8.7,0-17.5-2.3-21.7-4.7l3.7-14.8c4.7,2.3,12,5,19.8,5c8.4,0,12.5-3.7,12.5-8.7 c0-5-4-7.1-13.6-10.9c-13.4-4.7-21.7-11.4-21.7-23.5c0-11.1,7.3-19.8,20.8-22.5v-12h10.1v11.4c8.4,0,14.4,1.7,18.9,4.1l-4.1,14.4 c-3.3-1.4-8.7-3.7-16.1-3.7s-11.4,3.7-11.4,7.3c0,5,4.7,7,14.8,11.1c13.8,5,20.2,12,20.2,23.5C207.2,127.4,200.2,136.1,185.5,139.5z M205.7,213c0,7-5.7,12.6-12.6,12.6h-85.8C97,225.9,85.9,222,78,214.2l-32.3-32.3c-4.1-4.1-9.4-6.2-14.7-6.2H2v-50h54v-0.1 c10,0,20,3.9,27.8,11.5l46.3,46.3c4.9,4.9,4.9,12.8,0,17.7s-12.8,4.9-17.7,0L75,163.9c-1.5-1.7-4.1-1.7-5.7,0 c-1.7,1.7-1.7,4.3,0,5.9l37.2,37.2c3.9,4.1,9.2,6.2,14.7,6.2s10.9-2.3,14.7-6.2c1.9-1.7,3.4-4.1,4.5-6.4H193 C200,200.6,205.7,206.2,205.7,213z" />
+                </g>
 
               </svg>
             </span>
@@ -110,13 +120,18 @@
           <a class="sidebar-link" href="{{ url_for('admin.admin_requests') }}">
             <span class="sidebar-icon">
               <!-- Billing SVG -->
-              <svg xmlns="http://www.w3.org/2000/svg" fill="#000000" width="68px" height="68px" viewBox="-1.6 -1.6 19.20 19.20" id="request-refund-16px" transform="rotate(0)">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="#000000" width="68px" height="68px"
+                viewBox="-1.6 -1.6 19.20 19.20" id="request-refund-16px" transform="rotate(0)">
 
-                <g id="SVGRepo_bgCarrier" stroke-width="0"/>
+                <g id="SVGRepo_bgCarrier" stroke-width="0" />
 
-                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"/>
+                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" />
 
-                <g id="SVGRepo_iconCarrier"> <path id="Path_45" data-name="Path 45" d="M-16,11a2,2,0,0,0,2-2,2,2,0,0,0-2-2,2,2,0,0,0-2,2A2,2,0,0,0-16,11Zm0-3a1,1,0,0,1,1,1,1,1,0,0,1-1,1,1,1,0,0,1-1-1A1,1,0,0,1-16,8Zm2.5,4h-5A2.5,2.5,0,0,0-21,14.5,1.5,1.5,0,0,0-19.5,16h7A1.5,1.5,0,0,0-11,14.5,2.5,2.5,0,0,0-13.5,12Zm1,3h-7a.5.5,0,0,1-.5-.5A1.5,1.5,0,0,1-18.5,13h5A1.5,1.5,0,0,1-12,14.5.5.5,0,0,1-12.5,15Zm5-15h-7A2.5,2.5,0,0,0-17,2.5v3a.5.5,0,0,0,.5.5.5.5,0,0,0,.5-.5v-3A1.5,1.5,0,0,1-14.5,1h3V2A1.5,1.5,0,0,0-13,3.5,1.5,1.5,0,0,0-11.5,5V6h-1a.5.5,0,0,0-.5.5.5.5,0,0,0,.5.5h1v.5A.5.5,0,0,0-11,8a.5.5,0,0,0,.5-.5V7A1.5,1.5,0,0,0-9,5.5,1.5,1.5,0,0,0-10.5,4V3h1A.5.5,0,0,0-9,2.5.5.5,0,0,0-9.5,2h-1V1h3A1.5,1.5,0,0,1-6,2.5v5A1.5,1.5,0,0,1-7.5,9h-3a.5.5,0,0,0-.354.146L-12,10.293V9.5a.5.5,0,0,0-.5-.5.5.5,0,0,0-.5.5v2a.5.5,0,0,0,.309.462A.489.489,0,0,0-12.5,12a.5.5,0,0,0,.354-.146L-10.293,10H-7.5A2.5,2.5,0,0,0-5,7.5v-5A2.5,2.5,0,0,0-7.5,0ZM-10,5.5a.5.5,0,0,1-.5.5V5A.5.5,0,0,1-10,5.5ZM-11.5,4a.5.5,0,0,1-.5-.5.5.5,0,0,1,.5-.5Z" transform="translate(21)"/> </g>
+                <g id="SVGRepo_iconCarrier">
+                  <path id="Path_45" data-name="Path 45"
+                    d="M-16,11a2,2,0,0,0,2-2,2,2,0,0,0-2-2,2,2,0,0,0-2,2A2,2,0,0,0-16,11Zm0-3a1,1,0,0,1,1,1,1,1,0,0,1-1,1,1,1,0,0,1-1-1A1,1,0,0,1-16,8Zm2.5,4h-5A2.5,2.5,0,0,0-21,14.5,1.5,1.5,0,0,0-19.5,16h7A1.5,1.5,0,0,0-11,14.5,2.5,2.5,0,0,0-13.5,12Zm1,3h-7a.5.5,0,0,1-.5-.5A1.5,1.5,0,0,1-18.5,13h5A1.5,1.5,0,0,1-12,14.5.5.5,0,0,1-12.5,15Zm5-15h-7A2.5,2.5,0,0,0-17,2.5v3a.5.5,0,0,0,.5.5.5.5,0,0,0,.5-.5v-3A1.5,1.5,0,0,1-14.5,1h3V2A1.5,1.5,0,0,0-13,3.5,1.5,1.5,0,0,0-11.5,5V6h-1a.5.5,0,0,0-.5.5.5.5,0,0,0,.5.5h1v.5A.5.5,0,0,0-11,8a.5.5,0,0,0,.5-.5V7A1.5,1.5,0,0,0-9,5.5,1.5,1.5,0,0,0-10.5,4V3h1A.5.5,0,0,0-9,2.5.5.5,0,0,0-9.5,2h-1V1h3A1.5,1.5,0,0,1-6,2.5v5A1.5,1.5,0,0,1-7.5,9h-3a.5.5,0,0,0-.354.146L-12,10.293V9.5a.5.5,0,0,0-.5-.5.5.5,0,0,0-.5.5v2a.5.5,0,0,0,.309.462A.489.489,0,0,0-12.5,12a.5.5,0,0,0,.354-.146L-10.293,10H-7.5A2.5,2.5,0,0,0-5,7.5v-5A2.5,2.5,0,0,0-7.5,0ZM-10,5.5a.5.5,0,0,1-.5.5V5A.5.5,0,0,1-10,5.5ZM-11.5,4a.5.5,0,0,1-.5-.5.5.5,0,0,1,.5-.5Z"
+                    transform="translate(21)" />
+                </g>
 
               </svg>
             </span>
@@ -125,36 +140,53 @@
         </li>
 
         <li>
-          <h6 class="sidebar-section-title">Account pages</h6>
+          <a class="sidebar-link" href="{{ url_for('admin.admin_stock') }}">
+            <span class="sidebar-icon">
+              <!-- Billing SVG -->
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5}
+                stroke="currentColor" className="size-6">
+                <path strokeLinecap="round" strokeLinejoin="round"
+                  d="m20.25 7.5-.625 10.632a2.25 2.25 0 0 1-2.247 2.118H6.622a2.25 2.25 0 0 1-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125Z" />
+              </svg>
+            </span>
+            <span class="sidebar-label">Manage Stock</span>
+          </a>
         </li>
 
         <li>
-          <a class="sidebar-link" href="#">
+          <a class="sidebar-link" href="{{ url_for('admin.money_transfer') }}">
             <span class="sidebar-icon">
-              <!-- Profile SVG -->
-              <svg width="60px" height="60px" viewBox="0 0 46 42" xmlns="http://www.w3.org/2000/svg">
-                <g fill="none" fill-rule="evenodd">
-                  <g fill="#FFFFFF" fill-rule="nonzero">
-                    <g>
-                      <g>
-                        <g>
-                          <path class="fill-slate-800 opacity-60"
-                            d="M45,0 L26,0 C25.447,0 25,0.447 25,1 L25,20 C25,20.379 25.214,20.725 25.553,20.895 C25.694,20.965 25.848,21 26,21 C26.212,21 26.424,20.933 26.6,20.8 L34.333,15 L45,15 C45.553,15 46,14.553 46,14 L46,1 C46,0.447 45.553,0 45,0 Z">
-                          </path>
-                          <path class="fill-slate-800"
-                            d="M22.883,32.86 C20.761,32.012 17.324,31 13,31 C8.676,31 5.239,32.012 3.116,32.86 C1.224,33.619 0,35.438 0,37.494 L0,41 C0,41.553 0.447,42 1,42 L25,42 C25.553,42 26,41.553 26,41 L26,37.494 C26,35.438 24.776,33.619 22.883,32.86 Z">
-                          </path>
-                          <path class="fill-slate-800"
-                            d="M13,28 C17.432,28 21,22.529 21,18 C21,13.589 17.411,10 13,10 C8.589,10 5,13.589 5,18 C5,22.529 8.568,28 13,28 Z">
-                          </path>
-                        </g>
-                      </g>
-                    </g>
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                <g id="SVGRepo_iconCarrier">
+                  <g opacity="0.4">
+                    <path
+                      d="M9.5 13.7502C9.5 14.7202 10.25 15.5002 11.17 15.5002H13.05C13.85 15.5002 14.5 14.8202 14.5 13.9702C14.5 13.0602 14.1 12.7302 13.51 12.5202L10.5 11.4702C9.91 11.2602 9.51001 10.9402 9.51001 10.0202C9.51001 9.18023 10.16 8.49023 10.96 8.49023H12.84C13.76 8.49023 14.51 9.27023 14.51 10.2402"
+                      stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                    <path d="M12 7.5V16.5" stroke="#292D32" stroke-width="1.5" stroke-linecap="round"
+                      stroke-linejoin="round"></path>
                   </g>
+                  <path d="M22 12C22 17.52 17.52 22 12 22C6.48 22 2 17.52 2 12C2 6.48 6.48 2 12 2" stroke="#292D32"
+                    stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                  <path d="M17 3V7H21" stroke="#292D32" stroke-width="1.5" stroke-linecap="round"
+                    stroke-linejoin="round"></path>
+                  <path d="M22 2L17 7" stroke="#292D32" stroke-width="1.5" stroke-linecap="round"
+                    stroke-linejoin="round"></path>
                 </g>
               </svg>
             </span>
-            <span class="sidebar-label">Profile</span>
+            <span class="sidebar-label">Money Transfer</span>
+          </a>
+        </li>
+
+        
+        <li>
+          <a class="sidebar-link" href="{{ url_for('admin.admin_feedback') }}">
+            <span class="sidebar-icon">
+              <svg fill="#000000" width="64px" height="64px" viewBox="0 -2 28 28" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path d="m10 10c0 1.105-.895 2-2 2-1.104 0-2-.896-2-2s.895-2 2-2c.552 0 1.052.224 1.414.586.361.351.586.841.586 1.384v.032zm6 0c0 1.105-.895 2-2 2-.552 0-1.052-.224-1.414-.586-.377-.364-.611-.874-.611-1.439 0-1.105.895-2 2-2 .565 0 1.074.234 1.438.61l.001.001c.362.351.587.841.587 1.385v.031-.002zm6 0c0 1.104-.896 2-2 2s-2-.895-2-2 .895-2 2-2c.552 0 1.052.224 1.414.586.361.351.586.841.586 1.384v.032zm-8-8c-.038 0-.083-.001-.128-.001-2.098 0-4.102.399-5.942 1.124l.11-.038c-1.74.644-3.217 1.645-4.4 2.922l-.007.007c-.99 1.036-1.608 2.436-1.633 3.98v.005c.013 1.258.432 2.415 1.131 3.351l-.011-.015c.835 1.131 1.885 2.053 3.096 2.719l.049.025 1.36.782-.426 1.498c-.272 1.021-.646 1.915-1.122 2.741l.029-.054c1.651-.691 3.071-1.59 4.313-2.686l-.017.014.672-.594.89.094c.607.077 1.312.122 2.028.125h.004c.038 0 .083.001.128.001 2.098 0 4.102-.399 5.942-1.124l-.11.038c1.74-.644 3.217-1.645 4.4-2.922l.007-.007c1.009-1.025 1.632-2.432 1.632-3.984s-.623-2.96-1.633-3.985l.001.001c-1.19-1.284-2.666-2.286-4.329-2.904l-.078-.025c-1.73-.687-3.735-1.086-5.833-1.086-.044 0-.088 0-.132.001h.007zm14 8c-.012 1.924-.72 3.681-1.884 5.033l.009-.01c-1.349 1.592-3.059 2.837-5.008 3.611l-.086.03c-2.023.846-4.374 1.337-6.839 1.337-.068 0-.135 0-.202-.001h.01c-.8-.002-1.588-.047-2.363-.134l.097.009c-1.981 1.759-4.399 3.072-7.069 3.756l-.118.026c-.503.145-1.107.266-1.726.339l-.055.005h-.08c-.163 0-.311-.062-.422-.164-.123-.111-.212-.258-.249-.424l-.001-.005v-.016c-.017-.029-.027-.064-.027-.102 0-.033.008-.063.021-.091l-.001.001c.02-.047.031-.101.031-.159 0-.001 0-.001 0-.002q-.008-.031.07-.149l.094-.141.11-.133.125-.141q.11-.125.484-.539l.539-.594q.164-.18.484-.617c.174-.231.343-.493.491-.767l.017-.033q.187-.359.422-.922c.137-.317.276-.712.39-1.117l.017-.07c-1.558-.861-2.852-2.018-3.844-3.405l-.024-.035c-.878-1.216-1.407-2.735-1.414-4.377v-.002c.005-1.438.418-2.779 1.128-3.914l-.018.031c.781-1.276 1.778-2.34 2.951-3.173l.033-.022c1.281-.904 2.766-1.632 4.361-2.105l.108-.027c1.603-.501 3.446-.789 5.357-.789h.085-.004.083c1.911 0 3.754.288 5.488.824l-.132-.035c1.703.501 3.188 1.229 4.517 2.165l-.048-.032c1.206.855 2.203 1.92 2.958 3.149l.026.046c.691 1.104 1.103 2.445 1.107 3.882v.001z"></path></g></svg>
+            </span>
+            <span class="sidebar-label">Feedbacks</span>
           </a>
         </li>
 
@@ -188,158 +220,160 @@
     </nav>
   </aside>
 
-    <main class="main-container">
-      <!-- Navbar -->
-     <nav class="navbar" navbar-main navbar-scroll="true">
-        <div class="navbar-div">
-          <nav>
-            <h2>RAPID</h2>
-          </nav>
+  <main class="main-container">
+    <!-- Navbar -->
+    <nav class="navbar" navbar-main navbar-scroll="true">
+      <div class="navbar-div">
+        <nav>
+          <h2>RAPID</h2>
+        </nav>
 
-          <div class="navbar-div-search" >
-              <div class="search-box">
-                <span class="search-box-icon">
-                  <i class="fas fa-search" aria-hidden="true"></i>
-                </span>
-                <input type="text" placeholder="Type here..." />
-              </div>
-
-            <ul class="menu-list">
-              <li><i class="fa fa-user sm:mr-1" aria-hidden="true"></i><span>{{name}}</span></li>
-            </ul>
+        <div class="navbar-div-search">
+          <div class="search-box">
+            <span class="search-box-icon">
+              <i class="fas fa-search" aria-hidden="true"></i>
+            </span>
+            <input type="text" placeholder="Type here..." />
           </div>
-        </div>
-      </nav>
 
-      <!-- Main Content -->
-      <div class="content-container">
-        <div class="content-header">
-          <h1>Volunteer List</h1>
-          <p>Manage your volunteers efficiently.</p>
-        </div>
-        <div class="nav">
-          <div class="container ">
-            <div class="btn" id ="free">Free</div>
-            <div class="btn" id="assigned">Assigned</div>
-            <div class="btn" id="new">New</div>
-            <div class="btn" id="block">Blocked</div>
-            <svg class="outline" overflow="visible" width="400" height="60" viewBox="0 0 400 60" xmlns="http://www.w3.org/2000/svg">
-              <rect class="rect" pathLength="100" x="0" y="0" width="35vw" height="60" fill="transparent" stroke-width="5" ></rect>
-            </svg>
-          </div>
-        </div>
-
-        <!-- FREE VOLUNTEERS -->
-        <div class="content-body active" id="free_volunteers">
-          {% set volunteers = freevolunteers %}
-          <script>
-            window.freeVolunteers = {{ volunteers | tojson }};
-          </script>
-          <table class="volunteer-table">
-            <thead>
-              <tr>
-                <th>Volunteer id</th>
-                <th>Name</th>
-                <th>Info</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody id="free-volunteer-table-body">
-              <!-- JS will fill this -->
-            </tbody>
-          </table>
-          <div class="pagination-container">
-            <div class="pagination-info">
-              <span id="free-pagination-info-text">Showing 1-10 of {{ volunteers|length }} volunteers</span>
-            </div>
-            <div class="pagination-buttons" id="free-pagination-buttons"></div>
-          </div>
-        </div>
-
-        <!-- ASSIGNED VOLUNTEERS -->
-        <div class="content-body" id="asigned_volunteers">
-          {% set volunteers = assignvolunteers %}
-          <script>
-            window.assignedVolunteers = {{ volunteers | tojson }};
-          </script>
-          <table class="volunteer-table">
-            <thead>
-              <tr>
-                <th>Volunteer id</th>
-                <th>Name</th>
-                <th>Info</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody id="assigned-volunteer-table-body">
-              <!-- JS will fill this -->
-            </tbody>
-          </table>
-          <div class="pagination-container">
-            <div class="pagination-info">
-              <span id="assigned-pagination-info-text">Showing 1-10 of {{ volunteers|length }} volunteers</span>
-            </div>
-            <div class="pagination-buttons" id="assigned-pagination-buttons"></div>
-          </div>
-        </div>
-
-        <!-- NEW VOLUNTEERS -->
-        <div class="content-body" id="new_volunteers">
-          {% set volunteers = newvolunteers %}
-          <script>
-            window.newVolunteers = {{ volunteers | tojson }};
-          </script>
-          <table class="volunteer-table">
-            <thead>
-              <tr>
-                <th>Volunteer id</th>
-                <th>Name</th>
-                <th>Info</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody id="new-volunteer-table-body">
-              <!-- JS will fill this -->
-            </tbody>
-          </table>
-          <div class="pagination-container">
-            <div class="pagination-info">
-              <span id="new-pagination-info-text">Showing 1-10 of {{ volunteers|length }} volunteers</span>
-            </div>
-            <div class="pagination-buttons" id="new-pagination-buttons"></div>
-          </div>
-        </div>
-
-        <!-- BLOCKED VOLUNTEERS -->
-        <div class="content-body" id="block_volunteers">
-          {% set volunteers = blockvolunteers %}
-          <script>
-            window.blockedVolunteers = {{ volunteers | tojson }};
-          </script>
-          <table class="volunteer-table">
-            <thead>
-              <tr>
-                <th>Volunteer id</th>
-                <th>Name</th>
-                <th>Info</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody id="volunteer-table-body">
-              <!-- JS will fill this -->
-            </tbody>
-          </table>
-          <div class="pagination-container">
-            <div class="pagination-info">
-              <span id="pagination-info-text">Showing 1-10 of {{ volunteers|length }} volunteers</span>
-            </div>
-            <div class="pagination-buttons" id="pagination-buttons"></div>
-          </div>
+          <ul class="menu-list">
+            <li><i class="fa fa-user sm:mr-1" aria-hidden="true"></i><span>{{name}}</span></li>
+          </ul>
         </div>
       </div>
-    </main>
+    </nav>
 
-    <script>
+    <!-- Main Content -->
+    <div class="content-container">
+      <div class="content-header">
+        <h1>Volunteer List</h1>
+        <p>Manage your volunteers efficiently.</p>
+      </div>
+      <div class="nav">
+        <div class="container ">
+          <div class="btn" id="free">Free</div>
+          <div class="btn" id="assigned">Assigned</div>
+          <div class="btn" id="new">New</div>
+          <div class="btn" id="block">Blocked</div>
+          <svg class="outline" overflow="visible" width="400" height="60" viewBox="0 0 400 60"
+            xmlns="http://www.w3.org/2000/svg">
+            <rect class="rect" pathLength="100" x="0" y="0" width="35vw" height="60" fill="transparent"
+              stroke-width="5"></rect>
+          </svg>
+        </div>
+      </div>
+
+      <!-- FREE VOLUNTEERS -->
+      <div class="content-body active" id="free_volunteers">
+        {% set volunteers = freevolunteers %}
+        <script>
+          window.freeVolunteers = {{ volunteers | tojson }};
+        </script>
+        <table class="volunteer-table">
+          <thead>
+            <tr>
+              <th>Volunteer id</th>
+              <th>Name</th>
+              <th>Info</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="free-volunteer-table-body">
+            <!-- JS will fill this -->
+          </tbody>
+        </table>
+        <div class="pagination-container">
+          <div class="pagination-info">
+            <span id="free-pagination-info-text">Showing 1-10 of {{ volunteers|length }} volunteers</span>
+          </div>
+          <div class="pagination-buttons" id="free-pagination-buttons"></div>
+        </div>
+      </div>
+
+      <!-- ASSIGNED VOLUNTEERS -->
+      <div class="content-body" id="asigned_volunteers">
+        {% set volunteers = assignvolunteers %}
+        <script>
+          window.assignedVolunteers = {{ volunteers | tojson }};
+        </script>
+        <table class="volunteer-table">
+          <thead>
+            <tr>
+              <th>Volunteer id</th>
+              <th>Name</th>
+              <th>Info</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="assigned-volunteer-table-body">
+            <!-- JS will fill this -->
+          </tbody>
+        </table>
+        <div class="pagination-container">
+          <div class="pagination-info">
+            <span id="assigned-pagination-info-text">Showing 1-10 of {{ volunteers|length }} volunteers</span>
+          </div>
+          <div class="pagination-buttons" id="assigned-pagination-buttons"></div>
+        </div>
+      </div>
+
+      <!-- NEW VOLUNTEERS -->
+      <div class="content-body" id="new_volunteers">
+        {% set volunteers = newvolunteers %}
+        <script>
+          window.newVolunteers = {{ volunteers | tojson }};
+        </script>
+        <table class="volunteer-table">
+          <thead>
+            <tr>
+              <th>Volunteer id</th>
+              <th>Name</th>
+              <th>Info</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="new-volunteer-table-body">
+            <!-- JS will fill this -->
+          </tbody>
+        </table>
+        <div class="pagination-container">
+          <div class="pagination-info">
+            <span id="new-pagination-info-text">Showing 1-10 of {{ volunteers|length }} volunteers</span>
+          </div>
+          <div class="pagination-buttons" id="new-pagination-buttons"></div>
+        </div>
+      </div>
+
+      <!-- BLOCKED VOLUNTEERS -->
+      <div class="content-body" id="block_volunteers">
+        {% set volunteers = blockvolunteers %}
+        <script>
+          window.blockedVolunteers = {{ volunteers | tojson }};
+        </script>
+        <table class="volunteer-table">
+          <thead>
+            <tr>
+              <th>Volunteer id</th>
+              <th>Name</th>
+              <th>Info</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="volunteer-table-body">
+            <!-- JS will fill this -->
+          </tbody>
+        </table>
+        <div class="pagination-container">
+          <div class="pagination-info">
+            <span id="pagination-info-text">Showing 1-10 of {{ volunteers|length }} volunteers</span>
+          </div>
+          <div class="pagination-buttons" id="pagination-buttons"></div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script>
     // Tab switching logic
     document.addEventListener('DOMContentLoaded', function () {
       const freeBtn = document.getElementById('free');
@@ -353,28 +387,28 @@
       const contentBodies = document.querySelectorAll('.content-body');
 
       if (freeBtn && freeVolunteers) {
-          freeBtn.addEventListener('click', function () {
-              contentBodies.forEach(body => body.classList.remove('active'));
-              freeVolunteers.classList.add('active');
-          });
+        freeBtn.addEventListener('click', function () {
+          contentBodies.forEach(body => body.classList.remove('active'));
+          freeVolunteers.classList.add('active');
+        });
       }
       if (assignedBtn && assignedVolunteers) {
-          assignedBtn.addEventListener('click', function () {
-              contentBodies.forEach(body => body.classList.remove('active'));
-              assignedVolunteers.classList.add('active');
-          });
+        assignedBtn.addEventListener('click', function () {
+          contentBodies.forEach(body => body.classList.remove('active'));
+          assignedVolunteers.classList.add('active');
+        });
       }
       if (newbtn && newVolunteers) {
-          newbtn.addEventListener('click', function () {
-              contentBodies.forEach(body => body.classList.remove('active'));
-              newVolunteers.classList.add('active');
-          });
+        newbtn.addEventListener('click', function () {
+          contentBodies.forEach(body => body.classList.remove('active'));
+          newVolunteers.classList.add('active');
+        });
       }
       if (blockbtn && blockVolunteers) {
-          blockbtn.addEventListener('click', function () {
-              contentBodies.forEach(body => body.classList.remove('active'));
-              blockVolunteers.classList.add('active');
-          });
+        blockbtn.addEventListener('click', function () {
+          contentBodies.forEach(body => body.classList.remove('active'));
+          blockVolunteers.classList.add('active');
+        });
       }
     });
 
@@ -382,7 +416,7 @@
     let currentPage = 1;
     const rowsPerPage = 10;
     let currentVolunteers = [];
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
       if (typeof window.blockedVolunteers !== 'undefined') {
         currentVolunteers = window.blockedVolunteers;
         displayVolunteers(currentPage);
@@ -447,7 +481,7 @@
       const button = document.createElement('button');
       button.className = 'button-style pagination-btn';
       button.textContent = text;
-      button.addEventListener('click', function() {
+      button.addEventListener('click', function () {
         goToPage(page);
       });
       return button;
@@ -471,7 +505,7 @@
     let freeCurrentPage = 1;
     const freeRowsPerPage = 10;
     let freeCurrentVolunteers = [];
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
       if (typeof window.freeVolunteers !== 'undefined') {
         freeCurrentVolunteers = window.freeVolunteers;
         displayFreeVolunteers(freeCurrentPage);
@@ -536,7 +570,7 @@
       const button = document.createElement('button');
       button.className = 'button-style pagination-btn';
       button.textContent = text;
-      button.addEventListener('click', function() {
+      button.addEventListener('click', function () {
         goToFreePage(page);
       });
       return button;
@@ -560,7 +594,7 @@
     let assignedCurrentPage = 1;
     const assignedRowsPerPage = 10;
     let assignedCurrentVolunteers = [];
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
       if (typeof window.assignedVolunteers !== 'undefined') {
         assignedCurrentVolunteers = window.assignedVolunteers;
         displayAssignedVolunteers(assignedCurrentPage);
@@ -625,7 +659,7 @@
       const button = document.createElement('button');
       button.className = 'button-style pagination-btn';
       button.textContent = text;
-      button.addEventListener('click', function() {
+      button.addEventListener('click', function () {
         goToAssignedPage(page);
       });
       return button;
@@ -649,7 +683,7 @@
     let newCurrentPage = 1;
     const newRowsPerPage = 10;
     let newCurrentVolunteers = [];
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
       if (typeof window.newVolunteers !== 'undefined') {
         newCurrentVolunteers = window.newVolunteers;
         displayNewVolunteers(newCurrentPage);
@@ -713,7 +747,7 @@
       const button = document.createElement('button');
       button.className = 'button-style pagination-btn';
       button.textContent = text;
-      button.addEventListener('click', function() {
+      button.addEventListener('click', function () {
         goToNewPage(page);
       });
       return button;
@@ -740,7 +774,8 @@
 
 
 
-    </script>
-    <script src ="{{ url_for('static', filename='script/volunteer_list.js') }}"></script>
-  </body>
+  </script>
+  <script src="{{ url_for('static', filename='script/volunteer_list.js') }}"></script>
+</body>
+
 </html>
