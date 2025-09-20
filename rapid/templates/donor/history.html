@@ -130,7 +130,7 @@
                 
                 {% if history %}
                 <div class="donations-list">
-                    {% for donation in history %}
+                    {% for donation in history|reverse %}
                     <div class="donation-item" data-donation-id="{{ donation.donation_id }}">
                         <div class="donation-info">
                             <h4>{{ donation.message if donation.message else 'Donation #' + donation.donation_id|string }}</h4>

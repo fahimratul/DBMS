@@ -368,7 +368,7 @@ def donor_profile():
         account_id = request.form.get('account_id', '').strip()
 
         # Email validation
-        email_regex = r'^[^\s@]+@[^\s@]+\.[^\s@]+'
+        email_regex = r'^[^\s@]+@[^\s@]+\.[^\s@]+$'
         if email and not re.match(email_regex, email):
             flash('Please enter a valid email address.', 'error')
             return redirect(url_for('donor.donor_profile'))
@@ -405,31 +405,52 @@ def donor_profile():
                          stats=stats,
                          donor_name=donor_name,
                          available_accounts=available_accounts)
-
 @bp.route('/donor_donate')
 @login_required
 def donor_donate():
-    """Donation page"""
+    """Display the donation form with dynamic payment methods and items"""
     donor_id = g.user['id']
     donor_name = get_donor_name(donor_id)
     
     db = get_bd()
     cursor = db.cursor(dictionary=True)
+    
     try:
+        # Get available payment methods from account table
+        cursor.execute("SELECT account_id, method_name FROM account ORDER BY method_name")
+        payment_methods = cursor.fetchall()
+        
+        # Get available items for donation
+        cursor.execute("""
+            SELECT i.item_id, i.name, tl.type_name 
+            FROM item i 
+            JOIN type_list tl ON i.type_id = tl.type_id 
+            ORDER BY tl.type_name, i.name
+        """)
+        items = cursor.fetchall()
+        
+        # Also get item types for backward compatibility
         cursor.execute("SELECT type_id, type_name FROM type_list")
         item_types = cursor.fetchall()
-        cursor.execute("SELECT i.item_id, i.name, tl.type_name FROM item i JOIN type_list tl ON i.type_id = tl.type_id ORDER BY tl.type_name, i.name")
-        items = cursor.fetchall()
-        return render_template('donor/donate.html', 
-                             item_types=item_types, 
-                             items=items,
-                             donor_name=donor_name)
+        
     except Exception as e:
-        print(f"Error getting donation items: {e}")
-        flash('Error loading donation form.', 'error')
-        return redirect(url_for('donor.donor_dashboard'))
+        print(f"Error loading donation page data: {e}")
+        # Fallback to empty lists if database error
+        payment_methods = []
+        items = []
+        item_types = []
+        flash('Error loading donation options. Please refresh the page.', 'error')
+    
     finally:
         cursor.close()
+    
+    return render_template(
+        'donor/donate.html', 
+        donor_name=donor_name,
+        payment_methods=payment_methods,
+        items=items,
+        item_types=item_types
+    )
 
 @bp.route('/donor_history')
 @login_required
@@ -446,23 +467,30 @@ def donor_history():
                          donation_count=donation_count,
                          donor_name=donor_name)
 
+
 @bp.route('/submit_donation', methods=['POST'])
 @login_required
 def submit_donation():
-    """Submit a new donation - Fixed version for item storage"""
+    """Submit a new donation - Using donor's account information"""
     donor_id = g.user['id']
     message = request.form.get('message', '')
     donation_type = request.form.get('donation_type', '')
     
     db = get_bd()
     cursor = db.cursor()
+    # Always fetch account_id and account_name directly from donor table
+    cursor.execute("SELECT account_id, account_name FROM donor WHERE donor_id = %s", (donor_id,))
+    donor_row = cursor.fetchone()
+    if not donor_row:
+        flash('Could not retrieve your account information.', 'error')
+        cursor.close()
+        return redirect(url_for('donor.donor_donate'))
+    account_id, account_name = donor_row
     
     try:
         if donation_type == 'money':
             # Handle monetary donation
             amount = request.form.get('amount', 0)
-            payment_method = request.form.get('payment_method', '')
-            
             # Validate amount
             try:
                 amount = float(amount)
@@ -471,29 +499,22 @@ def submit_donation():
             except (ValueError, TypeError):
                 flash('Please enter a valid amount.', 'error')
                 return redirect(url_for('donor.donor_donate'))
-            
+            # Check if donor has account information set up
+            if not account_id or not account_name:
+                flash('Please set up your account information in your profile before making monetary donations.', 'error')
+                return redirect(url_for('donor.donor_donate'))
             # Insert into donation table with NULL for item_id_list
             cursor.execute(
                 "INSERT INTO donation (message, date, donor_id, item_id_list) VALUES (%s, %s, %s, %s)", 
                 (message, date.today(), donor_id, None)
             )
             donation_id = cursor.lastrowid
-            
-            # Get account_id based on payment method
-            cursor.execute(
-                "SELECT account_id FROM account WHERE method_name LIKE %s LIMIT 1", 
-                (f"%{payment_method}%",)
-            )
-            account_result = cursor.fetchone()
-            account_id = account_result[0] if account_result else 1  # Default to first account if not found
-            
-            # Insert into money_transfer table
+            # Use donor's account_id for the money transfer
             cursor.execute(
                 "INSERT INTO money_transfer (account_id, donation_id, amount) VALUES (%s, %s, %s)", 
                 (account_id, donation_id, amount)
             )
-            
-            flash(f'Thank you for your monetary donation of Tk{amount}!', 'success')
+            flash(f'Thank you for your monetary donation of Tk{amount:.2f}!', 'success')
             
         elif donation_type == 'items':
             # Handle item donation
@@ -549,8 +570,8 @@ def submit_donation():
                 flash('No valid items were selected. Please try again.', 'error')
                 return redirect(url_for('donor.donor_donate'))
             
-            # Join all item strings with ' separator
-            item_id_list = '.join(item_id_list_parts) + '  # Add trailing $ as per your format
+            # Join all item strings with $ separator
+            item_id_list = '$'.join(item_id_list_parts)
             
             # Insert into donation table with item_id_list
             cursor.execute(
@@ -575,6 +596,7 @@ def submit_donation():
         cursor.close()
     
     return redirect(url_for('donor.donor_donate'))
+
 
 @bp.route('/profile_picture/<int:donor_id>')
 @login_required
