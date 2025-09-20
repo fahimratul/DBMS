@@ -368,7 +368,7 @@ def donor_profile():
         account_id = request.form.get('account_id', '').strip()
 
         # Email validation
-        email_regex = r'^[^\s@]+@[^\s@]+\.[^\s@]+
+        email_regex = r'^[^\s@]+@[^\s@]+\.[^\s@]+'
         if email and not re.match(email_regex, email):
             flash('Please enter a valid email address.', 'error')
             return redirect(url_for('donor.donor_profile'))
