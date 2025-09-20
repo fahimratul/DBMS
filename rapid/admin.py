@@ -445,6 +445,7 @@ def admin_requests():
            dr.priority_message,
            dr.item_id_list,
            dr.additional_item,
+           dr.status,
            r.name AS receiver_name,
            r.phone,
            r.emergency_phone,
@@ -452,10 +453,96 @@ def admin_requests():
            
     FROM donation_receiver dr
     JOIN receiver r ON dr.receiver_id = r.receiver_id
+    ORDER BY dr.date DESC
 ''')
 
     requests = cursor.fetchall()
     return render_template('admin/requests.html', requests=requests)
+
+
+@bp.route('/update_request_status/<int:request_id>', methods=['POST'])
+@login_required
+def update_request_status(request_id):
+    """Update the status of a donation request"""
+    try:
+        data = request.get_json()
+        new_status = data.get('status')
+        
+        # Valid status transitions
+        valid_statuses = ['submitted', 'pending', 'approved', 'completed']
+        
+        if not new_status or new_status not in valid_statuses:
+            return jsonify({'success': False, 'error': 'Invalid status'}), 400
+        
+        db = get_bd()
+        cursor = db.cursor()
+        
+        # Check if request exists
+        cursor.execute("SELECT status FROM donation_receiver WHERE donation_receiver_id = %s", (request_id,))
+        result = cursor.fetchone()
+        
+        if not result:
+            return jsonify({'success': False, 'error': 'Request not found'}), 404
+        
+        current_status = result[0]
+        
+        # Basic status transition validation
+        status_order = {'submitted': 0, 'pending': 1, 'approved': 2, 'completed': 3}
+        
+        if status_order[new_status] < status_order[current_status]:
+            return jsonify({'success': False, 'error': 'Cannot move to previous status'}), 400
+        
+        # Update the status
+        cursor.execute(
+            "UPDATE donation_receiver SET status = %s WHERE donation_receiver_id = %s",
+            (new_status, request_id)
+        )
+        db.commit()
+        
+        return jsonify({
+            'success': True, 
+            'message': f'Status updated to {new_status}',
+            'new_status': new_status
+        }), 200
+        
+    except Exception as e:
+        if 'db' in locals():
+            db.rollback()
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+
+@bp.route('/get_request_status/<int:request_id>', methods=['GET'])
+@login_required  
+def get_request_status(request_id):
+    """Get current status and available transitions for a request"""
+    try:
+        db = get_bd()
+        cursor = db.cursor()
+        
+        cursor.execute("SELECT status FROM donation_receiver WHERE donation_receiver_id = %s", (request_id,))
+        result = cursor.fetchone()
+        
+        if not result:
+            return jsonify({'success': False, 'error': 'Request not found'}), 404
+        
+        current_status = result[0]
+        
+        # Define next possible statuses
+        next_statuses = {
+            'submitted': ['pending'],
+            'pending': ['approved'],
+            'approved': ['completed'],
+            'completed': []
+        }
+        
+        return jsonify({
+            'success': True,
+            'current_status': current_status,
+            'next_statuses': next_statuses.get(current_status, [])
+        }), 200
+        
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
 
 
 @bp.route('/admin_stock', methods=['GET', 'POST'])
