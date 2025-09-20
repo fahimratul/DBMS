@@ -652,7 +652,41 @@ def admin_create_event():
     cursor.execute("SELECT volunteer_id AS id, name FROM volunteer;")
     volunteers = cursor.fetchall() or []
 
-    cursor.execute("SELECT item_id, name FROM item;")
+    # -------first enter the mysql as root grant permission for following 
+    # GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, ALTER, DROP, INDEX, CREATE ROUTINE, ALTER ROUTINE, EXECUTE, CREATE VIEW, SHOW VIEW, TRIGGER 
+    # ON project2.* TO 'flaskuser'@'localhost'; 
+    # SET GLOBAL log_bin_trust_function_creators = 1; 
+    # FLUSH PRIVILEGES;
+
+
+    #The execute these 3 to work:
+
+
+    # DELIMITER $$ 
+    # CREATE FUNCTION get_item_name(p_item_id INT) 
+    # RETURNS VARCHAR(50) 
+    # DETERMINISTIC 
+    # BEGIN 
+    # DECLARE i_name VARCHAR(50); 
+    # SELECT name INTO i_name FROM item WHERE item_id = p_item_id 
+    # LIMIT 1;
+    # RETURN i_name; 
+    # END$$ 
+    # DELIMITER ;
+
+    #DELIMITER $$
+    # CREATE TRIGGER before_insert_item 
+    # BEFORE INSERT ON item FOR EACH ROW 
+    # BEGIN 
+    # SET NEW.name = CONCAT(UCASE(LEFT(NEW.name,1)), LCASE(SUBSTRING(NEW.name,2))); 
+    # END$$ 
+    # DELIMITER ;
+
+    #CREATE OR REPLACE VIEW item_list 
+    # AS SELECT item_id, name FROM item;
+
+
+    cursor.execute("SELECT * FROM item_list;")
     all_items = cursor.fetchall()  or []
 
     cursor.execute("SELECT event_type FROM event_type;")
