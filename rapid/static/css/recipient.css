@@ -1375,6 +1375,16 @@ textarea::placeholder {
   color: #1e40af;
 }
 
+.status-pending {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.status-approved {
+  background: #dcfce7;
+  color: #166534;
+}
+
 .status-in-progress {
   background: #fef3c7;
   color: #92400e;

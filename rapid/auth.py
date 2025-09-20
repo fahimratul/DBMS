@@ -94,11 +94,16 @@ def registration_handler(role):
             elif role == 'recipient':
                 name = request.form.get('name', '')
                 phone = request.form.get('phone', '')
+                email = request.form.get('email', '')
                 emergency_phone = request.form.get('emergency_phone', '')
                 address = request.form.get('address', '')
+                
+                # Handle profile image file upload
+                profile_file = request.files.get('profile_img')
+                profile_picture = profile_file.read() if profile_file else None
 
-                cursor.execute('INSERT INTO receiver (name, phone, user_name, password, emergency_phone, address) VALUES (%s, %s, %s, %s, %s, %s)', 
-                              (name, phone, username, generate_password_hash(password), emergency_phone, address))
+                cursor.execute('INSERT INTO receiver (name, phone, email, user_name, password, emergency_phone, address, profile_picture) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)', 
+                              (name, phone, email, username, generate_password_hash(password), emergency_phone, address, profile_picture))
             elif role == 'volunteer':
                 from datetime import date
                 name = request.form.get('name', '')

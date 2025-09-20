@@ -68,6 +68,9 @@ let formData = {
 
 // DOM Elements
 const elements = {
+  // Header/Logo
+  logoSection: document.getElementById("logo-section"),
+
   // Navigation
   navForm: document.getElementById("nav-form"),
   navStatus: document.getElementById("nav-status"),
@@ -128,14 +131,21 @@ async function init() {
 
 // Event Listeners
 function setupEventListeners() {
+  // Logo/Header navigation - return to main page
+  elements.logoSection.addEventListener("click", () => {
+    window.location.href = "/";
+  });
+
   // Navigation
   elements.navForm.addEventListener("click", () => setActiveView("form"));
   elements.navStatus.addEventListener("click", () => setActiveView("status"));
-  elements.navFeedback.addEventListener("click", () =>
-    setActiveView("feedback")
+  elements.navFeedback.addEventListener(
+    "click",
+    () => (window.location.href = "/recipient/feedback")
   );
-  elements.floatingFeedbackBtn.addEventListener("click", () =>
-    setActiveView("feedback")
+  elements.floatingFeedbackBtn.addEventListener(
+    "click",
+    () => (window.location.href = "/recipient/feedback")
   );
   elements.newRequestBtn.addEventListener("click", () => setActiveView("form"));
   elements.backToFormBtn.addEventListener("click", () => setActiveView("form"));
@@ -1059,12 +1069,17 @@ function getStatusClass(status) {
   switch (status) {
     case "submitted":
       return "status-submitted";
+    case "pending":
+      return "status-pending";
+    case "approved":
+      return "status-approved";
+    case "completed":
+      return "status-completed";
+    // Legacy status values for backward compatibility
     case "in-progress":
       return "status-in-progress";
     case "relief-sent":
       return "status-relief-sent";
-    case "completed":
-      return "status-completed";
     default:
       return "status-submitted";
   }
@@ -1074,12 +1089,17 @@ function getStatusIcon(status) {
   switch (status) {
     case "submitted":
       return "📄";
+    case "pending":
+      return "⏳";
+    case "approved":
+      return "✅";
+    case "completed":
+      return "⭐";
+    // Legacy status values for backward compatibility
     case "in-progress":
       return "⏰";
     case "relief-sent":
       return "✅";
-    case "completed":
-      return "⭐";
     default:
       return "📄";
   }
@@ -1089,14 +1109,19 @@ function getProgressPercent(status) {
   switch (status) {
     case "submitted":
       return 25;
+    case "pending":
+      return 50;
+    case "approved":
+      return 75;
+    case "completed":
+      return 100;
+    // Legacy status values for backward compatibility
     case "in-progress":
       return 50;
     case "relief-sent":
       return 75;
-    case "completed":
-      return 100;
     default:
-      return 0;
+      return 25; // Default to submitted status
   }
 }
 
