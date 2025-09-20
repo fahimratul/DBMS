@@ -68,144 +68,149 @@
     </nav>
   </aside>
 
-    <!-- Main Content -->
-    <div class="main-container">
-        <!-- Top Navbar -->
-        <nav class="navbar">
-            <div class="navbar-div">
-                <nav>
-                    <h2>DONOR PORTAL</h2>
-                </nav>
-                <div class="navbar-div-search">
-                    <div class="search-box">
-                        <span class="search-box-icon">
-                            <i data-lucide="search" style="width: 16px; height: 16px;"></i>
-                        </span>
-                        <input type="text" placeholder="Type here..." />
-                    </div>
-                    <ul class="menu-list">
-                        <li>
-                            <i data-lucide="user" style="width: 16px; height: 16px; margin-right: 4px;"></i>
-                            <span>{{ donor_info.name if donor_info else 'User' }}</span>
-                        </li>
-                    </ul>
+   <!-- Main Content -->
+<div class="main-container">
+    <!-- Top Navbar -->
+    <nav class="navbar">
+        <div class="navbar-div">
+            <nav>
+                <h2>DONOR PORTAL</h2>
+            </nav>
+            <div class="navbar-div-search">
+                <!-- Search box removed -->
+                <ul class="menu-list">
+                    <li>
+                        <i data-lucide="user" style="width: 16px; height: 16px; margin-right: 4px;"></i>
+                        <span>{{ donor_info.name if donor_info else 'User' }}</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Content -->
+    <main style="flex: 1; overflow: auto;">
+        <!-- Flash Messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div style="padding: 1rem;">
+                    {% for category, message in messages %}
+                        <div style="background: {% if category == 'error' %}#ef4444{% else %}#10b981{% endif %}; color: white; padding: 0.75rem 1rem; border-radius: 0.5rem; margin-bottom: 0.5rem;">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        <div class="profile-container">
+            <!-- Profile Header -->
+            <div class="profile-header">
+                <h1 class="profile-title">My Profile</h1>
+                <div class="btn-group">
+                    <button class="btn-primary" id="editBtn" onclick="toggleEdit()">
+                        <i data-lucide="edit" style="width: 16px; height: 16px;"></i>
+                        Edit Profile
+                    </button>
+                    <button class="btn-secondary hidden" id="saveBtn" onclick="saveProfile()">
+                        <i data-lucide="save" style="width: 16px; height: 16px;"></i>
+                        Save
+                    </button>
+                    <button class="btn-cancel hidden" id="cancelBtn" onclick="cancelEdit()">
+                        <i data-lucide="x" style="width: 16px; height: 16px;"></i>
+                        Cancel
+                    </button>
                 </div>
             </div>
-        </nav>
 
-        <!-- Page Content -->
-        <main style="flex: 1; overflow: auto;">
-            <!-- Flash Messages -->
-            {% with messages = get_flashed_messages() %}
-                {% if messages %}
-                    <div style="padding: 1rem;">
-                        {% for message in messages %}
-                            <div style="background: #10b981; color: white; padding: 0.75rem 1rem; border-radius: 0.5rem; margin-bottom: 0.5rem;">
-                                {{ message }}
+            <!-- Profile Grid -->
+            <div class="profile-grid">
+                <!-- Profile Picture and Basic Info -->
+                <div class="profile-card">
+                    <div class="avatar-section">
+                        <form id="profilePicForm" method="POST" action="{{ url_for('donor.upload_profile_picture') }}" enctype="multipart/form-data">
+                            <div class="avatar-container" onclick="document.getElementById('profilePicture').click()">
+                                {% if donor_info and donor_info.profile_picture_url %}
+                                    <img src="{{ donor_info.profile_picture_url }}" alt="Profile Picture" class="avatar" id="avatarImg" />
+                                {% else %}
+                                    <img src="{{ url_for('static', filename='images/default_user.png') }}" alt="Profile Picture" class="avatar" id="avatarImg" />
+                                {% endif %}
+                                <div class="avatar-overlay" id="avatarOverlay">
+                                    <div class="avatar-upload-label">
+                                        <i data-lucide="camera" style="width: 24px; height: 24px;"></i>
+                                        <span>Change Photo</span>
+                                    </div>
+                                </div>
+                                <input type="file" id="profilePicture" name="profile_picture" accept="image/*" class="hidden" />
                             </div>
-                        {% endfor %}
-                    </div>
-                {% endif %}
-            {% endwith %}
-
-            <div class="profile-container">
-                <!-- Profile Header -->
-                <div class="profile-header">
-                    <h1 class="profile-title">My Profile</h1>
-                    <div class="btn-group">
-                        <button class="btn-primary" id="editBtn" onclick="toggleEdit()">
-                            <i data-lucide="edit" style="width: 16px; height: 16px;"></i>
-                            Edit Profile
-                        </button>
-                        <button class="btn-secondary hidden" id="saveBtn" onclick="saveProfile()">
-                            <i data-lucide="save" style="width: 16px; height: 16px;"></i>
-                            Save
-                        </button>
-                        <button class="btn-cancel hidden" id="cancelBtn" onclick="cancelEdit()">
-                            <i data-lucide="x" style="width: 16px; height: 16px;"></i>
-                            Cancel
-                        </button>
+                        </form>
+                        <h2 class="profile-name" id="displayName">{{ donor_info.name if donor_info else 'Unknown User' }}</h2>
+                        <div class="donor-id">
+                            <i data-lucide="hash" style="width: 16px; height: 16px;"></i>
+                            <span>DN-{{ donor_info.donor_id if donor_info else g.user.id if g.user else '000' }}</span>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Profile Grid -->
-                <div class="profile-grid">
-                    <!-- Profile Picture and Basic Info -->
-                    <div class="profile-card">
-                        <div class="avatar-section">
-                            <div class="avatar-container">
-                                {% if donor_info and donor_info.profile_picture %}
-                                    <img src="{{ donor_info.profile_picture }}" alt="Profile Picture" class="avatar" id="avatarImg" />
-                                {% else %}
-                                    <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200&h=200&fit=crop&crop=face" 
-                                         alt="Profile Picture" class="avatar" id="avatarImg" />
-                                {% endif %}
-                            </div>
-                            <h2 class="profile-name" id="displayName">{{ donor_info.name if donor_info else 'Unknown User' }}</h2>
-                            <div class="donor-id">
+                <!-- Profile Details -->
+                <div class="profile-card">
+                    <h3 class="card-title">Profile Information</h3>
+                    <form class="form-grid" id="profileForm" method="POST" action="{{ url_for('donor.donor_profile') }}" enctype="multipart/form-data">
+                        <!-- Donor ID (Non-editable) -->
+                        <div class="form-group">
+                            <label class="form-label">
                                 <i data-lucide="hash" style="width: 16px; height: 16px;"></i>
-                                <span>DN-{{ g.user.id if g.user else '000' }}</span>
-                            </div>
+                                Donor ID
+                            </label>
+                            <input type="text" class="form-input" value="DN-{{ donor_info.donor_id if donor_info else g.user.id if g.user else '000' }}" disabled />
+                            <input type="hidden" name="donor_id" value="{{ donor_info.donor_id if donor_info else g.user.id if g.user else '' }}" />
                         </div>
-                    </div>
 
-                    <!-- Profile Details -->
-                    <div class="profile-card">
-                        <h3 class="card-title">Profile Information</h3>
-                        <form class="form-grid" id="profileForm" method="POST" action="{{ url_for('donor.donor_profile') }}">
-                            <!-- Donor ID (Non-editable) -->
-                            <div class="form-group">
-                                <label class="form-label">
-                                    <i data-lucide="hash" style="width: 16px; height: 16px;"></i>
-                                    Donor ID
-                                </label>
-                                <input type="text" class="form-input" value="DN-{{ g.user.id if g.user else '000' }}" disabled />
-                            </div>
+                        <!-- Name -->
+                        <div class="form-group">
+                            <label class="form-label">
+                                <i data-lucide="user" style="width: 16px; height: 16px;"></i>
+                                Full Name *
+                            </label>
+                            <input type="text" class="form-input" id="name" name="name" 
+                                   value="{{ donor_info.name if donor_info else '' }}" 
+                                   required disabled />
+                        </div>
 
-                            <!-- Name -->
-                            <div class="form-group">
-                                <label class="form-label">
-                                    <i data-lucide="user" style="width: 16px; height: 16px;"></i>
-                                    Full Name *
-                                </label>
-                                <input type="text" class="form-input" id="name" name="name" 
-                                       value="{{ donor_info.name if donor_info else '' }}" 
-                                       disabled required />
-                            </div>
+                        <!-- Phone -->
+                        <div class="form-group">
+                            <label class="form-label">
+                                <i data-lucide="phone" style="width: 16px; height: 16px;"></i>
+                                Phone Number *
+                            </label>
+                            <input type="tel" class="form-input" id="phone" name="phone" 
+                                   value="{{ donor_info.phone if donor_info else '' }}" 
+                                   required disabled />
+                        </div>
 
-                            <!-- Phone -->
-                            <div class="form-group">
-                                <label class="form-label">
-                                    <i data-lucide="phone" style="width: 16px; height: 16px;"></i>
-                                    Phone Number *
-                                </label>
-                                <input type="tel" class="form-input" id="phone" name="phone" 
-                                       value="{{ donor_info.phone if donor_info else '' }}" 
-                                       disabled required />
-                            </div>
+                        <!-- Email -->
+                        <div class="form-group">
+                            <label class="form-label">
+                                <i data-lucide="mail" style="width: 16px; height: 16px;"></i>
+                                Email Address *
+                            </label>
+                            <input type="email" class="form-input" id="email" name="email" 
+                                   value="{{ donor_info.email if donor_info else '' }}" 
+                                   required disabled />
+                        </div>
 
-                            <!-- Email -->
-                            <div class="form-group">
-                                <label class="form-label">
-                                    <i data-lucide="mail" style="width: 16px; height: 16px;"></i>
-                                    Email Address *
-                                </label>
-                                <input type="email" class="form-input" id="email" name="email" 
-                                       value="{{ donor_info.email if donor_info else '' }}" 
-                                       disabled required />
-                            </div>
+                        <!-- Account Name -->
+                        <div class="form-group">
+                            <label class="form-label">
+                                <i data-lucide="credit-card" style="width: 16px; height: 16px;"></i>
+                                Account Name
+                            </label>
+                            <input type="text" class="form-input" id="accountName" name="account_name" 
+                                   value="{{ donor_info.account_name if donor_info else '' }}" 
+                                   disabled />
+                        </div>
 
-                            <!-- Account Name -->
-                            <div class="form-group">
-                                <label class="form-label">
-                                    <i data-lucide="credit-card" style="width: 16px; height: 16px;"></i>
-                                    Account Name
-                                </label>
-                                <input type="text" class="form-input" id="accountName" name="account_name" 
-                                       value="{{ donor_info.account_display_name if donor_info and donor_info.account_display_name else donor_info.account_name if donor_info else '' }}" 
-                                       disabled />
-                            </div>
-                            <!-- Account ID -->
+                          <!-- Account ID -->
                             <div class="form-group">
                                 <label class="form-label">
                                     <i data-lucide="hash" style="width: 16px; height: 16px;"></i>
@@ -216,74 +221,52 @@
                                     value="{{ donor_info.account_id if donor_info and donor_info.account_id else '' }}" disabled />
                             </div>
 
+                        <!-- Address -->
+                        <div class="form-group">
+                            <label class="form-label">
+                                <i data-lucide="map-pin" style="width: 16px; height: 16px;"></i>
+                                Address
+                            </label>
+                            <input type="text" class="form-input" id="address" name="address" 
+                                   value="{{ donor_info.address if donor_info else '' }}" 
+                                   disabled />
+                        </div>
+                    </form>
+                </div>
 
-                            <!-- Address -->
-                            <div class="form-group">
-                                <label class="form-label">
-                                    <i data-lucide="map-pin" style="width: 16px; height: 16px;"></i>
-                                    Address
-                                </label>
-                                <input type="text" class="form-input" id="address" name="address" 
-                                       value="{{ donor_info.address if donor_info else '' }}" 
-                                       disabled />
-                            </div>
-                        </form>
-                    </div>
-
-                    <!-- Donation Summary -->
-                    {% if stats %}
-                    <div class="profile-card summary-section">
-                        <h3 class="card-title">Donation Summary</h3>
-                        <div class="summary-grid">
-                            <div class="summary-item summary-green">
-                                <div class="summary-value">{{ "%.2f"|format(stats.total_donated) }}</div>
-                                <div class="summary-label">Total Donated</div>
-                            </div>
-                            <div class="summary-item summary-blue">
-                                <div class="summary-value">{{ stats.donation_count }}</div>
-                                <div class="summary-label">Donations Made</div>
-                            </div>
-                            <div class="summary-item summary-purple">
-                                <div class="summary-value">{{ stats.member_since }}</div>
-                                <div class="summary-label">Member Since</div>
-                            </div>
+                <!-- Donation Summary -->
+                {% if stats %}
+                <div class="profile-card summary-section">
+                    <h3 class="card-title">Donation Summary</h3>
+                    <div class="summary-grid">
+                        <div class="summary-item summary-green">
+                            <div class="summary-value">Tk {{ "%.2f"|format(stats.total_donated) }}</div>
+                            <div class="summary-label">Total Donated</div>
+                        </div>
+                        <div class="summary-item summary-blue">
+                            <div class="summary-value">{{ stats.donation_count }}</div>
+                            <div class="summary-label">Donations Made</div>
+                        </div>
+                        <div class="summary-item summary-purple">
+                            <div class="summary-value">{{ stats.member_since }}</div>
+                            <div class="summary-label">Member Since</div>
                         </div>
                     </div>
-                    {% endif %}
                 </div>
+                {% endif %}
             </div>
-        </main>
-    </div>
+        </div>
+    </main>
+</div>
 
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
     <script>
-        lucide.createIcons();
-
-        function toggleEdit() {
-            const editBtn = document.getElementById('editBtn');
-            const saveBtn = document.getElementById('saveBtn');
-            const cancelBtn = document.getElementById('cancelBtn');
-
-            editBtn.classList.add('hidden');
-            saveBtn.classList.remove('hidden');
-            cancelBtn.classList.remove('hidden');
-
-            const inputs = document.querySelectorAll('#profileForm input');
-            inputs.forEach(input => {
-                if (!input.value.startsWith('DN-')) {
-                    input.disabled = false;
-                }
-            });
-        }
-
-        function cancelEdit() {
-            location.reload();
-        }
-
-        function saveProfile() {
-            document.getElementById('profileForm').submit();
-        }
-    </script>
-    <script src="{{ url_for('static', filename='script/donor/profile.js') }}"></script> 
-</body>
-</html>
+    lucide.createIcons();
+    // Auto-submit profile picture form when a new image is selected
+    document.getElementById('profilePicture').addEventListener('change', function() {
+        document.getElementById('profilePicForm').submit();
+    });
+    </script><script src="{{ url_for('static', filename='script/donor/profile.js') }}"></script>
+    
+    </body>
+    </html>

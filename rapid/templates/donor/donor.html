@@ -41,7 +41,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#" class="sidebar-link">
+                    <a href="{{ url_for('donor.donor_feedback') }}" class="sidebar-link">
                         <span class="sidebar-icon"><i data-lucide="message-square"></i></span>
                         <span class="sidebar-label">Feedback</span>
                     </a>
@@ -64,21 +64,16 @@
             <div class="navbar-div">
                 <section style="text-align: left; padding: 2rem; margin: 2rem 0;">
                     <h2 style="font-size: 1.5rem; font-weight: 700; color: #334155; margin-bottom: 1rem;">
-                        Welcome back{% if donor_info %}, {{ donor_info.name }}{% endif %}!
+                        Welcome {% if donor_info %}, {{ donor_info.name }}{% endif %}!
                     </h2>
                     <p style="font-size: 1.0rem; color: #6b7280; max-width: 800px; margin: 0 auto;">
                         Thank you for making a difference in people's lives. Your generosity creates lasting impact in communities worldwide.
                     </p>
                 </section>
                 <div class="navbar-div-search">
-                    <div class="search-box">
-                        <div class="search-box-icon"><i data-lucide="search"></i></div>
-                        <input type="text" placeholder="Search...">
-                    </div>
                     <ul class="menu-list">
-                        <li><button style="background: none; border: none; padding: 0.5rem;"><i data-lucide="bell"></i></button></li>
                         <li>
-                            <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=32&h=32&fit=crop&crop=face"
+                            <img src="{{ donor_info.profile_picture_url if donor_info and donor_info.profile_picture_url else url_for('static', filename='images/default_user.png') }}" 
                                  alt="Profile" style="width: 32px; height: 32px; border-radius: 50%;">
                         </li>
                     </ul>

@@ -106,7 +106,7 @@
             <!-- Header -->
             <div class="donations-header">
                 <h1>My Donations</h1>
-                <button class="download-all-btn" onclick="downloadAllReceipts()">
+                <button class="download-all-btn" onclick="window.location.href='/donor/download_all_receipts'">
                     <i data-lucide="download"></i>
                     Download All Receipts
                 </button>
@@ -139,10 +139,27 @@
                                 {{ donation.date.strftime('%B %d, %Y') if donation.date else 'Unknown Date' }}
                             </p>
                             {% if donation.item_id_list %}
-                            <p class="donation-items">
+                        
+                            <div class="donation-items" style="margin-top: 0.5rem;">
                                 <i data-lucide="package"></i>
-                                Items: {{ donation.item_id_list }}
-                            </p>
+                                <span>Items:</span>
+                                <table style="margin-top: 0.5rem; width: 100%; border-collapse: collapse;">
+                                    <tbody>
+                                    {% set items = donation.item_id_list.split('$') %}
+                                    {% for item in items %}
+                                        {% if item.strip() %}
+                                            {% set parts = item.split('#') %}
+                                            {% if parts|length == 3 %}
+                                                <tr>
+                                                    <td style="padding: 2px 8px; border-bottom: 1px solid #f3f4f6;">{{ parts[1] }}</td>
+                                                    <td style="padding: 2px 8px; border-bottom: 1px solid #f3f4f6; text-align: right;"><strong>{{ parts[2] }}</strong></td>
+                                                </tr>
+                                            {% endif %}
+                                        {% endif %}
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
                             {% endif %}
                             {% if donation.method_name %}
                             <p class="payment-method">
@@ -153,16 +170,14 @@
                         </div>
                         <div class="donation-amount">
                             {% if donation.amount %}
-                                <div class="amount">${{ "%.2f"|format(donation.amount) }}</div>
+                                <div class="amount">Tk {{ "%.2f"|format(donation.amount) }}</div>
                             {% else %}
                                 <div class="amount">Items Only</div>
                             {% endif %}
                             <span class="status completed">completed</span>
                         </div>
                         <div class="donation-actions">
-                            <button class="action-btn" title="View Details" onclick="viewDonationDetails('{{ donation.donation_id }}')">
-                                <i data-lucide="eye"></i>
-                            </button>
+                          
                             <button class="action-btn" title="Download Receipt" onclick="downloadReceipt('{{ donation.donation_id }}')">
                                 <i data-lucide="download"></i>
                             </button>
@@ -271,16 +286,12 @@
         }
         
         function downloadReceipt(donationId) {
-            // In a real implementation, this would trigger a download
-            alert(`Downloading receipt for donation #${donationId}...`);
-            // You can implement actual receipt generation here
+            // Trigger download from backend route
+            window.open(`/donor/download_receipt/${donationId}`, '_blank');
         }
         
-        function downloadAllReceipts() {
-            alert('Downloading all receipts...');
-            // Implement bulk receipt download
-        }
-        
+ 
+
         function loadMoreDonations() {
             // Implement pagination
             alert('Loading more donations...');
