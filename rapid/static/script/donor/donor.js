@@ -6,25 +6,21 @@ function handleLogout() {
     if (confirm('Are you sure you want to log out?')) {
         console.log("User logged out");
         alert("You have been logged out successfully!");
-        // In a real application, you would redirect to login page
-        // window.location.href = '/login.html';
+        window.location.href = '/auth/logout'; // ✅ redirect to backend logout route
     }
 }
 
 // Notification system
 function showNotification(message, type = 'info') {
-    // Remove any existing notifications
     const existingNotification = document.querySelector('.notification');
     if (existingNotification) {
         existingNotification.remove();
     }
 
-    // Create notification element
     const notification = document.createElement('div');
     notification.className = `notification notification-${type}`;
     notification.textContent = message;
 
-    // Add styles
     notification.style.cssText = `
         position: fixed;
         top: 2rem;
@@ -40,7 +36,6 @@ function showNotification(message, type = 'info') {
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     `;
 
-    // Add animation styles if not already present
     if (!document.querySelector('#notification-styles')) {
         const style = document.createElement('style');
         style.id = 'notification-styles';
@@ -57,10 +52,8 @@ function showNotification(message, type = 'info') {
         document.head.appendChild(style);
     }
 
-    // Add to DOM
     document.body.appendChild(notification);
 
-    // Remove after 3 seconds
     setTimeout(() => {
         notification.style.animation = 'slideOut 0.3s ease-in';
         setTimeout(() => {
@@ -80,7 +73,7 @@ function getNotificationColor(type) {
     }
 }
 
-// Stats animation on page load
+// Stats animation
 function animateStats() {
     const statCards = document.querySelectorAll('.total-amount-card');
     statCards.forEach((card, index) => {
@@ -91,21 +84,27 @@ function animateStats() {
     });
 }
 
-// Mobile sidebar toggle
+// Sidebar toggle
 function toggleSidebar() {
     const sidebar = document.querySelector('.sidebar');
-    const mainContainer = document.querySelector('.main-container');
     if (window.innerWidth <= 768) {
         sidebar.style.transform = sidebar.style.transform === 'translateX(0px)' ? 'translateX(-100%)' : 'translateX(0px)';
     }
 }
 
-// Combine all DOMContentLoaded logic into one
+// Combine DOM logic
 document.addEventListener('DOMContentLoaded', function() {
-    // Animate stats cards on load
+
+    // Donate Now button handler (robust navigation)
+    document.querySelectorAll('.donate-now-btn').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            window.location.href = '/donor/donor_donate';
+        });
+    });
     animateStats();
 
-    // Search functionality
+    // Search
     const searchInput = document.querySelector('.search-box input');
     if (searchInput) {
         searchInput.addEventListener('keypress', function(e) {
@@ -118,7 +117,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
 
-        // Focus search input on Ctrl+K or Cmd+K
         document.addEventListener('keydown', function(e) {
             if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
                 e.preventDefault();
@@ -127,7 +125,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Add click handlers for stat cards
+    // Stat card click
     const statCards = document.querySelectorAll('.total-amount-card');
     statCards.forEach((card, index) => {
         card.addEventListener('click', function() {
@@ -136,12 +134,11 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Add click handlers for navigation items
+    // Sidebar nav links
     const navLinks = document.querySelectorAll('.sidebar-link');
     navLinks.forEach(link => {
         link.addEventListener('click', function(e) {
             if (this.getAttribute('href') && this.getAttribute('href') !== '#') {
-                // Let the normal navigation happen
                 return;
             }
             e.preventDefault();
@@ -152,16 +149,18 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Add bell notification click handler
+    // Bell notification
     const bellButton = document.querySelector('button > [data-lucide="bell"]');
     if (bellButton && bellButton.parentElement) {
         bellButton.parentElement.addEventListener('click', function() {
             showNotification('You have 3 new notifications', 'info');
         });
     }
+
+
 });
 
-// Handle responsive behavior
+// Responsive behavior
 window.addEventListener('resize', function() {
     const sidebar = document.querySelector('.sidebar');
     const mainContainer = document.querySelector('.main-container');
@@ -169,12 +168,11 @@ window.addEventListener('resize', function() {
         sidebar.style.transform = 'translateX(0)';
         mainContainer.style.marginLeft = '15.625rem';
     } else {
-        sidebar.style.transform = 'translateX(-100%)'; // Ensure sidebar is hidden on mobile
+        sidebar.style.transform = 'translateX(-100%)';
         mainContainer.style.marginLeft = '0';
     }
 });
 
-// Initialize responsive behavior on load
 window.addEventListener('load', function() {
     const sidebar = document.querySelector('.sidebar');
     const mainContainer = document.querySelector('.main-container');
@@ -187,4 +185,4 @@ window.addEventListener('load', function() {
     }
 });
 
-console.log('Dashboard loaded successfully');
+console.log('Donor Dashboard loaded successfully');

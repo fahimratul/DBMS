@@ -1,3 +1,28 @@
+/* Donate Now Button Style */
+.donate-now-btn {
+    display: inline-block;
+    background: linear-gradient(90deg, #06bea6 0%, #3b82f6 100%);
+    color: #fff !important;
+    border: none;
+    border-radius: 0.5rem;
+    padding: 0.75rem 2rem;
+    font-size: 1.125rem;
+    font-weight: 700;
+    text-align: center;
+    text-decoration: none;
+    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.15);
+    transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+    margin-top: 1.5rem;
+    cursor: pointer;
+}
+
+.donate-now-btn:hover, .donate-now-btn:focus {
+    background: linear-gradient(90deg, #3b82f6 0%, #06bea6 100%);
+    color: #fff;
+    transform: translateY(-2px) scale(1.04);
+    box-shadow: 0 4px 16px rgba(59, 130, 246, 0.25);
+    text-decoration: none;
+}
   :root {
             --font-size: 16px;
             --text-xs: 0.75rem;

@@ -3,78 +3,171 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - RAPID</title>
+    <title>Donate - RAPID</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/donor/donate.css') }}">
+    <style>
+        /* Success message styles */
+        .success-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .success-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .success-modal {
+            background-color: white;
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            max-width: 450px;
+            width: 90%;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            transform: translateY(20px);
+            transition: transform 0.3s ease;
+        }
+        
+        .success-overlay.active .success-modal {
+            transform: translateY(0);
+        }
+        
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background-color: #10B981;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto 1.5rem;
+        }
+        
+        .success-icon i {
+            color: white;
+            font-size: 40px;
+        }
+        
+        .success-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1F2937;
+            margin-bottom: 0.5rem;
+        }
+        
+        .success-message {
+            color: #6B7280;
+            margin-bottom: 1.5rem;
+            line-height: 1.5;
+        }
+        
+        .success-btn {
+            background-color: #3B82F6;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 0.75rem 1.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        .success-btn:hover {
+            background-color: #2563EB;
+        }
+        
+        .error-message {
+            color: #ef4444;
+            font-size: 0.875rem;
+            margin-top: 0.5rem;
+            display: none;
+        }
+        
+        /* Flash message styling */
+        .flash-messages {
+            padding: 1rem;
+        }
+        
+        .flash-success {
+            background: #10b981;
+            color: white;
+            padding: 0.75rem 1rem;
+            border-radius: 0.5rem;
+            margin-bottom: 0.5rem;
+            text-align: center;
+        }
+        
+        .flash-error {
+            background: #ef4444;
+            color: white;
+            padding: 0.75rem 1rem;
+            border-radius: 0.5rem;
+            margin-bottom: 0.5rem;
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
     <!-- Sidebar -->
-     <aside class="sidebar">
-   <div class="sidebar-header">
-      <img src="{{ url_for('static', filename='images/logo/logo_icon.png') }}" class="sidebar-logo-img"
-        alt="main_logo" />
-      <span class="sidebar-logo-text">Rapid</span>
-    </div>
-    <nav class="sidebar-nav">
-      <ul class="sidebar-list">
- <!-- Dashboard SVG -->
-        <li>
-          <a href="{{ url_for('donor.donor_dashboard') }}" class="sidebar-link active">
-                        <span class="sidebar-icon">
-                            <i data-lucide="bar-chart-3"></i>
-                        </span>
-            <span class="sidebar-label">Dashboard</span>
-          </a>
-        </li>
-        <!-- History SVG -->
-        <li>
-          <a href="{{ url_for('donor.donor_history') }}" class="sidebar-link">
-                        <span class="sidebar-icon">
-                            <i data-lucide="history"></i>
-            </span>
-            <span class="sidebar-label">History</span>
-          </a>
-        </li>
- <!-- Profile SVG -->
-        <li>
-         <a href="{{ url_for('donor.donor_profile') }}" class="sidebar-link">
-                        <span class="sidebar-icon">
-                            <i data-lucide="user"></i>
-                        </span>
-           
-            <span class="sidebar-label">Profile</span>
-          </a>
-        </li>
-
-            <!-- Donate SVG -->
-        <li>
-           <a href="{{ url_for('donor.donor_donate') }}" class="sidebar-link">
-                        <span class="sidebar-icon">
-                            <i data-lucide="plus"></i>
-                        </span>
-            <span class="sidebar-label">Donate</span>
-          </a>
-        </li>
- <!-- Feedback SVG --> 
-        <li>
-         <a href="#" class="sidebar-link">
-                        <span class="sidebar-icon">
-                            <i data-lucide="message-square"></i>
-            </span>
-            <span class="sidebar-label">Feedback</span>
-          </a>
-        </li>
-   <!-- Sign In SVG -->
-        <li style="margin-top: 2rem;">
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <img src="{{ url_for('static', filename='images/logo/logo_icon.png') }}" class="sidebar-logo-img" alt="main_logo" />
+            <span class="sidebar-logo-text">Rapid</span>
+        </div>
+        <nav class="sidebar-nav">
+            <ul class="sidebar-list">
+                <li>
+                    <a href="{{ url_for('donor.donor_dashboard') }}" class="sidebar-link">
+                        <span class="sidebar-icon"><i data-lucide="bar-chart-3"></i></span>
+                        <span class="sidebar-label">Dashboard</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ url_for('donor.donor_history') }}" class="sidebar-link">
+                        <span class="sidebar-icon"><i data-lucide="history"></i></span>
+                        <span class="sidebar-label">History</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ url_for('donor.donor_profile') }}" class="sidebar-link">
+                        <span class="sidebar-icon"><i data-lucide="user"></i></span>
+                        <span class="sidebar-label">Profile</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ url_for('donor.donor_donate') }}" class="sidebar-link active">
+                        <span class="sidebar-icon"><i data-lucide="plus"></i></span>
+                        <span class="sidebar-label">Donate</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ url_for('donor.donor_feedback') }}" class="sidebar-link">
+                        <span class="sidebar-icon"><i data-lucide="message-square"></i></span>
+                        <span class="sidebar-label">Feedback</span>
+                    </a>
+                </li>
+                <li style="margin-top: 2rem;">
                     <a href="{{ url_for('auth.logout') }}" class="sidebar-link" style="color: #ef4444;">
-                        <span class="sidebar-icon">
-                            <i data-lucide="log-out"></i>
-                        </span>
+                        <span class="sidebar-icon"><i data-lucide="log-out"></i></span>
                         <span class="sidebar-label">Log Out</span>
                     </a>
                 </li>
-      </ul>
-    </nav>
-  </aside>
+            </ul>
+        </nav>
+    </aside>
+
     <!-- Main Content -->
     <div class="main-container">
         <!-- Top Navbar -->
@@ -82,12 +175,9 @@
             <div class="navbar-div">
                 <nav><h2>DONOR PORTAL</h2></nav>
                 <div class="navbar-div-search">
-                    <div class="search-box">
-                        <span class="search-box-icon"><i data-lucide="search"></i></span>
-                        <input type="text" placeholder="Type here..." />
-                    </div>
+                    <!-- Search box removed -->
                     <ul class="menu-list">
-                        <li><i data-lucide="user" style="margin-right: 4px;"></i><span>John Doe</span></li>
+                        <li><i data-lucide="user" style="margin-right: 4px;"></i><span><span>{{ donor_name if donor_name else 'User' }}</span></span></li>
                     </ul>
                 </div>
             </div>
@@ -95,6 +185,19 @@
 
         <!-- Page Content -->
         <main style="flex: 1; overflow: auto; padding: 2rem;">
+            <!-- Flash Messages -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <div class="flash-messages">
+                        {% for category, message in messages %}
+                            <div class="flash-{{ category }}">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endwith %}
+            
             <!-- Header -->
             <div class="text-center mb-8">
                 <h1 style="font-size: 2.5rem; font-weight: 700; color: #1f2937; margin-bottom: 1rem;">Make a Donation</h1>
@@ -107,12 +210,12 @@
             <div class="donation-card mb-8">
                 <h2 class="card-title">Choose Donation Type</h2>
                 <div class="donation-type-grid">
-                    <button class="donation-type-btn active money" id="moneyBtn" onclick="selectDonationType('money')">
-                        <i data-lucide="dollar-sign" class="type-icon text-blue-600"></i>
-                        <h3 class="type-title">Monetary Donation</h3>
+                    <button type="button" class="donation-type-btn active money" id="moneyBtn" onclick="selectDonationType('money')">
+                        <i data-lucide="coins" class="type-icon text-blue-600"></i>
+                        <h3 class="type-title">Money Donation</h3>
                         <p class="type-description">Donate money to support various causes</p>
                     </button>
-                    <button class="donation-type-btn items" id="itemsBtn" onclick="selectDonationType('items')">
+                    <button type="button" class="donation-type-btn items" id="itemsBtn" onclick="selectDonationType('items')">
                         <i data-lucide="package" class="type-icon text-green-600"></i>
                         <h3 class="type-title">Item Donation</h3>
                         <p class="type-description">Donate physical items and supplies</p>
@@ -123,90 +226,80 @@
             <!-- Donation Form -->
             <div class="donation-card">
                 <h2 class="card-title" id="formTitle">
-                    <i data-lucide="dollar-sign" id="formIcon" class="mr-3"></i>
-                    Monetary Donation Form
+                    <i data-lucide="coins" id="formIcon" class="mr-3"></i>
+                    Money Donation Form
                 </h2>
-                
-                <form id="donationForm" class="form-grid">
+
+                <form id="donationForm" method="POST" action="{{ url_for('donor.submit_donation') }}" class="form-grid">
+                    <!-- Hidden field to track donation type -->
+                    <input type="hidden" id="donationType" name="donation_type" value="money">
+                    
                     <!-- Monetary Donation Fields -->
                     <div id="moneyFields">
                         <div class="form-group mb-6">
                             <label class="form-label mb-4 block">Select Amount</label>
                             <div class="amount-grid mb-4" id="amountGrid">
-                                <button type="button" class="amount-btn" data-amount="25">$25</button>
-                                <button type="button" class="amount-btn" data-amount="50">$50</button>
-                                <button type="button" class="amount-btn" data-amount="100">$100</button>
-                                <button type="button" class="amount-btn" data-amount="250">$250</button>
-                                <button type="button" class="amount-btn" data-amount="500">$500</button>
-                                <button type="button" class="amount-btn" data-amount="1000">$1000</button>
+                                <button type="button" class="amount-btn" data-amount="100">Tk 100</button>
+                                <button type="button" class="amount-btn" data-amount="500">Tk 500</button>
+                                <button type="button" class="amount-btn" data-amount="1000">Tk 1000</button>
+                                <button type="button" class="amount-btn" data-amount="2000">Tk 2000</button>
+                                <button type="button" class="amount-btn" data-amount="5000">Tk 5000</button>
+                                <button type="button" class="amount-btn" data-amount="10000">Tk 10000</button>
                             </div>
                             <div class="flex items-center gap-4">
                                 <span class="text-gray-600">Custom Amount:</span>
-                                <input type="number" id="customAmount" class="form-input w-48" placeholder="Enter amount">
+                                <input type="number" id="customAmount" name="amount" class="form-input w-48" placeholder="Enter amount" min="1" step="0.01">
+                                <div class="error-message" id="amountError">Please enter a valid amount</div>
                             </div>
                         </div>
 
-
                         <div class="form-group mb-6">
                             <label class="form-label">Payment Method</label>
-                            <select class="form-select" required>
+                            <select class="form-select" name="payment_method" id="paymentMethod">
                                 <option value="">Select payment method</option>
                                 <option value="credit-card">Credit/Debit Card</option>
                                 <option value="bank-transfer">Bank Transfer</option>
-                                <option value="paypal">Bkash</option>
-                                <option value="crypto">Nagad</option>
+                                <option value="bkash">Bkash</option>
+                                <option value="nagad">Nagad</option>
                             </select>
+                            <div class="error-message" id="paymentError">Please select a payment method</div>
                         </div>
                     </div>
 
                     <!-- Item Donation Fields -->
                     <div id="itemFields" style="display: none;">
-                        <div class="form-group mb-6">
-                            <label class="form-label">Item Category</label>
-                            <select class="form-select" required>
-                                <option value="">Select item category</option>
-                                <option value="clothing">Clothing</option>
-                                <option value="food">Food Supplies</option>
-                                <option value="medical">Medical Supplies</option>
-                                <option value="educational">Educational Materials</option>
-                                <option value="household">Household Items</option>
-                                <option value="electronics">Electronics</option>
-                            </select>
+                        <div id="itemRows">
+                            <div class="item-row form-row mb-4" style="display: flex; gap: 1rem; align-items: flex-end;">
+                                <div class="form-group" style="flex:2;">
+                                    <label class="form-label">Select Item</label>
+                                    <select class="form-select item-name" name="items">
+                                        <option value="">Select item</option>
+                                        {% for item in items %}
+                                            <option value="{{ item.item_id }}">
+                                                {{ item.name }} ({{ item.type_name }})
+                                            </option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="form-group" style="width:100px;">
+                                    <label class="form-label">Quantity</label>
+                                    <input type="number" class="form-input item-qty" name="quantity" min="1" value="1" />
+                                </div>
+                                <button type="button" class="remove-item-btn" style="background:#ef4444;color:#fff;border:none;border-radius:4px;padding:0.5rem 0.75rem;display:none;">Remove</button>
+                            </div>
                         </div>
-
-                        <div class="form-group mb-6">
-                            <label class="form-label">Item Description</label>
-                            <textarea class="form-textarea" placeholder="Please describe the items you want to donate (condition, quantity, etc.)" required></textarea>
-                        </div>
-
-                        <div class="form-group mb-6">
-                            <label class="form-label">Estimated Value (Optional)</label>
-                            <input type="number" class="form-input" placeholder="Enter estimated value in USD">
-                        </div>
-
-                        <div class="form-group mb-6">
-                            <label class="form-label">Delivery Method</label>
-                            <select class="form-select" required>
-                                <option value="">How will you deliver the items?</option>
-                                <option value="pickup">Schedule Pickup</option>
-                                <option value="drop-off">Drop-off at Center</option>
-                            </select>
-                        </div>
+                        <button type="button" id="addItemBtn" style="margin-bottom:1rem;background:#10b981;color:#fff;border:none;border-radius:4px;padding:0.5rem 1.5rem;font-weight:600;">+ Add Item</button>
+                        <div class="error-message" id="itemError">Please select at least one item</div>
                     </div>
 
                     <!-- Common Fields -->
                     <div class="form-group mb-6">
                         <label class="form-label">Personal Message (Optional)</label>
-                        <textarea class="form-textarea" placeholder="Add a personal message or dedication..."></textarea>
+                        <textarea class="form-textarea" name="message" placeholder="Add a personal message or dedication..."></textarea>
                     </div>
 
                     <div class="form-group mb-6">
-                        <div class="flex items-center gap-3 mb-6">
-                            <input type="checkbox" id="terms" required>
-                            <label for="terms" class="text-gray-600">I agree to the terms and conditions and privacy policy</label>
-                        </div>
-                        
-                        <button type="submit" class="submit-btn">
+                        <button type="submit" class="submit-btn" id="completeDonationBtn">
                             <i data-lucide="heart" class="mr-2"></i>
                             Complete Donation
                         </button>
@@ -215,11 +308,8 @@
             </div>
         </main>
     </div>
-
-    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
-    <script>
-        lucide.createIcons();
-    </script>
     <script src="{{ url_for('static', filename='script/donor/donate.js') }}"></script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+   
 </body>
 </html>
