@@ -736,7 +736,7 @@ def admin_create_event():
 
 
 
-    cursor.execute("SELECT volunteer_id AS id, name FROM volunteer;")
+    cursor.execute("SELECT volunteer_id AS id, name FROM volunteer where status = 'free';")
     volunteers = cursor.fetchall() or []
 
     # -------first enter the mysql as root grant permission for following 
