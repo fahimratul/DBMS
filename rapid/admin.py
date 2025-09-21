@@ -780,7 +780,14 @@ def money_transfer():
 def admin_feedback():
     db= get_bd()
     cursor = db.cursor(dictionary=True)
-    cursor.execute("Select f.feedback_id, r.name as receiver_name, v.name as volunteer_name, d.name as donor_name, f.message, f.picture from feedback f left join receiver r on f.receiver_id = r.receiver_id left join volunteer v on f.volunteer_id = v.volunteer_id left join donor d on f.donor_id = d.donor_id order by f.feedback_id desc;")
+# CREATE VIEW feedback_view
+# AS
+# Select f.feedback_id, r.name as receiver_name, v.name as volunteer_name, 
+# d.name as donor_name, f.message, f.picture from feedback f left join receiver r on f.receiver_id = r.receiver_id 
+# left join volunteer v on f.volunteer_id = v.volunteer_id left join donor d on f.donor_id = d.donor_id 
+# order by f.feedback_id desc;
+
+    cursor.execute("select * from feedback_view order by feedback_id desc;")
     feedbacks = cursor.fetchall()
     if feedbacks:
         for fb in feedbacks:
