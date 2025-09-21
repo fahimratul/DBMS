@@ -1,5 +1,6 @@
 import functools
 import re
+from tkinter import END
 from urllib.robotparser import RequestRate
 from flask import(
     Blueprint, render_template, request, flash, redirect, url_for, session, g, jsonify, Response
@@ -414,7 +415,7 @@ def volunteer_list():
     cursor = db.cursor(dictionary=True)
     cursor.execute('SELECT volunteer_id, name, phone, email, dob, address, pref_address , join_time FROM volunteer where status="free";')
     freevolunteers = cursor.fetchall()
-    cursor.execute('SELECT volunteer_id, name, phone, email, dob, address, pref_address , join_time FROM volunteer where status="assign";')
+    cursor.execute('SELECT volunteer_id, name, phone, email, dob, address, pref_address , join_time FROM volunteer where status="active";')
     assignvolunteers = cursor.fetchall()
     cursor.execute('SELECT volunteer_id, name, phone, email, dob, address, pref_address , join_time FROM volunteer where status ="block";')
     blockvolunteers = cursor.fetchall()
@@ -562,6 +563,13 @@ def admin_create_event():
         volunteer_ids = request.form.getlist("volunteers")  # ["2","3","5"]
         if leader_id and leader_id not in volunteer_ids:
             volunteer_ids.insert(0, leader_id)
+        # CREATE Procedure active_volunteer(IN vol_id INT)
+        # BEGIN
+        #     UPDATE volunteer SET status = 'active' WHERE volunteer_id = vol_id;
+        # END
+        for vid in volunteer_ids:
+            cursor.execute("CALL active_volunteer(%s)", (vid,))
+            db.commit()
         volunteer_id_list = "$".join(volunteer_ids) + "$" if volunteer_ids else None
 
     
@@ -674,7 +682,7 @@ def admin_create_event():
     # END$$ 
     # DELIMITER ;
 
-    #DELIMITER $$
+    # DELIMITER $$
     # CREATE TRIGGER before_insert_item 
     # BEFORE INSERT ON item FOR EACH ROW 
     # BEGIN 
@@ -682,7 +690,7 @@ def admin_create_event():
     # END$$ 
     # DELIMITER ;
 
-    #CREATE OR REPLACE VIEW item_list 
+    # CREATE OR REPLACE VIEW item_list 
     # AS SELECT item_id, name FROM item;
 
 
