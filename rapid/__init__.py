@@ -142,15 +142,31 @@ def create_app(test_config=None):
             
         requests_by_area = {entry['address']: entry['cnt'] for entry in raw_requests_by_area}
 
+        # CREATE TRIGGER trigger_name
+        # AFTER INSERT ON donation_receiver
+        # FOR EACH ROW BEGIN
+        #     INSERT INTO maping (latitude, longitude) VALUES (NEW.latitude, NEW.longitude);
+        # END;
+
+        # CREATE VIEW maping
+        # AS
+        # SELECT latitude, longitude FROM donation_receiver 
+        
+        cursor.execute("SELECT * FROM maping")
+        map_data = cursor.fetchall()
+        print("Map Data:", map_data)  # Debugging line to check map data
+
+
+
         data = {
             'total_items': cnt,
             'total_receivers': receiver_count,
             'total_volunteers': volunteer_count,
             'donations_by_month': donations_by_month,
             'total_donation': total_donation,
-            'requests_by_area': requests_by_area
+            'requests_by_area': requests_by_area,
         }
-        return render_template('index.html', data=data)
+        return render_template('index.html', data=data, map_data=map_data)
     
     @app.route('/request_donation')
     def request_donation():

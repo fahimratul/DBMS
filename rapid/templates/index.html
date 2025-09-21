@@ -336,13 +336,14 @@
     <div class="hero-content">
       <h1>Feedback</h1>
       <p>We value your feedback and suggestions.<br> Please let us know how we can improve our services.</p>
+      <a href="{{ url_for('auth.login') }}">
       <button class="super-button">
         <span>Send Feedback</span>
         <svg fill="none" viewBox="0 0 24 24" class="arrow">
           <path stroke-linejoin="round" stroke-linecap="round" stroke-width="2" stroke="currentColor"
             d="M5 12h14M13 6l6 6-6 6"></path>
         </svg>
-      </button>
+      </button></a>
     </div>
   </section>
 
@@ -381,7 +382,48 @@
   <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
   <script async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAOVYRIgupAurZup5y1PRh8Ismb1A3lLao&libraries=places&callback=initMap"></script>
-  <script src="{{ url_for('static', filename='script/map.js') }}"></script>
+  <script>
+    function initMap() {
+            var location = { lat: 23.8103, lng: 90.4125 }; // Dhaka, Bangladesh
+            var map = new google.maps.Map(document.getElementById('map'), {
+              zoom: 6,
+              mapTypeId: 'roadmap',
+              disableDefaultUI: true,
+              styles: [
+                {
+                  "featureType": "all", 
+                  "elementType": "geometry",
+                  "stylers": [
+                    { "visibility": "simplified" },
+                    { "color": "#f0f0f0" }
+                  ]
+                }
+              ],
+              center: location
+            });
+
+            // Multiple locations
+            var locations = {{ map_data | tojson | safe }};
+
+            locations.forEach(function(loc) {
+              var marker = new google.maps.Marker({
+                position: { lat: parseFloat(loc.lat), lng: parseFloat(loc.lng) },
+                map: map,
+                title: loc.title
+              });
+            });
+
+            var marker = new google.maps.Marker({
+              position: location,
+              map: map,
+              title: 'Flood Relief Location'
+            });
+
+          }
+
+
+
+  </script>
   <script src="{{ url_for('static', filename='script/graphs.js') }}"></script>
   <script src="{{ url_for('static', filename='script/donation/request-donation.js') }}"></script>
 </body>

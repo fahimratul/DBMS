@@ -1,19 +1,19 @@
 -- ========================
 -- DROP TABLES IN CORRECT ORDER
 -- ========================
--- DROP TABLE IF EXISTS feedback;
--- DROP TABLE IF EXISTS money_transfer;
--- DROP TABLE IF EXISTS event;
--- DROP TABLE IF EXISTS donation_receiver;
--- DROP TABLE IF EXISTS stock;
--- DROP TABLE IF EXISTS donation;
--- DROP TABLE IF EXISTS item;
--- DROP TABLE IF EXISTS volunteer;
--- DROP TABLE IF EXISTS event_type;
--- DROP TABLE IF EXISTS donor;
--- DROP TABLE IF EXISTS receiver;
--- DROP TABLE IF EXISTS type_list;
--- DROP TABLE IF EXISTS account;
+DROP TABLE IF EXISTS feedback;
+DROP TABLE IF EXISTS money_transfer;
+DROP TABLE IF EXISTS event;
+DROP TABLE IF EXISTS donation_receiver;
+DROP TABLE IF EXISTS stock;
+DROP TABLE IF EXISTS donation;
+DROP TABLE IF EXISTS item;
+DROP TABLE IF EXISTS volunteer;
+DROP TABLE IF EXISTS event_type;
+DROP TABLE IF EXISTS donor;
+DROP TABLE IF EXISTS receiver;
+DROP TABLE IF EXISTS type_list;
+DROP TABLE IF EXISTS account;
 
 -- ========================
 -- CREATE TABLES
@@ -101,15 +101,16 @@ CREATE TABLE donation (
 
 CREATE TABLE money_transfer (
     money_transfer_id INT PRIMARY KEY AUTO_INCREMENT,
-    account_id INT, --this is for admin's account
-    donation_id INT, --this contains donor id(containing donor's account) and date
-    amount DECIMAL CHECK (amount > 0),
-    FOREIGN KEY (account_id) REFERENCES account(account_id)
-        ON UPDATE CASCADE ON DELETE CASCADE,
-    FOREIGN KEY (donation_id) REFERENCES donation(donation_id)
-        ON UPDATE CASCADE ON DELETE CASCADE
+    account_id INT,
+    donation_id INT,
+    amount DECIMAL CHECK (amount > 0)
 );
 
+ALTER TABLE money_transfer
+    ADD FOREIGN KEY (account_id) REFERENCES account(account_id)
+        ON UPDATE CASCADE ON DELETE RESTRICT,
+    ADD FOREIGN KEY (donation_id) REFERENCES donation(donation_id)
+        ON UPDATE CASCADE ON DELETE CASCADE;
 CREATE TABLE stock (
     stock_id INT PRIMARY KEY AUTO_INCREMENT,
     price INT CHECK (price >= 0),

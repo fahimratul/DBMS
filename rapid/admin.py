@@ -414,7 +414,7 @@ def volunteer_list():
     cursor = db.cursor(dictionary=True)
     cursor.execute('SELECT volunteer_id, name, phone, email, dob, address, pref_address , join_time FROM volunteer where status="free";')
     freevolunteers = cursor.fetchall()
-    cursor.execute('SELECT volunteer_id, name, phone, email, dob, address, pref_address , join_time FROM volunteer where status="assign";')
+    cursor.execute('SELECT volunteer_id, name, phone, email, dob, address, pref_address , join_time FROM volunteer where status="active";')
     assignvolunteers = cursor.fetchall()
     cursor.execute('SELECT volunteer_id, name, phone, email, dob, address, pref_address , join_time FROM volunteer where status ="block";')
     blockvolunteers = cursor.fetchall()
@@ -649,6 +649,11 @@ def admin_create_event():
         volunteer_ids = request.form.getlist("volunteers")  # ["2","3","5"]
         if leader_id and leader_id not in volunteer_ids:
             volunteer_ids.insert(0, leader_id)
+        for vid in volunteer_ids:
+            cursor.execute("UPDATE volunteer SET status = %s WHERE volunteer_id = %s", ('active', vid))
+            db.fetchone()
+            db.commit()
+
         volunteer_id_list = "$".join(volunteer_ids) + "$" if volunteer_ids else None
 
     
