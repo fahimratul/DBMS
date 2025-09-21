@@ -302,3 +302,9 @@ ADD CONSTRAINT fk_account FOREIGN KEY (account_id)
 REFERENCES account(account_id)
 ON UPDATE CASCADE ON DELETE CASCADE;
 
+--new view
+CREATE VIEW receiver_by_area_view AS
+    SELECT r.address AS address, COUNT(d.donation_receiver_id) 
+    FROM donation_receiver d
+    JOIN receiver r ON d.receiver_id = r.receiver_id
+    GROUP BY r.address;
