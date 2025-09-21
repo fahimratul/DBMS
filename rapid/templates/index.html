@@ -53,17 +53,15 @@
               style="background-image: url('{{ url_for('static', filename='images/card/card1.jpg') }}');">
             </div>
             <div class="card__content">
-              <p class="card__category">Category</p>
-              <h3 class="card__heading">Example Card Heading</h3>
+              <h3 class="card__heading">Flood</h3>
             </div>
           </a>
           <a class="card" href="#">
             <div class="card__background"
               style="background-image: url('{{ url_for('static', filename='images/card/card2.jpg') }}');">
             </div>
-            <div class="card__content">
-              <p class="card__category">Category</p>
-              <h3 class="card__heading">Example Card Heading</h3>
+            <div class="card__content" >
+              <h3 class="card__heading" >Earthquake</h3>
             </div>
           </a>
           <a class="card" href="#">
@@ -71,8 +69,7 @@
               style="background-image: url('{{ url_for('static', filename='images/card/card3.jpg') }}');">
             </div>
             <div class="card__content">
-              <p class="card__category">Category</p>
-              <h3 class="card__heading">Example Card Heading</h3>
+              <h3 class="card__heading">Fire</h3>
             </div>
             </li>
             <a class="card" href="#">
@@ -80,8 +77,7 @@
                 style="background-image: url('{{ url_for('static', filename='images/card/card4.jpg') }}');">
               </div>
               <div class="card__content">
-                <p class="card__category">Category</p>
-                <h3 class="card__heading">Example Card Heading</h3>
+                <h3 class="card__heading">Cyclone</h3>
               </div>
             </a>
             <div>
@@ -97,8 +93,10 @@
   <section class="hero white">
     <div class="hero-content">
       <h1>Together, we can make a bigger impact</h1>
-      <p>Establish a scalable incident command framework with defined roles, clear comms, and adaptable hierarchy. Build a centralized volunteer system: registration (skills, availability, language), scheduling/dispatch, credentialing, safety briefings, and tracking. Prioritize rapid needs assessment and resource allocation; maintain a live resource ledger for supplies and equipment. Enhance coordination with partners via a shared ops room, regular briefings, and community engagement. Ensure safety and wellbeing: training, on-site rest areas, hydration, mental health support, and rotation planning. Robust communication: multi-channel outreach, real-time situational awareness, and language access. Data resilience: offline access, privacy controls, and drills. Balance immediate relief with early recovery, measure impact, and sustain a diverse volunteer ecosystem with ethical safeguards.</p>
-      <button class="donate-submit">Learn More</button>
+      <!-- <p>Establish a scalable incident command framework with defined roles, clear comms, and adaptable hierarchy. Build a centralized volunteer system: registration (skills, availability, language), scheduling/dispatch, credentialing, safety briefings, and tracking. Prioritize rapid needs assessment and resource allocation; maintain a live resource ledger for supplies and equipment. Enhance coordination with partners via a shared ops room, regular briefings, and community engagement. Ensure safety and wellbeing: training, on-site rest areas, hydration, mental health support, and rotation planning. Robust communication: multi-channel outreach, real-time situational awareness, and language access. Data resilience: offline access, privacy controls, and drills. Balance immediate relief with early recovery, measure impact, and sustain a diverse volunteer ecosystem with ethical safeguards.</p> -->
+      <a href="{{ url_for('auth.login') }}"> 
+        <button class="donate-submit">Donate Now</button>
+      </a>
     </div>
   </section>
 
@@ -110,22 +108,19 @@
         <p>We have made a significant impact in the community through our various initiatives and programs. Here are
           some of our key achievements:</p>
         <ul>
-          <li>Over 10,000 meals distributed to those in need.</li>
-          <li>500 families supported with essential supplies.</li>
-          <li>1000 volunteers mobilized for community service.</li>
+          <li>Over {{ data['total_items'] }} meals distributed to those in need.</li>
+          <li>{{ data['total_receivers'] }} families supported with essential supplies.</li>
+          <li>{{ data['total_volunteers'] }} volunteers mobilized for community service.</li>
         </ul>
       </div>
-      <div class="graph-card">
-        <h2>Donation Trends</h2>
-        <p>Track our donation trends over the past year to see how your contributions are making a difference.</p>
-      </div>
+      
     </div>
     <!-- Graph Section -->
     <div class="card-container">
       <div class="card-header">
         <div>
-          <h5 class="amount">$12,423</h5>
-          <p class="subtitle">Donations of this week</p>
+          <h5 class="amount">{{ data['total_donation'] }} taka</h5>
+          <p class="subtitle">Donations of this year</p>
         </div>
         <div class="percentage-change">
           23%
@@ -135,8 +130,49 @@
           </svg>
         </div>
       </div>
-      <div id="data-series-chart"></div>
-      <div class="card-footer">
+      <canvas id="myChart2" style="width:100%;max-width:600px"></canvas>
+      <!-- Chart.js: Monthly Donations Line Graph -->
+      <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+      <script>
+        // Prepare data from Flask backend
+        const donationData2 = {{ data['donations_by_month'] | tojson }};
+        // Convert 'YYYY-MM' to 'Mon YYYY' for display
+        const monthNames2 = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        const months2 = donationData2.map(row => {
+          const [year, month] = row.month.split('-');
+          return `${monthNames2[parseInt(month, 10) - 1]} ${year}`;
+        });
+        const counts2 = donationData2.map(row => row.donation_count);
+
+        // Render the line chart
+        const ctx2 = document.getElementById('myChart2').getContext('2d');
+        new Chart(ctx2, {
+          type: 'line',
+          data: {
+            labels: months2,
+            datasets: [{
+              label: 'Donations per Month',
+              data: counts2,
+              borderColor: 'teal',
+              backgroundColor: 'rgba(0,128,128,0.1)',
+              fill: true,
+              tension: 0.2
+            }]
+          },
+          options: {
+            scales: {
+              x: { 
+                display: false
+              },
+              y: { 
+                display: false,
+                beginAtZero: true 
+              }
+            }
+          }
+        });
+      </script>
+      <!-- <div class="card-footer">
         <div class="footer-controls">
           <button id="dropdownDefaultButton" class="dropdown-btn" type="button">
             Last 7 days
@@ -162,7 +198,7 @@
             </svg>
           </a>
         </div>
-      </div>
+      </div> -->
   </section>
 
 
@@ -256,25 +292,16 @@
       <p>We are proud to share our achievements and the impact we have made in the community.</p>
       <div class="marker">
         <div class="marker-item">
-          <h1>5000+</h1>
+          <h1>{{ data['total_volunteers'] -1 }}+</h1>
           <h2>Volunteers</h2>
-          <p>In Bangladesh, at least 48 people have died since June 14, after heavy rains battered the northeastern state of
-            Assam, according to its disaster management authority, triggering landslides and causing river banks to
-            swell. More than 5.5 million people have been affected in the state alone</p>
         </div>
         <div class="marker-item">
-          <h1>10000+</h1>
-          <h2>Meals Distributed</h2>
-          <p>In Bangladesh, at least 48 people have died since June 14, after heavy rains battered the northeastern state of
-            Assam, according to its disaster management authority, triggering landslides and causing river banks to
-            swell. More than 5.5 million people have been affected in the state alone</p>
+          <h1>{{ data['total_items'] -1}}+</h1>
+          <h2>Items Distributed</h2>
         </div>
         <div class="marker-item">
-          <h1>2000+</h1>
+          <h1>{{ data['total_receivers'] -1}}+</h1>
           <h2>Families Supported</h2>
-          <p>In Bangladesh, at least 48 people have died since June 14, after heavy rains battered the northeastern state of
-            Assam, according to its disaster management authority, triggering landslides and causing river banks to
-            swell. More than 5.5 million people have been affected in the state alone</p>
         </div>
       </div>
     </div>
@@ -288,32 +315,16 @@
         <img src="https://cdn-icons-png.flaticon.com/512/684/684908.png" alt="Map Marker"
           style="width:40px;height:40px; transform: translateX(50%);">
         <h1 class="leaderboard__title"><span class="leaderboard__title--top">Request</span><span
-            class="leaderboard__title--bottom">Leaderboard</span></h1>
+            class="leaderboard__title--bottom">By Area</span></h1>
       </header>
 
       <main class="leaderboard__profiles">
+        {% for area, count in data['requests_by_area'].items() %}
         <article class="leaderboard__profile">
-          <span class="leaderboard__name">Rangpur</span>
-          <span class="leaderboard__value">35</span>
+          <span class="leaderboard__name">{{ area }}</span>
+          <span class="leaderboard__value">{{ count }}</span>
         </article>
-
-        <article class="leaderboard__profile">
-          <span class="leaderboard__name">Dhaka</span>
-          <span class="leaderboard__value">19</span>
-        </article>
-
-        <article class="leaderboard__profile">
-          <span class="leaderboard__name">Barishal</span>
-          <span class="leaderboard__value">4</span>
-        </article>
-        <article class="leaderboard__profile">
-          <span class="leaderboard__name">Barishal</span>
-          <span class="leaderboard__value">4</span>
-        </article>
-        <article class="leaderboard__profile">
-          <span class="leaderboard__name">Barishal</span>
-          <span class="leaderboard__value">4</span>
-        </article>
+        {% endfor %}
 
       </main>
     </article>
