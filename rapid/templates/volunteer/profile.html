@@ -96,9 +96,11 @@
                                 <img src="{{ volunteer.profile_picture }}" alt="Profile Picture" class="avatar" id="avatarImg" />
                                 <div class="overlay" id="overlay">
                                     <i data-lucide="camera" style="width: 24px; height: 24px;"></i> 
-                                    <form action="#" method="POST" enctype="multipart/form-data" id="profilePicForm">
-                                        <label for="profilePicInput">Change Picture</label>
-                                        <input type="file" id="profilePicInput" class="file-input custom-file-input" accept="image/*" onchange="this.form.submit()">
+                                    <form action="{{ url_for('volunteer.update_profile_picture') }}" method="POST" enctype="multipart/form-data" id="profilePicForm">
+                                        <label for="profilePicInput" class="change-pic-label" style="cursor:pointer;">
+                                            Change Picture
+                                            <input type="file" name="profilePicInput" id="profilePicInput" class="file-input custom-file-input" accept="image/*" style="display:none;" onchange="document.getElementById('profilePicForm').submit();">
+                                        </label>
                                     </form>
                                 </div>
                             </div>
@@ -220,7 +222,22 @@
         }
 
         function toggleEdit() {
-            isEditing = true;   
+            isEditing = true;
+            // Store original data
+            originalData = {
+            name: document.getElementById('name').value,
+            phone: document.getElementById('phone').value,
+            email: document.getElementById('email').value,
+            accountName: document.getElementById('user_name').value,
+            address: document.getElementById('address').value
+            };
+            // Enable form fields
+            document.getElementById('name').disabled = false;
+            document.getElementById('phone').disabled = false;
+            document.getElementById('email').disabled = false;
+            document.getElementById('user_name').disabled = false;
+            document.getElementById('address').disabled = false;
+            // Toggle buttons
             document.getElementById('editBtn').classList.add('hidden');
             document.getElementById('saveBtn').classList.remove('hidden');
             document.getElementById('cancelBtn').classList.remove('hidden');
@@ -228,38 +245,48 @@
         }
 
         function saveProfile() {
-            // Validate form data
             const name = document.getElementById('name').value.trim();
             const phone = document.getElementById('phone').value.trim();
             const email = document.getElementById('email').value.trim();
-            const accountName = document.getElementById('accountName').value.trim();
+            const accountName = document.getElementById('user_name').value.trim();
             const address = document.getElementById('address').value.trim();
-
+            const volunteerId = "{{ volunteer.volunteer_id }}";
             if (!name || !phone || !email || !accountName || !address) {
-                alert('Please fill in all required fields.');
-                return;
+            alert('Please fill in all required fields.');
+            return;
             }
 
             if (!isValidEmail(email)) {
-                alert('Please enter a valid email address.');
-                return;
+            alert('Please enter a valid email address.');
+            return;
             }
 
-            // Simulate saving data
-            setTimeout(() => {
-                alert('Profile updated successfully!');
-                
-                // Update display name
-                document.getElementById('displayName').textContent = name;
-                
-                // Disable form fields
-                disableFormFields();
-                
-                // Toggle buttons
-                toggleButtons();
-                
-                isEditing = false;
-            }, 500);
+            fetch('/volunteer/update_profile', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    volunteer_id: volunteerId,
+                    name: name,
+                    phone: phone,
+                    email: email,
+                    account_name: accountName,
+                    address: address
+                })
+            })
+            .then(response => {
+                if (response.ok) {
+                    alert('Profile updated successfully!');
+                    location.reload();
+                } else {
+                    alert('Error updating profile.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error updating profile.');
+            });
         }
 
         function cancelEdit() {

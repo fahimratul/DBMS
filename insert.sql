@@ -304,7 +304,9 @@ ON UPDATE CASCADE ON DELETE CASCADE;
 
 --new view
 CREATE VIEW receiver_by_area_view AS
-    SELECT r.address AS address, COUNT(d.donation_receiver_id) 
+    SELECT r.address AS address, COUNT(d.donation_receiver_id) AS cnt
     FROM donation_receiver d
     JOIN receiver r ON d.receiver_id = r.receiver_id
     GROUP BY r.address;
+
+DROP VIEW receiver_by_area_view

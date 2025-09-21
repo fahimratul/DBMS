@@ -112,6 +112,9 @@ def profile():
         return  render_template('volunteer/profile.html', volunteer=volunteer)
     else:
         return jsonify({'success': False, 'error': 'Volunteer not found'}), 404
+    
+
+    
 
 @bp.route('/volunteer_tasks')
 @login_required
@@ -148,19 +151,75 @@ def volunteer_tasks():
     cursor.execute("SELECT volunteer_id, name, phone FROM volunteer")
     volunteers = cursor.fetchall()
     volunteer_dict = {v['volunteer_id']: {'volunteer_id': v['volunteer_id'], 'name': v['name'], 'phone': v['phone']} for v in volunteers}
-
-
     for ev in events:
         vol_ids = [vid for vid in ev['volunteer_id_list'].split('$') if vid]  # remove empty strings
-    
         ev['volunteers'] = [
             volunteer_dict.get(int(vid), {'name': 'Unknown', 'phone': 'Unknown', 'volunteer_id': vid})
             for vid in vol_ids
         ]
-
     cursor.close()
     return render_template('volunteer/volunteer_tasks.html', events=events)
 
+
+@bp.route('/update_profile', methods=['POST'])
+@login_required
+def update_profile():
+    volunteer_id = session.get('user_id')
+    data = request.get_json()
+    required_fields = ['name', 'phone', 'email', 'account_name', 'address']
+    if not all(data.get(field) for field in required_fields):
+        return jsonify({'success': False, 'message': 'All fields are required.'}), 400
+
+    email_pattern = r'^[\w\.-]+@[\w\.-]+\.\w+$'
+    if not re.match(email_pattern, data['email']):
+        return jsonify({'success': False, 'message': 'Invalid email address.'}), 400
+
+    db = get_bd()
+    cursor = db.cursor()
+    try:
+        cursor.execute(
+            """
+            UPDATE volunteer
+            SET name = %s, phone = %s, email = %s, user_name = %s, address = %s
+            WHERE volunteer_id = %s
+            """,
+            (data['name'], data['phone'], data['email'], data['account_name'], data['address'], volunteer_id)
+        )
+        db.commit()
+        return jsonify({'success': True})  # <-- Add this line
+    except IntegrityError:
+        db.rollback()
+        return jsonify({'success': False, 'message': 'Database error.'}), 500
+    finally:
+        cursor.close()
+
+
+@bp.route('/update_profile_picture', methods=['POST'])
+@login_required
+def update_profile_picture():
+    volunteer_id = session.get('user_id')
+    # The file input field in your HTML is named "profilePicInput"
+    file = request.files.get('profilePicInput')
+    if not file or file.filename == '':
+        flash('No selected file', 'error')
+        return redirect(url_for('volunteer.profile'))
+
+    image_data = file.read()
+    db = get_bd()
+    cursor = db.cursor()
+    try:
+        cursor.execute(
+            "UPDATE volunteer SET profile_picture = %s WHERE volunteer_id = %s",
+            (image_data, volunteer_id)
+        )
+        db.commit()
+        flash('Profile picture updated successfully.', 'success')
+    except IntegrityError:
+        db.rollback()
+        flash('Database error.', 'error')
+    finally:
+        cursor.close()
+    return redirect(url_for('volunteer.profile'))
 
 @bp.route('/feedback')
 @login_required
