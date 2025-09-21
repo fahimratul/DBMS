@@ -112,27 +112,6 @@
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
     <script>
       lucide.createIcons();
-      function markAsCompleted(eventId) {
-        fetch(`/volunteer/mark_completed/${eventId}`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        })
-        .then(response => response.json().then(data => ({ status: response.status, body: data })))
-        .then(({ status, body }) => {
-          if (status === 200 && body.success) {
-            alert('Task marked as completed!');
-            location.reload();
-          } else {
-            alert(body.error || 'Sorry, something went wrong.');
-          }
-        })
-        .catch(error => {
-          console.error('Error:', error);
-          alert('Sorry, something went wrong. Try again later.');
-        });
-      }
     </script>
     <script src="{{ url_for('static', filename='script/donor/donor.js') }}"></script>
   </body>
