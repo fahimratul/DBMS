@@ -309,4 +309,127 @@ CREATE VIEW receiver_by_area_view AS
     JOIN receiver r ON d.receiver_id = r.receiver_id
     GROUP BY r.address;
 
-DROP VIEW receiver_by_area_view
+ CREATE VIEW feedback_view
+    AS
+    Select f.feedback_id, r.name as receiver_name, v.name as volunteer_name, 
+    d.name as donor_name, f.message, f.picture from feedback f left join receiver r on f.receiver_id = r.receiver_id 
+    left join volunteer v on f.volunteer_id = v.volunteer_id left join donor d on f.donor_id = d.donor_id 
+    order by f.feedback_id desc;
+
+
+DROP FUNCTION deduct_stock;
+CREATE DEFINER=`flaskuser`@`localhost` FUNCTION `deduct_stock`(item_id INT, deduct_qty INT) RETURNS int
+    DETERMINISTIC
+BEGIN
+        DECLARE done INT DEFAULT 0;
+        DECLARE batch_id INT;
+        DECLARE batch_qty INT;
+        DECLARE cur CURSOR FOR
+            SELECT stock_id, quantity
+            FROM stock
+            WHERE stock.item_id = item_id
+            AND stock.expire_date >= CURDATE()
+            ORDER BY stock.expire_date ASC;
+        DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = 1;
+        DECLARE EXIT HANDLER FOR SQLEXCEPTION
+        BEGIN
+            -- In case of error, ensure cursor is closed
+            CLOSE cur;
+            RETURN deduct_qty;
+        END;
+
+        OPEN cur;
+
+        read_loop: LOOP
+            FETCH cur INTO batch_id, batch_qty;
+            IF done THEN
+                LEAVE read_loop;
+            END IF;
+
+            IF deduct_qty <= 0 THEN
+                LEAVE read_loop;
+            END IF;
+
+            IF batch_qty <= deduct_qty THEN
+                SET deduct_qty = deduct_qty - batch_qty;
+                UPDATE stock SET quantity = 0 WHERE stock_id = batch_id;
+            ELSE
+                UPDATE stock SET quantity = quantity - deduct_qty WHERE stock_id = batch_id;
+                SET deduct_qty = 0;
+                LEAVE read_loop;
+            END IF;
+        END LOOP;
+        CLOSE cur;
+
+        RETURN deduct_qty; -- Return remaining quantity that couldn't be deducted (if any)
+    END
+
+DROP FUNCTION get_item_name;
+CREATE DEFINER=`flaskuser`@`localhost` FUNCTION `get_item_name`(p_item_id INT) RETURNS varchar(50) CHARSET utf8mb4
+    DETERMINISTIC
+BEGIN 
+    DECLARE i_name VARCHAR(50); 
+    SELECT name INTO i_name FROM item WHERE item_id = p_item_id 
+    LIMIT 1;
+    RETURN i_name; 
+    END
+
+
+DROP FUNCTION get_available_quantity;
+CREATE DEFINER=`flaskuser`@`localhost` FUNCTION `get_available_quantity`(item_id INT) RETURNS int
+    DETERMINISTIC
+BEGIN
+        DECLARE qty INT;
+        SELECT IFNULL(SUM(quantity), 0) INTO qty
+        FROM stock
+        WHERE stock.item_id = item_id
+        AND stock.expire_date >= CURDATE();
+        RETURN qty;
+    END
+
+
+
+
+CREATE TRIGGER trigger_name
+AFTER INSERT ON donation_receiver
+FOR EACH ROW BEGIN
+INSERT INTO maping (latitude, longitude) VALUES (NEW.latitude, NEW.longitude);
+END;
+CREATE VIEW maping
+AS
+SELECT latitude, longitude FROM donation_receiver    
+
+
+    -------first enter the mysql as root grant permission for following 
+    GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, ALTER, DROP, INDEX, CREATE ROUTINE, ALTER ROUTINE, EXECUTE, CREATE VIEW, SHOW VIEW, TRIGGER 
+    ON project2.* TO 'flaskuser'@'localhost'; 
+    SET GLOBAL log_bin_trust_function_creators = 1; 
+    FLUSH PRIVILEGES;
+
+
+    -- The execute these 3 to work:
+
+
+    DELIMITER $$ 
+    CREATE FUNCTION get_item_name(p_item_id INT) 
+    RETURNS VARCHAR(50) 
+    DETERMINISTIC 
+    BEGIN 
+    DECLARE i_name VARCHAR(50); 
+    SELECT name INTO i_name FROM item WHERE item_id = p_item_id 
+    LIMIT 1;
+    RETURN i_name; 
+    END$$ 
+    DELIMITER ;
+
+    DELIMITER $$
+    CREATE TRIGGER before_insert_item 
+    BEFORE INSERT ON item FOR EACH ROW 
+    BEGIN 
+    SET NEW.name = CONCAT(UCASE(LEFT(NEW.name,1)), LCASE(SUBSTRING(NEW.name,2))); 
+    END$$ 
+    DELIMITER ;
+
+    CREATE OR REPLACE VIEW item_list 
+    AS SELECT item_id, name FROM item;
+
