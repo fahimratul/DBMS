@@ -38,10 +38,19 @@ def init_db():
     with current_app.open_resource('schema.sql') as f:
         schema = f.read().decode('utf8')
         cursor.execute(schema)
+    
+    print("Schema executed successfully.")
+    
+    # Execute insert statements (populate data)
+    with current_app.open_resource('insert.sql') as f:
+        insert_data = f.read().decode('utf8')
+        cursor.execute(insert_data)
+    
+    print("Insert data executed successfully.")
 
     db.commit()
     cursor.close()
-    print("Database initialized.")
+    print("Database initialized with schema and data.")
 
 @click.command('init-db')
 def init_db_command():
