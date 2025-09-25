@@ -55,8 +55,8 @@ def volunteer_dashboard():
     feedback_count_result = cursor.fetchone()
 
     cursor.execute(
-        "SELECT event_id,event_type, start_date, item_id_list , status FROM event, event_type WHERE event.event_type_id = event_type.event_type_id AND (volunteer_id_list LIKE %s or volunteer_id_list LIKE %s) AND status != 'completed' ORDER BY start_date DESC",
-        (f"{id_start}%", f"%{id_end}%")
+        "SELECT event_id,event_type, start_date, item_id_list , status FROM event, event_type WHERE event.event_type_id = event_type.event_type_id AND (volunteer_id_list LIKE %s ) AND status != 'completed' ORDER BY start_date DESC",
+        (f"{id_start}%",)
     )
     events = cursor.fetchall()
     # Fetch the result to clear the unread result
