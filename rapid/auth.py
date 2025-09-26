@@ -58,6 +58,7 @@ def registration_handler(role):
     
     username = request.form.get('username', '')
     password = request.form.get('password', '')
+    confirm_password = request.form.get('confirm_password', '')
     
     db = get_bd()
     cursor = db.cursor()
@@ -69,6 +70,8 @@ def registration_handler(role):
 
     if not username:
         error = 'Username is required.'
+    elif len(username) > 20:
+        error = 'Username must be 20 characters or less.'
     elif not re.match(r'^[a-zA-Z0-9_]+$', username):
         error = 'Username can only contain letters, numbers, and underscores.'
     elif not password:
@@ -83,6 +86,8 @@ def registration_handler(role):
         error = 'Password must contain at least one digit.'
     elif not re.search(r'[!@#$%^&*(),.?":{}|<>]', password):
         error = 'Password must contain at least one special character.'
+    elif password != confirm_password:
+        error = 'Passwords do not match.'
     
     if error is None:
         try:
@@ -162,6 +167,9 @@ def registration_handler(role):
                     flash(error)
                     return None
 
+                # Debug: Print what we're about to insert
+                print(f"DEBUG: Inserting recipient with data: name={name}, email={email}, phone={phone}, username={username}")
+
                 cursor.execute('INSERT INTO receiver (name, phone, user_name, password, emergency_phone, address, email, profile_picture) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)', 
                               (name, phone, username, generate_password_hash(password), emergency_phone, address, email, profile_picture))
 
@@ -213,7 +221,8 @@ def registration_handler(role):
             error = f"An error occurred during registration: {str(e)}"
         else:
             flash(f"User {username} registered successfully!")
-            return redirect(url_for('auth.login'))
+            # Redirect all successful registrations to signup success page
+            return redirect(url_for('auth.signup_success'))
         finally:
             cursor.close()
     
@@ -254,10 +263,17 @@ def recipient_signup():
     if request.method == 'POST':
         print("DEBUG: POST request received in recipient_signup")
         print(f"DEBUG: Form data: {dict(request.form)}")
+        print(f"DEBUG: Files data: {list(request.files.keys())}")
         result = registration_handler('recipient')
-        if result:  # If registration_handler returns a redirect
+        if result:  # If registration_handler returns a redirect (success case)
             return result
-    return render_template('auth/recipient_signup.html')
+        # If registration failed, get error messages and display them
+        else:
+            errors = get_flashed_messages()
+            error_msg = errors[0] if errors else None
+            print(f"DEBUG: Registration failed with error: {error_msg}")
+            return render_template('auth/recipient_signup.html', error=error_msg)
+    return render_template('auth/recipient_signup.html', error=None)
 
 @bp.route('/volunteer_signup', methods=('GET', 'POST'))
 def volunteer_signup():

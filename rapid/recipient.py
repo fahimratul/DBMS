@@ -55,7 +55,59 @@ bp = Blueprint('recipient', __name__, url_prefix='/recipient')
 @bp.route('/recipient_dashboard')
 @login_required
 def recipient_dashboard():
-    return render_template('recipient/recipient.html')
+    # Get user information to auto-populate form
+    try:
+        db = get_bd()
+        cursor = db.cursor(dictionary=True)
+        receiver_id = session.get('user_id')
+        
+        cursor.execute("SELECT name, email, phone, address FROM receiver WHERE receiver_id = %s", (receiver_id,))
+        user_info = cursor.fetchone()
+        cursor.close()
+        
+        if user_info:
+            user_data = {
+                'name': user_info.get('name', ''),
+                'email': user_info.get('email', ''),
+                'phone': user_info.get('phone', ''),
+                'address': user_info.get('address', '')
+            }
+        else:
+            user_data = {}
+            
+        return render_template('recipient/recipient.html', user_data=user_data)
+    except Exception as e:
+        print(f"Error loading user data: {e}")
+        return render_template('recipient/recipient.html', user_data={})
+
+@bp.route('/get_user_info', methods=['GET'])
+@login_required
+def get_user_info():
+    """Get current user's information for auto-populating form fields"""
+    try:
+        db = get_bd()
+        cursor = db.cursor(dictionary=True)
+        receiver_id = session.get('user_id')
+        
+        cursor.execute("SELECT name, email, phone, address FROM receiver WHERE receiver_id = %s", (receiver_id,))
+        user_info = cursor.fetchone()
+        cursor.close()
+        
+        if user_info:
+            return jsonify({
+                'success': True,
+                'data': {
+                    'name': user_info.get('name', ''),
+                    'email': user_info.get('email', ''),
+                    'phone': user_info.get('phone', ''),
+                    'address': user_info.get('address', '')
+                }
+            })
+        else:
+            return jsonify({'success': False, 'error': 'User not found'})
+            
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)})
 
 @bp.route('/get_status', methods=['GET'])
 @login_required
@@ -258,13 +310,10 @@ def submit_relief_request():
             return jsonify({'success': False, 'error': 'No data provided'})
         
         # Personal Information with validation
-        first_name = data.get('firstName', '').strip()[:50]  # Limit length
-        last_name = data.get('lastName', '').strip()[:50]
-        full_name = f"{first_name} {last_name}".strip()
+        full_name = data.get('name', '').strip()[:100]  # Limit length
         
         email = data.get('email', '').strip()[:100]
         phone = data.get('phone', '').strip()[:20]
-        date_of_birth = data.get('dateOfBirth', '')
         
         # Basic email validation
         if email and '@' not in email:
@@ -527,8 +576,7 @@ def get_user_requests():
             
             formatted_req = {
                 'id': f'REQ-{req["donation_receiver_id"]:03d}',
-                'firstName': req['name'].split()[0].strip() if req['name'] else '',
-                'lastName': ' '.join(req['name'].split()[1:]).strip() if req['name'] and len(req['name'].split()) > 1 else '',
+                'name': req['name'].strip() if req['name'] else '',
                 'email': req['email'].strip() if req['email'] else '',
                 'phone': req['phone'].strip() if req['phone'] else '',
                 'address': req['address'].strip() if req['address'] else '',
