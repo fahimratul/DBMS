@@ -1,56 +1,75 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>Signup Successful</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            background: url('../../static/images/success_bg.jpg') no-repeat center center fixed;
-            background-size: cover;
-        }
-        .container {
-            background: #ffffff91;
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            padding: 2rem 3rem;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            text-align: center;
-        }
-        .success {
-            color: #27ae60;
-            font-size: 2rem;
-            margin-bottom: 1rem;
-        }
-        .btn {
-            display: inline-block;
-            margin-top: 1.5rem;
-            padding: 0.7rem 2rem;
-            background: #2980b9;
-            color: #fff;
-            border: none;
-            border-radius: 4px;
-            text-decoration: none;
-            font-size: 1rem;
-            cursor: pointer;
-        }
-        .btn:hover {
-            background: #3498db;
-        }
+      body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        background: url("../../static/images/success_bg.jpg") no-repeat center
+          center fixed;
+        background-size: cover;
+      }
+      .container {
+        background: #ffffff91;
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        padding: 2rem 3rem;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        text-align: center;
+      }
+      .success {
+        color: #27ae60;
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+        font-weight: bold;
+      }
+      h1 {
+        color: #2c3e50;
+        margin-bottom: 1rem;
+      }
+      p {
+        margin: 0.5rem 0;
+        line-height: 1.6;
+      }
+      .btn {
+        display: inline-block;
+        margin-top: 1.5rem;
+        padding: 0.7rem 2rem;
+        background: #2980b9;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        text-decoration: none;
+        font-size: 1rem;
+        cursor: pointer;
+      }
+      .btn:hover {
+        background: #3498db;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div class="container">
-        <h1>Rapid: Relief Allocation & Post Incident Distribution</h1>
-        <div class="success">Signup Successful!</div>
-        <p>Your account has been created. You can now log in.</p>
-        <a href="{{ url_for('auth.login') }}" class="btn">Return to Login</a>
+      <h1>RAPID: Relief Allocation & Post Incident Distribution</h1>
+      <div class="success">✅ Registration Successful!</div>
+      <p><strong>Welcome to RAPID!</strong></p>
+      <p>Your recipient account has been created successfully.</p>
+      <p>
+        You can now log in to submit relief assistance requests and track your
+        applications.
+      </p>
+      <a href="{{ url_for('auth.login') }}" class="btn">Continue to Login</a>
+      <br /><br />
+      <a href="{{ url_for('index') }}" class="btn" style="background: #27ae60"
+        >Return to Home</a
+      >
     </div>
-</body>
+  </body>
 </html>
