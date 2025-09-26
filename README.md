@@ -1,14 +1,15 @@
-# Installation Guide
+#Installation Guide
 ### Step-1: Clone the repo
 Using git,
 ```
-git clone https://github.com/fahimratul/DBMS.git
+git clone --branch oneLast --single-branch https://github.com/fahimratul/DBMS.git
 ```
-Download zip
+Download zip through browser
 ```
-https://github.com/fahimratul/DBMS/archive/refs/heads/main.zip
+https://github.com/fahimratul/DBMS/archive/refs/heads/final.zip
 ```
 ### Step-2: Navigate to the downloaded/cloned folder
+Unzip if you have downloaded the zip file. Open the the folder regardless of the case. 
 ### Step-3: Create a python virtual environment
 This step assumes you have python installed.
 Create a virtual environment,
@@ -33,16 +34,16 @@ pip install -r requirements.txt
 ### Step-5: Initialize the database
 This step assumes you have *mysql* installed and accessible via cmd/terminal. You have to create user and set password for the user as well. Default credentials for this project,
 ```
-'host':'localhost',
-'user':'flaskuser',
-'password':'flask',
-'database':'project2'
+user : flaskuser,
+password : flask,
+database : project2
 ```
-You can change them in '__init__.py' file . To initialize database run,
+If you wish to use different set of credentials, you have to make changes in '__init__.py' file . To initialize database run,
 ```
-flask init-db
+flask --app rapid init-db
 ```
 ### Step-6: Run the app
 ```
 flask --app rapid run
 ```
+The app should be running now.
