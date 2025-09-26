@@ -2,7 +2,7 @@
 ### Step-1: Clone the repo
 Using git,
 ```
-git clone --branch oneLast --single-branch https://github.com/fahimratul/DBMS.git
+git clone --branch really_last --single-branch https://github.com/fahimratul/DBMS.git
 ```
 Download zip through browser
 ```
@@ -38,9 +38,10 @@ user : flaskuser,
 password : flask,
 database : project2
 ```
-If you wish to use different set of credentials, you have to make changes in '__init__.py' file . To initialize database run,
+If you wish to use different set of credentials, you have to make changes in '__init__.py' file . To initialize database run the following commands from terminal/cmd,
 ```
-flask --app rapid init-db
+mysql -h localhost -u flaskuser -pflask project2 < rapid/complete_schema.sql
+mysql -h localhost -u flaskuser -pflask project2 < rapid/dummy_data.sql
 ```
 ### Step-6: Run the app
 ```
