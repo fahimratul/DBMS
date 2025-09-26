@@ -2,7 +2,7 @@
 ### Step-1: Clone the repo
 Using git,
 ```
-git clone --branch oneLast --single-branch https://github.com/fahimratul/DBMS.git
+git clone --branch really_last --single-branch https://github.com/fahimratul/DBMS.git
 ```
 Download zip through browser
 ```
