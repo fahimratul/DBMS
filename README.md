@@ -6,7 +6,7 @@ git clone --branch really_last --single-branch https://github.com/fahimratul/DBM
 ```
 Download zip through browser
 ```
-https://github.com/fahimratul/DBMS/archive/refs/heads/final.zip
+https://github.com/fahimratul/DBMS/
 ```
 ### Step-2: Navigate to the downloaded/cloned folder
 Unzip if you have downloaded the zip file. Open the the folder regardless of the case. 
