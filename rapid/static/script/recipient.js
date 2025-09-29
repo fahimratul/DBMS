@@ -123,10 +123,36 @@ const elements = {
 // Initialize Application
 async function init() {
   setupEventListeners();
+  await loadUserInfo(); // Auto-populate user fields
   await generateReliefItems();
   updateStep();
   await loadStatusData();
   setActiveView("form");
+}
+
+// Load User Information
+async function loadUserInfo() {
+  try {
+    const response = await fetch("/recipient/get_user_info");
+    const data = await response.json();
+
+    if (data.success) {
+      // Auto-populate personal information fields
+      const nameField = document.getElementById("name");
+      const emailField = document.getElementById("email");
+      const phoneField = document.getElementById("phone");
+
+      if (nameField) nameField.value = data.data.name || "";
+      if (emailField) emailField.value = data.data.email || "";
+      if (phoneField) phoneField.value = data.data.phone || "";
+
+      console.log("User information loaded and populated successfully");
+    } else {
+      console.warn("Failed to load user information:", data.error);
+    }
+  } catch (error) {
+    console.error("Error loading user information:", error);
+  }
 }
 
 // Event Listeners
@@ -407,7 +433,7 @@ function setLoading(loading) {
 // Form Validation
 function validateStep(step) {
   const requiredFields = {
-    1: ["first-name", "last-name", "email", "phone", "date-of-birth"],
+    1: ["name", "email", "phone"],
     2: ["address", "city", "division", "postal-code"],
     3: [], // Relief items validation is custom
     4: ["priority-message"], // Priority level validation is custom
@@ -660,8 +686,7 @@ function generateReviewContent() {
   const formDataObj = new FormData(form);
 
   const personalInfo = {
-    firstName: formDataObj.get("firstName"),
-    lastName: formDataObj.get("lastName"),
+    name: formDataObj.get("name"),
     email: formDataObj.get("email"),
     phone: formDataObj.get("phone"),
   };
@@ -687,9 +712,7 @@ function generateReviewContent() {
             <div class="review-item review-section">
                 <h4>Personal Information</h4>
                 <div class="review-content-box">
-                    <div>${personalInfo.firstName} ${
-    personalInfo.lastName
-  }</div>
+                    <div>${personalInfo.name}</div>
                     <div>${personalInfo.email}</div>
                     <div>${personalInfo.phone}</div>
                 </div>
@@ -799,11 +822,9 @@ async function handleSubmit(event) {
     // Prepare data for submission
     const submissionData = {
       // Personal Information
-      firstName: formDataObj.get("firstName"),
-      lastName: formDataObj.get("lastName"),
+      name: formDataObj.get("name"),
       email: formDataObj.get("email"),
       phone: formDataObj.get("phone"),
-      dateOfBirth: formDataObj.get("dateOfBirth"),
 
       // Location Information
       address: formDataObj.get("address"),

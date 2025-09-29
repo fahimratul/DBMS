@@ -1,11 +1,8 @@
-flask
-mysql-connector-python
-
-create a newuser in mysql workbrench name flaskuser , and save the password as flask
-
-also grant all privileges to flaskuser and host will localhost
-
-now create a connection in mysql
-
-now create a database named project
-and run the schema
+blinker==1.9.0
+click==8.2.1
+Flask==3.1.1
+itsdangerous==2.2.0
+Jinja2==3.1.6
+MarkupSafe==3.0.2
+mysql-connector-python==9.4.0
+Werkzeug==3.1.3

@@ -362,49 +362,67 @@ def admin_dashboard():
 @bp.route('/admin_events')
 @login_required
 def admin_events():
-    db = get_bd()
-    cursor = db.cursor(dictionary=True)
+    try:
+        db = get_bd()
+        cursor = db.cursor(dictionary=True)
 
-    cursor.execute("""
-        SELECT 
-            e.event_id,
-            et.event_type,
-            e.status,
-            e.start_date,
-            e.end_date,
-            e.volunteer_id_list,
-            e.item_id_list,
-            e.donation_receiver_id,
-            dr.priority_message,
-            dr.additional_item,
-            dr.date AS request_date,
-            r.name AS requester_name,
-            r.phone AS requester_contact,
-            r.address AS location
-        FROM event e
-        LEFT JOIN event_type et ON e.event_type_id = et.event_type_id
-        LEFT JOIN donation_receiver dr ON e.donation_receiver_id = dr.donation_receiver_id
-        LEFT JOIN receiver r ON dr.receiver_id = r.receiver_id
-        ORDER BY e.event_id ASC
-    """)
-    events = cursor.fetchall()
+        cursor.execute("""
+            SELECT 
+                e.event_id,
+                et.event_type,
+                e.status,
+                e.start_date,
+                e.end_date,
+                e.volunteer_id_list,
+                e.item_id_list,
+                e.donation_receiver_id,
+                dr.priority_message,
+                dr.additional_item,
+                dr.date AS request_date,
+                r.name AS requester_name,
+                r.phone AS requester_contact,
+                r.address AS location
+            FROM event e
+            LEFT JOIN event_type et ON e.event_type_id = et.event_type_id
+            LEFT JOIN donation_receiver dr ON e.donation_receiver_id = dr.donation_receiver_id
+            LEFT JOIN receiver r ON dr.receiver_id = r.receiver_id
+            ORDER BY e.event_id ASC
+        """)
+        events = cursor.fetchall()
 
-    cursor.execute("SELECT volunteer_id, name, phone FROM volunteer")
-    volunteers = cursor.fetchall()
-    volunteer_dict = {v['volunteer_id']: {'volunteer_id': v['volunteer_id'], 'name': v['name'], 'phone': v['phone']} for v in volunteers} # type: ignore[reportGeneralTypeIssues]
+        cursor.execute("SELECT volunteer_id, name, phone FROM volunteer")
+        volunteers = cursor.fetchall()
+        volunteer_dict = {v['volunteer_id']: {'volunteer_id': v['volunteer_id'], 'name': v['name'], 'phone': v['phone']} for v in volunteers} # type: ignore[reportGeneralTypeIssues]
 
-
-    for ev in events:
-        vol_ids = [vid for vid in ev['volunteer_id_list'].split('$') if vid]  # remove empty strings # type: ignore[reportGeneralTypeIssues]
-    
-        ev['volunteers'] = [ # type: ignore[reportGeneralTypeIssues] 
-            volunteer_dict.get(int(vid), {'name': 'Unknown', 'phone': 'Unknown', 'volunteer_id': vid})
-            for vid in vol_ids
-        ]
+        for ev in events:
+            # Handle both comma and dollar separated volunteer IDs
+            if ev['volunteer_id_list']:
+                # First try dollar separation, then comma separation
+                if '$' in ev['volunteer_id_list']:
+                    vol_ids = [vid.strip() for vid in ev['volunteer_id_list'].split('$') if vid.strip()]
+                else:
+                    vol_ids = [vid.strip() for vid in ev['volunteer_id_list'].split(',') if vid.strip()]
+            else:
+                vol_ids = []
         
+            ev['volunteers'] = []  # type: ignore[reportGeneralTypeIssues]
+            for vid in vol_ids:
+                try:
+                    # Convert to int safely
+                    volunteer_id = int(vid)
+                    volunteer_info = volunteer_dict.get(volunteer_id, {'name': 'Unknown', 'phone': 'Unknown', 'volunteer_id': vid})
+                    ev['volunteers'].append(volunteer_info)
+                except (ValueError, TypeError):
+                    # Skip invalid volunteer IDs
+                    print(f"Warning: Invalid volunteer ID format: {vid}")
+                    continue
 
-    cursor.close()
-    return render_template('admin/events.html', events=events)
+        cursor.close()
+        return render_template('admin/events.html', events=events)
+    except Exception as e:
+        print(f"Error in admin_events: {e}")
+        # Return empty events list on error
+        return render_template('admin/events.html', events=[])
 
 
 @bp.route('/volunteer_list')
